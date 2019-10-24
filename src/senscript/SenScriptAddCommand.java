@@ -34,7 +34,10 @@ public final class SenScriptAddCommand {
 			Class<?> commandClass = ClassLoader.getSystemClassLoader().loadClass(packageName + ".Command_" + commandName.toUpperCase());
 
 			ArrayList<Class<?>> parameterTypes = new ArrayList<>();
-			ArrayList<String> parameters = new ArrayList<>();
+			ArrayList<Object> parameters = new ArrayList<>();
+
+			parameterTypes.add(SensorNode.class);
+			parameters.add(sensorNode);
 
 			for (int i = 1; i < inst.length; i++) {
 				parameterTypes.add(String.class);
