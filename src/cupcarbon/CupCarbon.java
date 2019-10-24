@@ -71,7 +71,7 @@ public class CupCarbon extends Application {
 			macos = true;			
 			URL iconURL = CupCarbon.class.getResource("cupcarbon_logo.png");
 			java.awt.Image image = new ImageIcon(iconURL).getImage();
-			com.apple.eawt.Application.getApplication().setDockIconImage(image);
+			//com.apple.eawt.Application.getApplication().setDockIconImage(image); // package missing error removed
 			
 		}
 		
