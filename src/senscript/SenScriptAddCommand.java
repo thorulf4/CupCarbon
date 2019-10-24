@@ -1,6 +1,8 @@
 package senscript;
 
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import device.SensorNode;
@@ -23,274 +25,292 @@ public final class SenScriptAddCommand {
 			sensorNode.getScript().addLabel(inst[0].split(":")[0], sensorNode.getScript().size()+1);			
 			inst[0] = inst[0].split(":")[1];
 		}
-		
+
+		String commandName = inst[0].toLowerCase();
 		Command command = null;
-		
-		if (inst[0].toLowerCase().equals("end")) {
+
+		try{
+			String packageName = "senscript.customCommand";
+			Class<?> commandClass = ClassLoader.getSystemClassLoader().loadClass(packageName + ".Command_" + commandName.toUpperCase());
+
+			ArrayList<Class<?>> parameterTypes = new ArrayList<>();
+			ArrayList<String> parameters = new ArrayList<>();
+
+			for (int i = 1; i < inst.length; i++) {
+				parameterTypes.add(String.class);
+				parameters.add(inst[i]);
+			}
+
+			command  = (Command) commandClass.getConstructor(parameterTypes.toArray(new Class<?>[]{})).newInstance(parameters.toArray(new Object[]{}));
+		}catch (Exception e){}
+
+
+
+		if (commandName.equals("end")) {
 			instStr = endof.pop();
 			addCommand(instStr, sensorNode, script);
 		}
 		
-		if (inst[0].toLowerCase().equals("simulation")) {
+		if (commandName.equals("simulation")) {
 			command = new Command_SIMULATION(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("script")) {
+		if (commandName.equals("script")) {
 			command = new Command_SCRIPT(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("rscript")) {
+		if (commandName.equals("rscript")) {
 			command = new Command_RSCRIPT(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("kill")) {
+		if (commandName.equals("kill")) {
 			command = new Command_KILL(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("delay")) {
+		if (commandName.equals("delay")) {
 			command = new Command_DELAY(sensorNode, inst[1]);
 		}				
-		if (inst[0].toLowerCase().equals("set")) {
+		if (commandName.equals("set")) {
 			command = new Command_SET(sensorNode, inst[1], inst[2]);
 		}	
-		if (inst[0].toLowerCase().equals("read")) {
+		if (commandName.equals("read")) {
 			command = new Command_READ(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("cbuffer")) {
+		if (commandName.equals("cbuffer")) {
 			command = new Command_CBUFFER(sensorNode);
 		}
-		if (inst[0].toLowerCase().equals("scolor")) {
+		if (commandName.equals("scolor")) {
 			command = new Command_SCOLOR(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("send")) {			
+		if (commandName.equals("send")) {
 			if(inst.length==2) command = new Command_SEND(sensorNode, inst[1], "*");
 			if(inst.length==3) command = new Command_SEND(sensorNode, inst[1], inst[2]);
 			if(inst.length==4) command = new Command_SEND(sensorNode, inst[1], inst[2], inst[3]);
 			if(inst.length==5) command = new Command_SEND(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
-		if (inst[0].toLowerCase().equals("loop")) {
+		if (commandName.equals("loop")) {
 			command = new Command_LOOP(sensorNode);
 		}
-		if (inst[0].toLowerCase().equals("wait")) {
+		if (commandName.equals("wait")) {
 			if(inst.length==1) command = new Command_WAIT(sensorNode);
 			if(inst.length==2) command = new Command_WAIT(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("receive")) {
+		if (commandName.equals("receive")) {
 			command = new Command_RECEIVE(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("stop")) {
+		if (commandName.equals("stop")) {
 			command = new Command_STOP(sensorNode);
 		}
 		
-		if (inst[0].toLowerCase().equals("xor")) {
+		if (commandName.equals("xor")) {
 			command = new Command_XOR(sensorNode, inst[1], inst[2], inst[3]);
 		}
 		
-		if (inst[0].toLowerCase().equals("and")) {
+		if (commandName.equals("and")) {
 			command = new Command_AND(sensorNode, inst[1], inst[2], inst[3]);
 		}
 		
-		if (inst[0].toLowerCase().equals("or")) {
+		if (commandName.equals("or")) {
 			command = new Command_OR(sensorNode, inst[1], inst[2], inst[3]);
 		}
 		
-		if (inst[0].toLowerCase().equals("not")) {
+		if (commandName.equals("not")) {
 			command = new Command_NOT(sensorNode, inst[1], inst[2]);
 		}
 		
-		if (inst[0].toLowerCase().equals("bxor")) {
+		if (commandName.equals("bxor")) {
 			command = new Command_BXOR(sensorNode, inst[1], inst[2], inst[3]);
 		}
 				
-		if (inst[0].toLowerCase().equals("band")) {
+		if (commandName.equals("band")) {
 			command = new Command_BAND(sensorNode, inst[1], inst[2], inst[3]);
 		}
 		
-		if (inst[0].toLowerCase().equals("bor")) {
+		if (commandName.equals("bor")) {
 			command = new Command_BOR(sensorNode, inst[1], inst[2], inst[3]);
 		}
 		
-		if (inst[0].toLowerCase().equals("bnot")) {
+		if (commandName.equals("bnot")) {
 			command = new Command_BNOT(sensorNode, inst[1], inst[2]);
 		}		
 
-		if (inst[0].toLowerCase().equals("hash")) {
+		if (commandName.equals("hash")) {
 			command = new Command_HASH(sensorNode, inst[1], inst[2]);
 		}		
 		
-		if (inst[0].toLowerCase().equals("plus")) {
+		if (commandName.equals("plus")) {
 			command = new Command_PLUS(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("minus")) {
+		if (commandName.equals("minus")) {
 			command = new Command_MINUS(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("mult")) {
+		if (commandName.equals("mult")) {
 			command = new Command_MULT(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("div")) {
+		if (commandName.equals("div")) {
 			command = new Command_DIV(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("mod")) {
+		if (commandName.equals("mod")) {
 			command = new Command_MOD(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("tab")) {
+		if (commandName.equals("tab")) {
 			command = new Command_TAB(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("vec")) {
+		if (commandName.equals("vec")) {
 			command = new Command_VEC(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("atnd")) {
+		if (commandName.equals("atnd")) {
 			if(inst.length==2) command = new Command_ATND(sensorNode, inst[1]);
 			if(inst.length==3) command = new Command_ATND(sensorNode, inst[1], inst[2]);
 		}
 		
-		if (inst[0].toLowerCase().equals("route")) {
+		if (commandName.equals("route")) {
 			command =  new Command_ROUTE(sensorNode, inst[1]);
 		}
 		
-		if (inst[0].toLowerCase().equals("println")) {
+		if (commandName.equals("println")) {
 			command =  new Command_PRINT(sensorNode, inst);
 		}
 		
-		if (inst[0].toLowerCase().equals("print")) {
+		if (commandName.equals("print")) {
 			command =  new Command_PRINT(sensorNode, inst);
 		}
 		
-		if (inst[0].toLowerCase().equals("printfile")) {
+		if (commandName.equals("printfile")) {
 			command =  new Command_PRINTFILE(sensorNode, inst);
 		}
 		
-		if (inst[0].toLowerCase().equals("data")) {
+		if (commandName.equals("data")) {
 			command = new Command_DATA(sensorNode, inst);
 		}
-		if (inst[0].toLowerCase().equals("rdata")) {
+		if (commandName.equals("rdata")) {
 			command = new Command_RDATA(sensorNode, inst);
 		}
-		if (inst[0].toLowerCase().equals("last")) {
+		if (commandName.equals("last")) {
 			command = new Command_LAST(sensorNode, inst);
 		}
-		if (inst[0].toLowerCase().equals("wlast")) {
+		if (commandName.equals("wlast")) {
 			command = new Command_WLAST(sensorNode, inst);
 		}
-		if (inst[0].toLowerCase().equals("first")) {
+		if (commandName.equals("first")) {
 			command = new Command_FIRST(sensorNode, inst);
 		}
-		if (inst[0].toLowerCase().equals("wfirst")) {
+		if (commandName.equals("wfirst")) {
 			command = new Command_WFIRST(sensorNode, inst);
 		}
-		if (inst[0].toLowerCase().equals("nth")) {
+		if (commandName.equals("nth")) {
 			command = new Command_NTH(sensorNode, inst);
 		}
-		if (inst[0].toLowerCase().equals("sadd")) {
+		if (commandName.equals("sadd")) {
 			command = new Command_SADD(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("spop")) {
+		if (commandName.equals("spop")) {
 			command = new Command_SPOP(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("vdata")) {
+		if (commandName.equals("vdata")) {
 			command = new Command_VDATA(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("charat")) {
+		if (commandName.equals("charat")) {
 			command = new Command_CHARAT(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("length")) {
+		if (commandName.equals("length")) {
 			command = new Command_LENGTH(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("angle")) {
+		if (commandName.equals("angle")) {
 			command = new Command_ANGLE(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
-		if (inst[0].toLowerCase().equals("angle2")) {
+		if (commandName.equals("angle2")) {
 			command = new Command_ANGLE2(sensorNode, inst[1], inst[2], inst[3], inst[4], inst[5], inst[6], inst[7]);
 		}
-		if (inst[0].toLowerCase().equals("edge")) {
+		if (commandName.equals("edge")) {
 			command = new Command_EDGE(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("mark")) {
+		if (commandName.equals("mark")) {
 			command = new Command_MARK(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("mmin")) {
+		if (commandName.equals("mmin")) {
 			command = new Command_MMIN(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
-		if (inst[0].toLowerCase().equals("smin")) {
+		if (commandName.equals("smin")) {
 			command = new Command_SMIN(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("smax")) {
+		if (commandName.equals("smax")) {
 			command = new Command_SMAX(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("min")) {
+		if (commandName.equals("min")) {
 			command = new Command_MIN(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("max")) {
+		if (commandName.equals("max")) {
 			command = new Command_MAX(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("getpos2")) {
+		if (commandName.equals("getpos2")) {
 			command = new Command_GETPOS2(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("buffer")) {
+		if (commandName.equals("buffer")) {
 			command = new Command_BUFFER(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("battery")) {			
+		if (commandName.equals("battery")) {
 			if(inst.length==2) command = new Command_BATTERY(sensorNode, inst[1]);
 			if(inst.length==3) command = new Command_BATTERY(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("getpos")) {
+		if (commandName.equals("getpos")) {
 			command = new Command_GETPOS(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("atget")) {
+		if (commandName.equals("atget")) {
 			command = new Command_ATGET(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("radio")) {
+		if (commandName.equals("radio")) {
 			command = new Command_RADIO(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("rand")) {
+		if (commandName.equals("rand")) {
 			command = new Command_RAND(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("rgauss")) {
+		if (commandName.equals("rgauss")) {
 			command = new Command_RGAUSS(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("led")) {
+		if (commandName.equals("led")) {
 			command = new Command_LED(sensorNode, inst[1], inst[2]);
 		}
-		if (inst[0].toLowerCase().equals("randb")) {
+		if (commandName.equals("randb")) {
 			command = new Command_RANDB(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("math")) {
+		if (commandName.equals("math")) {
 			if(inst.length==4) command = new Command_MATH(sensorNode, inst[1], inst[2], inst[3]);
 			if(inst.length==5) command = new Command_MATH(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
-		if (inst[0].toLowerCase().equals("tset")) {
+		if (commandName.equals("tset")) {
 			command = new Command_TSET(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
-		if (inst[0].toLowerCase().equals("vset")) {
+		if (commandName.equals("vset")) {
 			command = new Command_VSET(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("tget")) {
+		if (commandName.equals("tget")) {
 			command = new Command_TGET(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
-		if (inst[0].toLowerCase().equals("vget")) {
+		if (commandName.equals("vget")) {
 			command = new Command_VGET(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("dreadsensor")) {
+		if (commandName.equals("dreadsensor")) {
 			command = new Command_DREADSENSOR(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("areadsensor")) {
+		if (commandName.equals("areadsensor")) {
 			command = new Command_AREADSENSOR(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("function")) {
+		if (commandName.equals("function")) {
 			command = new Command_FUNCTION(sensorNode, inst[1], inst[2], inst[3]);
 		}
-		if (inst[0].toLowerCase().equals("atni")) {
+		if (commandName.equals("atni")) {
 			command = new Command_ATID(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("atid")) {
+		if (commandName.equals("atid")) {
 			command = new Command_ATNID(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("atch")) {
+		if (commandName.equals("atch")) {
 			command = new Command_ATCH(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("atmy")) {
+		if (commandName.equals("atmy")) {
 			command = new Command_ATMY(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("atpl")) {
+		if (commandName.equals("atpl")) {
 			command = new Command_ATPL(sensorNode, inst[1]);
 		}
-		if (inst[0].toLowerCase().equals("while")) {
+		if (commandName.equals("while")) {
 			endof.push("endwhile");
 			Command_WHILE commandWhile = new Command_WHILE(sensorNode, instStr);
 			if (script.getCurrentWhile() != null){
@@ -299,7 +319,7 @@ public final class SenScriptAddCommand {
 			script.add(commandWhile);
 			script.setCurrentWhile(commandWhile);
 		}		
-		if (inst[0].toLowerCase().equals("endwhile")) {
+		if (commandName.equals("endwhile")) {
 			Command_ENDWHILE commandWEndhile = new Command_ENDWHILE(sensorNode);
 			commandWEndhile.setCurrentWhile(script.getCurrentWhile());
 			//----
@@ -309,7 +329,7 @@ public final class SenScriptAddCommand {
 			script.add(commandWEndhile);			
 		}
 		
-		if (inst[0].toLowerCase().equals("for")) {
+		if (commandName.equals("for")) {
 			endof.push("endfor");
 			Command_FOR cmdFor = null;
 			if(inst.length==4) cmdFor = new Command_FOR(sensorNode, inst[1], inst[2], inst[3], "1");
@@ -320,7 +340,7 @@ public final class SenScriptAddCommand {
 			script.add(cmdFor);
 			script.setCurrentFor(cmdFor);
 		}
-		if (inst[0].toLowerCase().equals("endfor")) {
+		if (commandName.equals("endfor")) {
 			Command_ENDFOR cmdEndFor = new Command_ENDFOR(sensorNode);
 			cmdEndFor.setCurrentFor(script.getCurrentFor());
 			
@@ -332,7 +352,7 @@ public final class SenScriptAddCommand {
 			script.add(cmdEndFor);
 		}
 		
-		if (inst[0].toLowerCase().equals("if")) {
+		if (commandName.equals("if")) {
 			endof.push("endif");
 			Command_IF commandIf = new Command_IF(sensorNode, instStr);
 			if (script.getCurrentIf() != null){
@@ -341,74 +361,74 @@ public final class SenScriptAddCommand {
 			script.setCurrentIf(commandIf);
 		}
 		
-		if (inst[0].toLowerCase().equals("else")) {
+		if (commandName.equals("else")) {
 			command = new Command_ELSE(sensorNode);
 			script.getCurrentIf().setElseIndex(script.size());
 		}		
 		
-		if (inst[0].toLowerCase().equals("endif")) {
+		if (commandName.equals("endif")) {
 			command = new Command_ENDIF(sensorNode);
 			script.getCurrentIf().setEndIfIndex(script.size());
 			script.removeCurrentIf();
 		}
 		
-		if (inst[0].toLowerCase().equals("goto")) {
+		if (commandName.equals("goto")) {
 			command = new Command_GOTO(sensorNode, inst[1]);
 		}
 		
-		if (inst[0].toLowerCase().equals("rotate")) {
+		if (commandName.equals("rotate")) {
 			command = new Command_ROTATE(sensorNode, inst[1], inst[2]);
 		}
 		
-		if (inst[0].toLowerCase().equals("move")) {
+		if (commandName.equals("move")) {
 			command = new Command_MOVE(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
 		
-		if (inst[0].toLowerCase().equals("rmove")) {
+		if (commandName.equals("rmove")) {
 			command = new Command_RMOVE(sensorNode, inst[1]);
 		}
 		
-		if (inst[0].toLowerCase().equals("cdistance")) {
+		if (commandName.equals("cdistance")) {
 			command = new Command_CDISTANCE(sensorNode, inst[1], inst[2], inst[3], inst[4], inst[5]);
 		}
 		
-		if (inst[0].toLowerCase().equals("distance")) {
+		if (commandName.equals("distance")) {
 			command = new Command_DISTANCE(sensorNode, inst[1], inst[2]);
 		}
 		
-		if (inst[0].toLowerCase().equals("drssi")) {
+		if (commandName.equals("drssi")) {
 			command = new Command_DRSSI(sensorNode, inst[1]);
 		}
 		
-		if (inst[0].toLowerCase().equals("inc")) {
+		if (commandName.equals("inc")) {
 			command = new Command_PLUS(sensorNode, inst[1], "$"+inst[1], "1");
 		}
 		
-		if (inst[0].toLowerCase().equals("dec")) {
+		if (commandName.equals("dec")) {
 			command = new Command_MINUS(sensorNode, inst[1], "$"+inst[1], "1");
 		}
 		
-		if (inst[0].toLowerCase().equals("int")) {
+		if (commandName.equals("int")) {
 			command = new Command_INT(sensorNode, inst[1], inst[2]);
 		}
 		
-		if (inst[0].toLowerCase().equals("conc")) {
+		if (commandName.equals("conc")) {
 			command = new Command_CONC(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
 		
-		if (inst[0].toLowerCase().equals("deconc")) {
+		if (commandName.equals("deconc")) {
 			command = new Command_DECONC(sensorNode, inst[1], inst[2], inst[3], inst[4]);
 		}
 		
-		if (inst[0].toLowerCase().equals("getinfo")) {
+		if (commandName.equals("getinfo")) {
 			command = new Command_GETINFO(sensorNode, inst[1]);
 		}
 		
-		if (inst[0].toLowerCase().equals("time")) {
+		if (commandName.equals("time")) {
 			command = new Command_TIME(sensorNode, inst[1]);
 		}
 		
-		if (inst[0].toLowerCase().equals("cprint")) {
+		if (commandName.equals("cprint")) {
 			command = new Command_CPRINT(sensorNode, inst);
 		}
 		
