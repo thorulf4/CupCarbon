@@ -33,6 +33,11 @@ public final class SenScriptAddCommand {
 			String packageName = "senscript.customCommand";
 			Class<?> commandClass = ClassLoader.getSystemClassLoader().loadClass(packageName + ".Command_" + commandName.toUpperCase());
 
+			if(commandClass.getSuperclass() == Command.class){
+
+			}
+
+
 			ArrayList<Class<?>> parameterTypes = new ArrayList<>();
 			ArrayList<Object> parameters = new ArrayList<>();
 
