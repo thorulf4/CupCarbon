@@ -3,10 +3,12 @@ package d504.routingTable;
 import d504.NodeCostPair;
 import d504.RelayCostPair;
 import d504.exceptions.NoRouteForRelayException;
+import d504.utils.Serialize;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class RoutingTable {
@@ -14,6 +16,10 @@ public class RoutingTable {
 
     public RoutingTable() {
         routingTable = new ArrayList<>();
+    }
+
+    public RoutingTable(List<RoutingTableEntry> routingTable) {
+        this.routingTable = routingTable;
     }
 
     public void addEntry(String relayId, String node, int cost) {
@@ -63,10 +69,44 @@ public class RoutingTable {
     }
 
     public String serialize(){
-        throw new NotImplementedException();
-    };
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(routingTable.size());
+        for (RoutingTableEntry entry: routingTable) {
+            stringBuilder.append('&');
+            stringBuilder.append(entry.serialize());
+        }
+
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoutingTable that = (RoutingTable) o;
+        return Objects.equals(routingTable, that.routingTable);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(routingTable);
+    }
 
     public static RoutingTable deserialize(String data){
-        throw new NotImplementedException();
+        int firstSeperator = data.indexOf("&");
+        int count = Integer.parseInt(data.substring(0, firstSeperator));
+        data = data.substring(firstSeperator + 1);
+
+        List<RoutingTableEntry> list = new ArrayList<>();
+
+        for(int i = 0; i < count; i++){
+            RoutingTableEntry entry = RoutingTableEntry.deserialize(data);
+            list.add(entry);
+            data = Serialize.removeElements(data, entry.getRouteCount() * 2 + 2);
+        }
+
+
+
+        return new RoutingTable(list);
     }
 }

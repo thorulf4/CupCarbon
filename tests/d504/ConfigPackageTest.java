@@ -14,7 +14,7 @@ class ConfigPackageTest {
 
     @Test
     void deserialize_CorrectValues() {
-        String serializedConfigPackage = "1#5#2#10";
+        String serializedConfigPackage = "1&5&2&10";
 
         ConfigPackage actualConfigPackage = ConfigPackage.deserialize(serializedConfigPackage);
 
@@ -24,7 +24,7 @@ class ConfigPackageTest {
 
     @Test
     void deserialize_CorrectSize(){
-        String serializedConfigPackage = "1#5#2#10";
+        String serializedConfigPackage = "1&5&2&10";
 
         ConfigPackage actualConfigPackage = ConfigPackage.deserialize(serializedConfigPackage);
 
@@ -37,7 +37,7 @@ class ConfigPackageTest {
         configPackage.add("1",5);
         configPackage.add("2", 10);
 
-        List<String> serializedConfigList = Arrays.asList(configPackage.serialize().split("#"));
+        List<String> serializedConfigList = Arrays.asList(configPackage.serialize().split("&"));
 
         assertTrue(serializedConfigList.contains("1"));
         assertTrue(serializedConfigList.contains("5"));
@@ -53,6 +53,6 @@ class ConfigPackageTest {
 
         String actualSerializedConfig = configPackage.serialize();
 
-        assertEquals(4, actualSerializedConfig.split("#").length);
+        assertEquals(4, actualSerializedConfig.split("&").length);
     }
 }

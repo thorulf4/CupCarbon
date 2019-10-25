@@ -39,7 +39,7 @@ public class ConfigPackage {
     public static ConfigPackage deserialize(String str) {
         ConfigPackage configPackage = new ConfigPackage();
 
-        String[] values = str.split("#");
+        String[] values = str.split("&");
         for(int i = 0; i < values.length; i += 2){
             configPackage.add(values[i], Integer.parseInt(values[i+1]));
         }

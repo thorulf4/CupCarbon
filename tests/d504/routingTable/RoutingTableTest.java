@@ -39,4 +39,16 @@ class RoutingTableTest {
 
         assertFalse(routingTable.isNodeInRoutingTable("10"));
     }
+
+    @Test
+    void serialize() {
+        RoutingTable routingTable = new RoutingTable();
+        routingTable.addEntry("relayY", "nodeX", 5);
+        routingTable.addEntry("relayY", "nodeY", 3);
+        routingTable.addEntry("relayX", "nodeX", 3);
+        routingTable.addEntry("relayX", "nodeY", 5);
+        routingTable.addEntry("relayX", "nodeZ", 7);
+
+        assertEquals("2&relayY&2&nodeY&3&nodeX&5&relayX&3&nodeX&3&nodeY&5&nodeZ&7", routingTable.serialize());
+    }
 }
