@@ -54,7 +54,7 @@ public class RoutingTable {
         throw new NotImplementedException();
     };
 
-    public static void deserialize(){
+    public static RoutingTable deserialize(String data){
         throw new NotImplementedException();
     }
 }
