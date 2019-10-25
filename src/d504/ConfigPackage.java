@@ -16,16 +16,20 @@ public class ConfigPackage {
 
         for (RelayCostPair relayCostPair : relayTable) {
             String relayId = relayCostPair.getRelayId();
-            Integer value = relayCostPair.getCost();
-            serializedConfigPackage.append(relayId).append("#").append(value.toString()).append("#");
+            String senderNodeId = relayCostPair.getSenderNodeId();
+            Integer cost = relayCostPair.getCost();
+            serializedConfigPackage
+                    .append(relayId).append("#")
+                    .append(senderNodeId).append("#")
+                    .append(cost.toString()).append("#");
         }
         serializedConfigPackage.delete(serializedConfigPackage.length()-1, serializedConfigPackage.length());
 
         return serializedConfigPackage.toString();
     }
 
-    public void add(String relayId, int cost) {
-        relayTable.add(new RelayCostPair(relayId, cost));
+    public void add(String relayId, String senderNodeId,int cost) {
+        relayTable.add(new RelayCostPair(relayId, senderNodeId, cost));
     }
 
     public List<RelayCostPair> getRelayTable() {
@@ -36,8 +40,8 @@ public class ConfigPackage {
         ConfigPackage configPackage = new ConfigPackage();
 
         String[] values = str.split("#");
-        for(int i = 0; i < values.length; i += 2){
-            configPackage.add(values[i], Integer.parseInt(values[i+1]));
+        for(int i = 0; i < values.length; i += 3){
+            configPackage.add(values[i], values[i+1], Integer.parseInt(values[i+2]));
         }
 
         return configPackage;
