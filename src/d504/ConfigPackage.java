@@ -1,22 +1,22 @@
 package d504;
 
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConfigPackage {
 
-    private Hashtable<String, Integer> relayTable;
+    private List<RelayCostPair> relayTable;
 
-    public ConfigPackage(Hashtable<String, Integer> relayTable) {
-        this.relayTable = relayTable;
+    public ConfigPackage() {
+        this.relayTable = new ArrayList<>();
     }
 
     public String serialize() {
         StringBuilder serializedConfigPackage = new StringBuilder();
 
-        for (Map.Entry<String, Integer> entry : relayTable.entrySet()) {
-            String relayId = entry.getKey();
-            Integer value = entry.getValue();
+        for (RelayCostPair relayCostPair : relayTable) {
+            String relayId = relayCostPair.getRelayId();
+            Integer value = relayCostPair.getCost();
             serializedConfigPackage.append(relayId).append("#").append(value.toString()).append("#");
         }
         serializedConfigPackage.delete(serializedConfigPackage.length()-1, serializedConfigPackage.length());
@@ -24,18 +24,24 @@ public class ConfigPackage {
         return serializedConfigPackage.toString();
     }
 
+    public void add(String relayId, int cost) {
+        relayTable.add(new RelayCostPair(relayId, cost));
+    }
+
+    public List<RelayCostPair> getRelayTable() {
+        return relayTable;
+    }
+
     public static ConfigPackage deserialize(String str) {
-        Hashtable<String, Integer> table = new Hashtable<String, Integer>();
+        ConfigPackage configPackage = new ConfigPackage();
 
         String[] values = str.split("#");
         for(int i = 0; i < values.length; i += 2){
-            table.put(values[i], Integer.parseInt(values[i + 1]));
+            configPackage.add(values[i], Integer.parseInt(values[i+1]));
         }
 
-        return new ConfigPackage(table);
+        return configPackage;
     }
 
-    public Hashtable<String, Integer> getRelayTable() {
-        return relayTable;
-    }
+
 }
