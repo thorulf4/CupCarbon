@@ -6,22 +6,28 @@ import java.util.List;
 public class ConfigPackage {
 
     private List<RelayCostPair> relayTable;
+    private String senderNodeId;
 
-    public ConfigPackage() {
+    public ConfigPackage(String sendeNodeId) {
         this.relayTable = new ArrayList<>();
+        this.senderNodeId = sendeNodeId;
     }
 
-    public ConfigPackage(List<RelayCostPair> relayTable){
+    public ConfigPackage(List<RelayCostPair> relayTable, String senderNodeId){
         this.relayTable = relayTable;
+        this.senderNodeId = senderNodeId;
     }
 
     public String serialize() {
         StringBuilder serializedConfigPackage = new StringBuilder();
+        serializedConfigPackage.append(senderNodeId).append("&");
 
         for (RelayCostPair relayCostPair : relayTable) {
             String relayId = relayCostPair.getRelayId();
-            Integer value = relayCostPair.getCost();
-            serializedConfigPackage.append(relayId).append("&").append(value.toString()).append("&");
+            int cost = relayCostPair.getCost();
+            serializedConfigPackage
+                    .append(relayId).append("&")
+                    .append(cost).append("&");
         }
         serializedConfigPackage.delete(serializedConfigPackage.length()-1, serializedConfigPackage.length());
 
@@ -37,10 +43,10 @@ public class ConfigPackage {
     }
 
     public static ConfigPackage deserialize(String str) {
-        ConfigPackage configPackage = new ConfigPackage();
-
         String[] values = str.split("&");
-        for(int i = 0; i < values.length; i += 2){
+        ConfigPackage configPackage = new ConfigPackage(values[0]);
+
+        for(int i = 1; i < values.length; i += 3){
             configPackage.add(values[i], Integer.parseInt(values[i+1]));
         }
 
