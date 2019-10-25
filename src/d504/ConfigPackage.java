@@ -17,7 +17,7 @@ public class ConfigPackage {
         for (RelayCostPair relayCostPair : relayTable) {
             String relayId = relayCostPair.getRelayId();
             Integer value = relayCostPair.getCost();
-            serializedConfigPackage.append(relayId).append("#").append(value.toString()).append("#");
+            serializedConfigPackage.append(relayId).append("&").append(value.toString()).append("&");
         }
         serializedConfigPackage.delete(serializedConfigPackage.length()-1, serializedConfigPackage.length());
 

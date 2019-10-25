@@ -1,8 +1,11 @@
 package senscript.customCommand;
 
-import d504.RelayConfig;
+import d504.ConfigPackage;
+import d504.TypedPackage;
 import device.SensorNode;
 import senscript.Command;
+
+import static d504.PackageType.Config;
 
 public class Command_CREATERELAYCONFIG extends Command {
 
@@ -17,9 +20,12 @@ public class Command_CREATERELAYCONFIG extends Command {
     @Override
     public double execute(){
         String id = sensor.getName();
-        RelayConfig relayConfig = new RelayConfig(id, "0");
-        String serializedRelayConfig = relayConfig.serialize();
-        sensor.getScript().putVariable(output,serializedRelayConfig);
+        ConfigPackage configPackage = new ConfigPackage();
+        configPackage.add(id,1);
+        String serializedConfigPackage = configPackage.serialize();
+        TypedPackage typedRelayConfig = new TypedPackage(Config, serializedConfigPackage);
+        String serializedTypedConfig = typedRelayConfig.serialize();
+        sensor.getScript().putVariable(output,serializedTypedConfig);
         return 0;
     }
 }
