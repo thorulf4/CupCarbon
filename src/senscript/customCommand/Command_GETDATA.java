@@ -18,8 +18,13 @@ public class Command_GETDATA extends Command {
     @Override
     public double execute(){
         String data = sensor.getScript().getVariableValue(input);
+        if(!data.equals("")){
         DataPackage message = DataPackage.deserialize(data);
         sensor.getScript().putVariable(output,message.getData());
         return 0;
+        }
+        else{
+            return -1;
+        }
     }
 }
