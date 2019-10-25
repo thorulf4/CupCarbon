@@ -2,6 +2,7 @@ package senscript;
 
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -33,11 +34,6 @@ public final class SenScriptAddCommand {
 			String packageName = "senscript.customCommand";
 			Class<?> commandClass = ClassLoader.getSystemClassLoader().loadClass(packageName + ".Command_" + commandName.toUpperCase());
 
-			if(commandClass.getSuperclass() == Command.class){
-
-			}
-
-
 			ArrayList<Class<?>> parameterTypes = new ArrayList<>();
 			ArrayList<Object> parameters = new ArrayList<>();
 
@@ -50,8 +46,11 @@ public final class SenScriptAddCommand {
 			}
 
 			command  = (Command) commandClass.getConstructor(parameterTypes.toArray(new Class<?>[]{})).newInstance(parameters.toArray(new Object[]{}));
-		}catch (Exception e){}
-
+		} catch (InstantiationException e) {}
+		  catch (InvocationTargetException e) {}
+		  catch (NoSuchMethodException e) {}
+		  catch (IllegalAccessException e) {}
+		  catch (ClassNotFoundException e) {}
 
 
 		if (commandName.equals("end")) {
