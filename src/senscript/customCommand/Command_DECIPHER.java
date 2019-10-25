@@ -1,31 +1,31 @@
 package senscript.customCommand;
 
+import d504.TypedPackage;
 import device.SensorNode;
 import senscript.Command;
 
 public class Command_DECIPHER extends Command {
 
-    private String inputRead;
+    private String inputPacket;
+    private String packageVariable;
     private SensorNode sensorNode;
+    private String typeVariable;
 
-    public  Command_DECIPHER(SensorNode sensorNode, String inputRead){
+    public  Command_DECIPHER(SensorNode sensorNode,String inputPacket, String packageVariable, String typeVariable){
         this.sensorNode = sensorNode;
-        this.inputRead = inputRead;
+        this.packageVariable = packageVariable;
+        this.typeVariable = typeVariable;
+        this.inputPacket = inputPacket;
     }
 
     @Override
     public double execute() {
-        inputRead =  sensorNode.getScript().getVariableValue(inputRead);
-      char prefixIdentifier =  inputRead.charAt(0);
-      String s = String.valueOf(prefixIdentifier);
-      sensorNode.getScript().putVariable("prefix",s);
+        String packageData =  sensorNode.getScript().getVariableValue(inputPacket);
+        TypedPackage typedPackage = TypedPackage.deserialize(packageData);
 
-      StringBuilder stringBuilder = new StringBuilder(inputRead);
-      stringBuilder.deleteCharAt(0);
-      String inputWithoutPrefix = stringBuilder.toString();
-      sensorNode.getScript().putVariable("package", inputWithoutPrefix);
+        sensorNode.getScript().putVariable(packageVariable, typedPackage.packageData);
+        sensorNode.getScript().putVariable(typeVariable, typedPackage.type.ordinal()+"");
+
         return 0;
     }
 }
-
-//enum Package {CONFIG, DATA, PULS}
