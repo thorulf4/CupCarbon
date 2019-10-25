@@ -11,6 +11,10 @@ public class ConfigPackage {
         this.relayTable = new ArrayList<>();
     }
 
+    public ConfigPackage(List<RelayCostPair> relayTable){
+        this.relayTable = relayTable;
+    }
+
     public String serialize() {
         StringBuilder serializedConfigPackage = new StringBuilder();
 
