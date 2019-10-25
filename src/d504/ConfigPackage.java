@@ -6,30 +6,36 @@ import java.util.List;
 public class ConfigPackage {
 
     private List<RelayCostPair> relayTable;
+    private String senderNodeId;
 
-    public ConfigPackage() {
+    public ConfigPackage(String sendeNodeId) {
         this.relayTable = new ArrayList<>();
+        this.senderNodeId = sendeNodeId;
+    }
+
+    public ConfigPackage(List<RelayCostPair> relayTable, String senderNodeId){
+        this.relayTable = relayTable;
+        this.senderNodeId = senderNodeId;
     }
 
     public String serialize() {
         StringBuilder serializedConfigPackage = new StringBuilder();
+        serializedConfigPackage.append(senderNodeId).append("&");
 
         for (RelayCostPair relayCostPair : relayTable) {
             String relayId = relayCostPair.getRelayId();
-            String senderNodeId = relayCostPair.getSenderNodeId();
-            Integer cost = relayCostPair.getCost();
+            int cost = relayCostPair.getCost();
             serializedConfigPackage
-                    .append(relayId).append("#")
-                    .append(senderNodeId).append("#")
-                    .append(cost.toString()).append("#");
+                    .append(relayId).append("&")
+                    .append(cost).append("&");
         }
         serializedConfigPackage.delete(serializedConfigPackage.length()-1, serializedConfigPackage.length());
 
         return serializedConfigPackage.toString();
     }
 
-    public void add(String relayId, String senderNodeId,int cost) {
-        relayTable.add(new RelayCostPair(relayId, senderNodeId, cost));
+    public void add(String relayId, int cost) {
+        relayTable.add(new RelayCostPair(relayId, cost));
     }
 
     public List<RelayCostPair> getRelayTable() {
@@ -37,11 +43,11 @@ public class ConfigPackage {
     }
 
     public static ConfigPackage deserialize(String str) {
-        ConfigPackage configPackage = new ConfigPackage();
-
         String[] values = str.split("#");
-        for(int i = 0; i < values.length; i += 3){
-            configPackage.add(values[i], values[i+1], Integer.parseInt(values[i+2]));
+        ConfigPackage configPackage = new ConfigPackage(values[0]);
+
+        for(int i = 1; i < values.length; i += 3){
+            configPackage.add(values[i], Integer.parseInt(values[i+1]));
         }
 
         return configPackage;

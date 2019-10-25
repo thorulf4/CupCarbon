@@ -33,28 +33,27 @@ class ConfigPackageTest {
 
     @Test
     void serialize_CorrectValues(){
-        ConfigPackage configPackage = new ConfigPackage();
-        configPackage.add("a", "1",5);
-        configPackage.add("b", "2", 10);
+        ConfigPackage configPackage = new ConfigPackage("1");
+        configPackage.add("a",5);
+        configPackage.add("b",10);
 
-        List<String> serializedConfigList = Arrays.asList(configPackage.serialize().split("#"));
+        List<String> serializedConfigList = Arrays.asList(configPackage.serialize().split("&"));
 
-        assertTrue(serializedConfigList.contains("a"));
         assertTrue(serializedConfigList.contains("1"));
+        assertTrue(serializedConfigList.contains("a"));
         assertTrue(serializedConfigList.contains("5"));
         assertTrue(serializedConfigList.contains("b"));
-        assertTrue(serializedConfigList.contains("2"));
         assertTrue(serializedConfigList.contains("10"));
     }
 
     @Test
     void serialize_CorrectSize(){
-        ConfigPackage configPackage = new ConfigPackage();
-        configPackage.add("a", "22",5);
-        configPackage.add("b", "23",10);
+        ConfigPackage configPackage = new ConfigPackage("1");
+        configPackage.add("a",5);
+        configPackage.add("b",10);
 
         String actualSerializedConfig = configPackage.serialize();
 
-        assertEquals(6, actualSerializedConfig.split("#").length);
+        assertEquals(5, actualSerializedConfig.split("&").length);
     }
 }

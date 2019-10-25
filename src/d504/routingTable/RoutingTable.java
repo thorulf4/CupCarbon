@@ -1,6 +1,7 @@
 package d504.routingTable;
 
 import d504.NodeCostPair;
+import d504.RelayCostPair;
 import d504.exceptions.NoRouteForRelayException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -48,6 +49,17 @@ public class RoutingTable {
             }
         }
         return false;
+    }
+
+    public List<RelayCostPair> GetQuickestRoutesForRelays(){
+        List<RelayCostPair> list = new ArrayList<>();
+
+        for (RoutingTableEntry entry: routingTable) {
+            NodeCostPair lowestCost = entry.getLowestCost();
+            list.add(new RelayCostPair(entry.getRelayId(), lowestCost.getCost()));
+        }
+
+        return list;
     }
 
     public String serialize(){
