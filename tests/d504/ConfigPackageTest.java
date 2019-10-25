@@ -18,8 +18,8 @@ class ConfigPackageTest {
 
         ConfigPackage actualConfigPackage = ConfigPackage.deserialize(serializedConfigPackage);
 
-        assertEquals(5, actualConfigPackage.getRelayTable().get("1"));
-        assertEquals(10, actualConfigPackage.getRelayTable().get("2"));
+        assertEquals(5, actualConfigPackage.getRelayTable().get(0).getCost());
+        assertEquals(10, actualConfigPackage.getRelayTable().get(1).getCost());
     }
 
     @Test
@@ -33,8 +33,9 @@ class ConfigPackageTest {
 
     @Test
     void serialize_CorrectValues(){
-        Hashtable<String, Integer> table = new Hashtable<String, Integer>() {{ put("1", 5); put("2", 10); }};
-        ConfigPackage configPackage = new ConfigPackage(table);
+        ConfigPackage configPackage = new ConfigPackage();
+        configPackage.add("1",5);
+        configPackage.add("2", 10);
 
         List<String> serializedConfigList = Arrays.asList(configPackage.serialize().split("#"));
 
@@ -46,8 +47,9 @@ class ConfigPackageTest {
 
     @Test
     void serialize_CorrectSize(){
-        Hashtable<String, Integer> table = new Hashtable<String, Integer>() {{ put("1", 5); put("2", 10); }};
-        ConfigPackage configPackage = new ConfigPackage(table);
+        ConfigPackage configPackage = new ConfigPackage();
+        configPackage.add("1",5);
+        configPackage.add("2",10);
 
         String actualSerializedConfig = configPackage.serialize();
 
