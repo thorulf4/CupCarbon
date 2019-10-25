@@ -19,7 +19,9 @@ public class DataPackage{
     }
 
     public String serialize(){
-        return targetRelay + "#" + data;
+        StringBuilder serialPackage = new StringBuilder();
+        serialPackage.append(targetRelay).append("#").append(data);
+        return serialPackage.toString();
     }
 
     public static DataPackage deserialize(String input){
