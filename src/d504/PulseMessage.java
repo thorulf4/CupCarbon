@@ -11,7 +11,7 @@ public class PulseMessage {
     }
 
     public static PulseMessage deserialize(String data) {
-        if(data.contains("#")){
+        if(data.contains("&")){
             throw new RuntimeException("Parameter data contained too many element seperators");
         }
 
