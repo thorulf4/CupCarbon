@@ -27,7 +27,7 @@ public class Command_FINDNEXTHOP extends Command {
 
         DataPackage dataPackage = DataPackage.deserialize(dataPacketData);
 
-        String nodeId = routingTable.getFastetsRoute(dataPackage.getTargetRelay()).getNodeId();
+        String nodeId = routingTable.getQuickestRouteForRelay(dataPackage.getTargetRelay()).getNodeId();
 
         sensor.getScript().putVariable(outputNodeVariable, nodeId);
         return 0;

@@ -9,9 +9,7 @@ import device.SensorNode;
 import senscript.Command;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Command_CREATECONFIG extends Command {
 
@@ -30,7 +28,7 @@ public class Command_CREATECONFIG extends Command {
 
         RoutingTable routingTable = RoutingTable.deserialize(routingTableData);
 
-        Set<RelayCostPair> relayTable = routingTable.GetQuickestRoutesForRelays();
+        Set<RelayCostPair> relayTable = routingTable.getQuickestRoutesForAllRelays();
 
         ConfigPackage configPackage = new ConfigPackage(new ArrayList<>(relayTable), String.valueOf(sensor.getId()));
         TypedPackage typedPackage = new TypedPackage(PackageType.Config, configPackage.serialize());
