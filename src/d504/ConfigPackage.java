@@ -53,5 +53,7 @@ public class ConfigPackage {
         return configPackage;
     }
 
-
+    public String getSenderNodeId() {
+        return senderNodeId;
+    }
 }
