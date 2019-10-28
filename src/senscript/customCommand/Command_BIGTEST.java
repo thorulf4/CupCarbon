@@ -13,6 +13,8 @@ public class Command_BIGTEST extends Command {
 
     @Override
     public double execute() {
+
+
         System.out.println("My test worked: " + word);
         return 0;
     }

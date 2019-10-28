@@ -6,6 +6,12 @@ public class PulseMessage {
 
     public String senderId;
 
+    public PulseMessage(String senderId) {
+        this.senderId = senderId;
+    }
+
+
+
     public String serialize() {
         return senderId;
     }
@@ -15,8 +21,7 @@ public class PulseMessage {
             throw new RuntimeException("Parameter data contained too many element seperators");
         }
 
-        PulseMessage pulseMessage = new PulseMessage();
-        pulseMessage.senderId = data;
+        PulseMessage pulseMessage = new PulseMessage(data);
         return pulseMessage;
     }
 }
