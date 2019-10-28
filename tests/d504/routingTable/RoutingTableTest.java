@@ -1,5 +1,6 @@
 package d504.routingTable;
 
+import d504.ConfigPackage;
 import d504.NodeCostPair;
 import d504.routingTable.RoutingTable;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +39,26 @@ class RoutingTableTest {
     void isNodeInRoutingTable_false(){
 
         assertFalse(routingTable.isNodeInRoutingTable("10"));
+    }
+
+    @Test
+    void update_changedFastestRoutes(){
+        ConfigPackage configPackage = new ConfigPackage("1");
+        configPackage.add("A", 2);
+
+        boolean hasChanged = routingTable.update(configPackage);
+
+        assertTrue(hasChanged);
+    }
+
+    @Test
+    void update_unchangedFastestRoutes(){
+        ConfigPackage configPackage = new ConfigPackage("1");
+        configPackage.add("A", 15);
+
+        boolean hasChanged = routingTable.update(configPackage);
+
+        assertFalse(hasChanged);
     }
 
     @Test

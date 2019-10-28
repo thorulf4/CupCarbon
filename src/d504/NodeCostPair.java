@@ -27,7 +27,7 @@ public class NodeCostPair implements Comparable<NodeCostPair>{
 
     @Override
     public int compareTo(NodeCostPair o) {
-        return Integer.compare(cost, o.cost);
+        return cost - o.cost;
     }
 
     public String serialize() {

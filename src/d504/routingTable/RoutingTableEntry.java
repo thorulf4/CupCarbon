@@ -13,10 +13,8 @@ public class RoutingTableEntry {
 
     public RoutingTableEntry(String relayId) {
         this.relayId = relayId;
-        routes = new TreeSet<NodeCostPair>();
+        routes = new TreeSet<>();
     }
-
-
 
     public String getRelayId() {
         return relayId;
@@ -26,7 +24,11 @@ public class RoutingTableEntry {
         Optional<NodeCostPair> optionalNodeCostPair = routes.stream().filter(nc -> nc.getNodeId().equals(node)).findFirst();
 
         if(optionalNodeCostPair.isPresent()){
-            optionalNodeCostPair.get().setCost(cost);
+            NodeCostPair nodeCostPair = optionalNodeCostPair.get();
+            if(nodeCostPair.getCost() != cost){
+                routes.remove(nodeCostPair);
+                routes.add(new NodeCostPair(node, cost));
+            }
         }
         else{
             routes.add(new NodeCostPair(node, cost));
