@@ -1,11 +1,8 @@
 package d504;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,17 +11,18 @@ class ConfigPackageTest {
 
     @Test
     void deserialize_CorrectValues() {
-        String serializedConfigPackage = "a&1&5&b&2&10";
+        String serializedConfigPackage = "20&A&5&B&10";
 
         ConfigPackage actualConfigPackage = ConfigPackage.deserialize(serializedConfigPackage);
+        RelayRouteCost relayRouteCost = new RelayRouteCost("A", 5);
 
-        assertEquals(5, actualConfigPackage.getRelayTable().get(0).getCost());
-        assertEquals(10, actualConfigPackage.getRelayTable().get(1).getCost());
+
+        assertTrue(actualConfigPackage.getRelayTable().contains(relayRouteCost));
     }
 
     @Test
     void deserialize_CorrectSize(){
-        String serializedConfigPackage = "a&1&5&b&2&10";
+        String serializedConfigPackage = "20&A&5&B&10";
 
         ConfigPackage actualConfigPackage = ConfigPackage.deserialize(serializedConfigPackage);
 
