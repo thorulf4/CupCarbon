@@ -15,12 +15,12 @@ public class TypedPackage {
     }
 
     public static TypedPackage deserialize(String data){
-        int firstSeperatorIndex = data.indexOf("&");
+        int firstSeparatorIndex = data.indexOf("&");
 
-        String typeString = data.substring(0, firstSeperatorIndex);
+        String typeString = data.substring(0, firstSeparatorIndex);
         PackageType type = convertToType(typeString);
 
-        String packageData = data.substring(firstSeperatorIndex + 1);
+        String packageData = data.substring(firstSeparatorIndex + 1);
 
         return new TypedPackage(type, packageData);
     }

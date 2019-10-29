@@ -19,14 +19,12 @@ public class DataPackage{
     }
 
     public String serialize(){
-        StringBuilder serialPackage = new StringBuilder();
-        serialPackage.append(targetRelay).append("&").append(data);
-        return serialPackage.toString();
+        return targetRelay + "&" + data;
     }
 
     public static DataPackage deserialize(String input){
 
-        String splitInput[]=input.split("&");
+        String[] splitInput = input.split("&");
 
         return new DataPackage(splitInput[0],splitInput[1]);
     }

@@ -120,7 +120,7 @@ public class RoutingTable {
         return list;
     }
 
-    private static int getTableSize(String data, int firstSeperator) {
-        return Integer.parseInt(data.substring(0, firstSeperator));
+    private static int getTableSize(String data, int firstSeparator) {
+        return Integer.parseInt(data.substring(0, firstSeparator));
     }
 }
