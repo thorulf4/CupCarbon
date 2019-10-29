@@ -9,7 +9,7 @@ import static d504.PackageType.Config;
 
 public class Command_CREATERELAYCONFIG extends Command {
 
-    String output="";
+    String output;
 
     public Command_CREATERELAYCONFIG(SensorNode node, String output){
     this.sensor = node;
@@ -19,7 +19,7 @@ public class Command_CREATERELAYCONFIG extends Command {
 
     @Override
     public double execute(){
-        String id = sensor.getName();
+        String id = "" + sensor.getId();
         ConfigPackage configPackage = new ConfigPackage(String.valueOf(sensor.getId()));
         configPackage.add(id,1);
         String serializedConfigPackage = configPackage.serialize();
