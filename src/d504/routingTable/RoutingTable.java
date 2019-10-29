@@ -2,7 +2,7 @@ package d504.routingTable;
 
 import d504.ConfigPackage;
 import d504.NodeCostPair;
-import d504.RelayCostPair;
+import d504.RelayRouteCost;
 import d504.exceptions.NoRouteForRelayException;
 import d504.utils.Serialize;
 
@@ -49,26 +49,26 @@ public class RoutingTable {
         return routingTable.stream().anyMatch(entry -> entry.hasNode(nodeId));
     }
 
-    public Set<RelayCostPair> getQuickestRoutesForAllRelays(){
-        Set<RelayCostPair> set = new TreeSet<>();
+    public Set<RelayRouteCost> getQuickestRoutesForAllRelays(){
+        Set<RelayRouteCost> set = new TreeSet<>();
 
         for (RoutingTableEntry entry: routingTable) {
             NodeCostPair lowestCost = entry.getLowestCost();
-            set.add(new RelayCostPair(entry.getRelayId(), lowestCost.getCost()));
+            set.add(new RelayRouteCost(entry.getRelayId(), lowestCost.getCost()));
         }
 
         return set;
     }
 
     public boolean update(ConfigPackage configPackage) {
-        Set<RelayCostPair> oldRoutes = getQuickestRoutesForAllRelays();
+        Set<RelayRouteCost> oldRoutes = getQuickestRoutesForAllRelays();
         String nodeId = configPackage.getSenderNodeId();
 
-        for(RelayCostPair relayCostPair : configPackage.getRelayTable()){
-            addEntry(relayCostPair.getRelayId(), nodeId, relayCostPair.getCost());
+        for(RelayRouteCost relayRouteCost : configPackage.getRelayTable()){
+            addEntry(relayRouteCost.getRelayId(), nodeId, relayRouteCost.getCost());
         }
 
-        Set<RelayCostPair> newRoutes = getQuickestRoutesForAllRelays();
+        Set<RelayRouteCost> newRoutes = getQuickestRoutesForAllRelays();
         return !oldRoutes.equals(newRoutes);
     }
 

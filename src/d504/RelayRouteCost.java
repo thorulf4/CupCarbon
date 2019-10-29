@@ -3,11 +3,11 @@ package d504;
 import java.util.Comparator;
 import java.util.Objects;
 
-public class RelayCostPair implements Comparable<RelayCostPair>{
+public class RelayRouteCost implements Comparable<RelayRouteCost>{
     private String relayId;
     private int cost;
 
-    public RelayCostPair(String relayId, int cost) {
+    public RelayRouteCost(String relayId, int cost) {
         this.relayId = relayId;
         this.cost = cost;
     }
@@ -24,7 +24,7 @@ public class RelayCostPair implements Comparable<RelayCostPair>{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RelayCostPair that = (RelayCostPair) o;
+        RelayRouteCost that = (RelayRouteCost) o;
         return cost == that.cost &&
                 relayId.equals(that.relayId);
     }
@@ -35,9 +35,9 @@ public class RelayCostPair implements Comparable<RelayCostPair>{
     }
 
     @Override
-    public int compareTo(RelayCostPair o) {
-        return Comparator.comparing(RelayCostPair::getRelayId)
-                .thenComparing(RelayCostPair::getCost)
+    public int compareTo(RelayRouteCost o) {
+        return Comparator.comparing(RelayRouteCost::getRelayId)
+                .thenComparing(RelayRouteCost::getCost)
                 .compare(this, o);
     }
 }

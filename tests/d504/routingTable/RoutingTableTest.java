@@ -2,7 +2,7 @@ package d504.routingTable;
 
 import d504.ConfigPackage;
 import d504.NodeCostPair;
-import d504.RelayCostPair;
+import d504.RelayRouteCost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -67,9 +67,9 @@ class RoutingTableTest {
     void deserialize_emptyStringReturnsEmptyRoutingTable(){
         RoutingTable routingTable = RoutingTable.deserialize("");
 
-       Set<RelayCostPair> relayCostPairs = routingTable.getQuickestRoutesForAllRelays();
+       Set<RelayRouteCost> configPackageEntries = routingTable.getQuickestRoutesForAllRelays();
 
-        assertEquals(0, relayCostPairs.size());
+        assertEquals(0, configPackageEntries.size());
     }
 
     @Test

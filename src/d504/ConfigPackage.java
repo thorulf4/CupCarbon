@@ -1,19 +1,19 @@
 package d504;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ConfigPackage {
 
-    private List<RelayCostPair> relayTable;
+    private Set<RelayRouteCost> relayTable;
     private String senderNodeId;
 
-    public ConfigPackage(String sendeNodeId) {
-        this.relayTable = new ArrayList<>();
-        this.senderNodeId = sendeNodeId;
+    public ConfigPackage(String senderNodeId) {
+        this.relayTable = new TreeSet<>();
+        this.senderNodeId = senderNodeId;
     }
 
-    public ConfigPackage(List<RelayCostPair> relayTable, String senderNodeId){
+    public ConfigPackage(Set<RelayRouteCost> relayTable, String senderNodeId){
         this.relayTable = relayTable;
         this.senderNodeId = senderNodeId;
     }
@@ -22,9 +22,9 @@ public class ConfigPackage {
         StringBuilder serializedConfigPackage = new StringBuilder();
         serializedConfigPackage.append(senderNodeId).append("&");
 
-        for (RelayCostPair relayCostPair : relayTable) {
-            String relayId = relayCostPair.getRelayId();
-            int cost = relayCostPair.getCost();
+        for (RelayRouteCost relayRouteCost : relayTable) {
+            String relayId = relayRouteCost.getRelayId();
+            int cost = relayRouteCost.getCost();
             serializedConfigPackage
                     .append(relayId).append("&")
                     .append(cost).append("&");
@@ -35,10 +35,10 @@ public class ConfigPackage {
     }
 
     public void add(String relayId, int cost) {
-        relayTable.add(new RelayCostPair(relayId, cost));
+        relayTable.add(new RelayRouteCost(relayId, cost));
     }
 
-    public List<RelayCostPair> getRelayTable() {
+    public Set<RelayRouteCost> getRelayTable() {
         return relayTable;
     }
 
@@ -46,7 +46,7 @@ public class ConfigPackage {
         String[] values = str.split("&");
         ConfigPackage configPackage = new ConfigPackage(values[0]);
 
-        for(int i = 1; i < values.length; i += 3){
+        for(int i = 1; i < values.length; i += 2){
             configPackage.add(values[i], Integer.parseInt(values[i+1]));
         }
 

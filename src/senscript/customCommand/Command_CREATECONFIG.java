@@ -2,13 +2,12 @@ package senscript.customCommand;
 
 import d504.ConfigPackage;
 import d504.PackageType;
-import d504.RelayCostPair;
+import d504.RelayRouteCost;
 import d504.TypedPackage;
 import d504.routingTable.RoutingTable;
 import device.SensorNode;
 import senscript.Command;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 public class Command_CREATECONFIG extends Command {
@@ -28,9 +27,9 @@ public class Command_CREATECONFIG extends Command {
 
         RoutingTable routingTable = RoutingTable.deserialize(routingTableData);
 
-        Set<RelayCostPair> relayTable = routingTable.getQuickestRoutesForAllRelays();
+        Set<RelayRouteCost> relayTable = routingTable.getQuickestRoutesForAllRelays();
 
-        ConfigPackage configPackage = new ConfigPackage(new ArrayList<>(relayTable), String.valueOf(sensor.getId()));
+        ConfigPackage configPackage = new ConfigPackage(relayTable, String.valueOf(sensor.getId()));
         TypedPackage typedPackage = new TypedPackage(PackageType.Config, configPackage.serialize());
 
         sensor.getScript().putVariable(outputPacketVariable, typedPackage.serialize());
