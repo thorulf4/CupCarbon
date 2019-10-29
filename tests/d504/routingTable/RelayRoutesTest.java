@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RoutingTableEntryTest {
+class RelayRoutesTest {
 
     @Test
     void serialize() {
-        RoutingTableEntry entry = new RoutingTableEntry("relayX");
+        RelayRoutes entry = new RelayRoutes("relayX");
         entry.addRoute("nodeX", 3);
         entry.addRoute("nodeY", 5);
         entry.addRoute("nodeZ", 7);
@@ -18,7 +18,7 @@ class RoutingTableEntryTest {
 
     @Test
     void deserialize() {
-        RoutingTableEntry entry = RoutingTableEntry.deserialize("relayX&3&nodeX&3&nodeY&5&nodeZ&7");
+        RelayRoutes entry = RelayRoutes.deserialize("relayX&3&nodeX&3&nodeY&5&nodeZ&7");
 
         assertEquals("relayX", entry.getRelayId());
         assertTrue(entry.hasNode("nodeX"));

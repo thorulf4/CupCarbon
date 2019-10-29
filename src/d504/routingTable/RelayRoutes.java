@@ -1,17 +1,17 @@
 package d504.routingTable;
 
-import d504.NodeCostPair;
+import d504.NodeCost;
 import d504.utils.Serialize;
 
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class RoutingTableEntry {
+public class RelayRoutes {
     private String relayId;
-    private SortedSet<NodeCostPair> routes;
+    private SortedSet<NodeCost> routes;
 
-    public RoutingTableEntry(String relayId) {
+    public RelayRoutes(String relayId) {
         this.relayId = relayId;
         routes = new TreeSet<>();
     }
@@ -21,21 +21,21 @@ public class RoutingTableEntry {
     }
 
     public void addRoute(String node, int cost) {
-        Optional<NodeCostPair> optionalNodeCostPair = routes.stream().filter(nc -> nc.getNodeId().equals(node)).findFirst();
+        Optional<NodeCost> optionalNodeCostPair = routes.stream().filter(nc -> nc.getNodeId().equals(node)).findFirst();
 
         if(optionalNodeCostPair.isPresent()){
-            NodeCostPair nodeCostPair = optionalNodeCostPair.get();
-            if(nodeCostPair.getCost() != cost){
-                routes.remove(nodeCostPair);
-                routes.add(new NodeCostPair(node, cost));
+            NodeCost nodeCost = optionalNodeCostPair.get();
+            if(nodeCost.getCost() != cost){
+                routes.remove(nodeCost);
+                routes.add(new NodeCost(node, cost));
             }
         }
         else{
-            routes.add(new NodeCostPair(node, cost));
+            routes.add(new NodeCost(node, cost));
         }
     }
 
-    public NodeCostPair getLowestCost() {
+    public NodeCost getLowestCost() {
         return routes.first();
     }
 
@@ -48,7 +48,7 @@ public class RoutingTableEntry {
         stringBuilder.append(relayId);
         stringBuilder.append('&');
         stringBuilder.append(routes.size());
-        for (NodeCostPair route: routes) {
+        for (NodeCost route: routes) {
             stringBuilder.append('&');
             stringBuilder.append(route.serialize());
         }
@@ -60,17 +60,17 @@ public class RoutingTableEntry {
         return routes.size();
     }
 
-    public static RoutingTableEntry deserialize(String data) {
+    public static RelayRoutes deserialize(String data) {
         String relayId = Serialize.nextElement(data);
         data = Serialize.removeElements(data, 1);
         int count = Integer.parseInt(Serialize.nextElement(data));
         data = Serialize.removeElements(data, 1);
         String[] elements = data.split("&", count * 2);
 
-        RoutingTableEntry entry = new RoutingTableEntry(relayId);
+        RelayRoutes entry = new RelayRoutes(relayId);
 
         for(int i = 0; i < count; i++){
-            NodeCostPair pair = NodeCostPair.deserialize(data);
+            NodeCost pair = NodeCost.deserialize(data);
             data = Serialize.removeElements(data, 2);
             entry.addRoute(pair.getNodeId(), pair.getCost());
         }

@@ -4,17 +4,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class NodeCostPairTest {
+class NodeCostTest {
 
     @Test
     void serialize() {
-        NodeCostPair nodeCostPair = new NodeCostPair("id", 50);
-        assertEquals(nodeCostPair.serialize(), "id&50");
+        NodeCost nodeCost = new NodeCost("id", 50);
+        assertEquals(nodeCost.serialize(), "id&50");
     }
 
     @Test
     void deserialize() {
-        NodeCostPair pair = NodeCostPair.deserialize("id&50");
+        NodeCost pair = NodeCost.deserialize("id&50");
         assertEquals("id", pair.getNodeId());
         assertEquals(50, pair.getCost());
     }
