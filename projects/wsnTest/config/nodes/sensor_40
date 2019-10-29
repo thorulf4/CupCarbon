@@ -1,0 +1,12 @@
+List of parameters
+------------------------------------------
+device_type:1
+device_id:40
+device_longitude:-4.486509561538696
+device_latitude:48.391932828750264
+device_elevation:0.0
+device_radius:0.0
+device_hide:0
+device_draw_battery:false
+device_sensor_unit_radius:20.0
+device_script_file_name:Knude.csc

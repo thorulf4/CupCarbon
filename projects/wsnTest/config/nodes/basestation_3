@@ -1,0 +1,12 @@
+List of parameters
+------------------------------------------
+device_type:4
+device_id:3
+device_longitude:-4.489116668701172
+device_latitude:48.392303290224206
+device_elevation:0.0
+device_radius:0.0
+device_hide:0
+device_draw_battery:false
+device_sensor_unit_radius:20.0
+device_script_file_name:relay.csc
