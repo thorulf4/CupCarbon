@@ -1,7 +1,7 @@
 package d504.routingTable;
 
 import d504.ConfigPackage;
-import d504.NodeCostPair;
+import d504.NodeCost;
 import d504.RelayRouteCost;
 import d504.exceptions.NoRouteForRelayException;
 import d504.utils.Serialize;
@@ -9,34 +9,34 @@ import d504.utils.Serialize;
 import java.util.*;
 
 public class RoutingTable {
-    private List<RoutingTableEntry> routingTable;
+    private List<RelayRoutes> routingTable;
 
     public RoutingTable() {
         routingTable = new ArrayList<>();
     }
 
-    public RoutingTable(List<RoutingTableEntry> routingTable) {
+    public RoutingTable(List<RelayRoutes> routingTable) {
         this.routingTable = routingTable;
     }
 
     public void addEntry(String relayId, String node, int cost) {
-        Optional<RoutingTableEntry> optionalRoutingTableEntry = getEntryForRelay(relayId);
+        Optional<RelayRoutes> optionalRoutingTableEntry = getEntryForRelay(relayId);
 
         if(optionalRoutingTableEntry.isPresent()){
             optionalRoutingTableEntry.get().addRoute(node, cost);
         }else{
-            RoutingTableEntry routingTableEntry = new RoutingTableEntry(relayId);
-            routingTableEntry.addRoute(node, cost);
-            routingTable.add(routingTableEntry);
+            RelayRoutes relayRoutes = new RelayRoutes(relayId);
+            relayRoutes.addRoute(node, cost);
+            routingTable.add(relayRoutes);
         }
     }
 
-    private Optional<RoutingTableEntry> getEntryForRelay(String relayId) {
+    private Optional<RelayRoutes> getEntryForRelay(String relayId) {
         return routingTable.stream().filter(entry -> entry.getRelayId().equals(relayId)).findFirst();
     }
 
-    public NodeCostPair getQuickestRouteForRelay(String relayId) {
-        Optional<RoutingTableEntry> optionalRoutingTableEntry = getEntryForRelay(relayId);
+    public NodeCost getQuickestRouteForRelay(String relayId) {
+        Optional<RelayRoutes> optionalRoutingTableEntry = getEntryForRelay(relayId);
         if(optionalRoutingTableEntry.isPresent()){
             return optionalRoutingTableEntry.get().getLowestCost();
         }
@@ -52,8 +52,8 @@ public class RoutingTable {
     public Set<RelayRouteCost> getQuickestRoutesForAllRelays(){
         Set<RelayRouteCost> set = new TreeSet<>();
 
-        for (RoutingTableEntry entry: routingTable) {
-            NodeCostPair lowestCost = entry.getLowestCost();
+        for (RelayRoutes entry: routingTable) {
+            NodeCost lowestCost = entry.getLowestCost();
             set.add(new RelayRouteCost(entry.getRelayId(), lowestCost.getCost()));
         }
 
@@ -75,7 +75,7 @@ public class RoutingTable {
     public String serialize(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(routingTable.size());
-        for (RoutingTableEntry entry: routingTable) {
+        for (RelayRoutes entry: routingTable) {
             stringBuilder.append('&');
             stringBuilder.append(entry.serialize());
         }
@@ -105,15 +105,15 @@ public class RoutingTable {
         int tableSize = getTableSize(data, firstSeparator);
         data = data.substring(firstSeparator + 1);
 
-        List<RoutingTableEntry> list = createRoutingTableFromSerializedData(data, tableSize);
+        List<RelayRoutes> list = createRoutingTableFromSerializedData(data, tableSize);
 
         return new RoutingTable(list);
     }
 
-    private static List<RoutingTableEntry> createRoutingTableFromSerializedData(String data, int tableSize) {
-        List<RoutingTableEntry> list = new ArrayList<>();
+    private static List<RelayRoutes> createRoutingTableFromSerializedData(String data, int tableSize) {
+        List<RelayRoutes> list = new ArrayList<>();
         for(int i = 0; i < tableSize; i++){
-            RoutingTableEntry entry = RoutingTableEntry.deserialize(data);
+            RelayRoutes entry = RelayRoutes.deserialize(data);
             list.add(entry);
             data = Serialize.removeElements(data, entry.getRouteCount() * 2 + 2);
         }

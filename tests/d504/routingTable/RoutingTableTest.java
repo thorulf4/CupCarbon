@@ -1,7 +1,7 @@
 package d504.routingTable;
 
 import d504.ConfigPackage;
-import d504.NodeCostPair;
+import d504.NodeCost;
 import d504.RelayRouteCost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,10 +25,10 @@ class RoutingTableTest {
     @Test
     void getFastetsRoute_getCorrectRoute(){
 
-        NodeCostPair nodeCostPair = routingTable.getQuickestRouteForRelay("A");
+        NodeCost nodeCost = routingTable.getQuickestRouteForRelay("A");
 
-        assertEquals("2", nodeCostPair.getNodeId());
-        assertEquals(5, nodeCostPair.getCost());
+        assertEquals("2", nodeCost.getNodeId());
+        assertEquals(5, nodeCost.getCost());
     }
 
     @Test
