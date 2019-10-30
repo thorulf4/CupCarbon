@@ -20,6 +20,10 @@ public class RelayRouteCost implements Comparable<RelayRouteCost>{
         return cost;
     }
 
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

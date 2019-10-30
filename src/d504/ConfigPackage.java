@@ -8,14 +8,30 @@ public class ConfigPackage {
     private Set<RelayRouteCost> relayTable;
     private String senderNodeId;
 
+    /**
+     * Create empty ConfigPackage
+     * @param senderNodeId Id of the sender node
+     */
     public ConfigPackage(String senderNodeId) {
         this.relayTable = new TreeSet<>();
         this.senderNodeId = senderNodeId;
     }
 
+    /**
+     * Creates a ConfigPackage with costs incremented by 1
+     * @param relayTable The current relayTable with the nodes current costs
+     * @param senderNodeId Id of the sender node
+     */
     public ConfigPackage(Set<RelayRouteCost> relayTable, String senderNodeId){
-        this.relayTable = relayTable;
+        this.relayTable = new TreeSet<>(relayTable);
         this.senderNodeId = senderNodeId;
+        incrementRelayTable();
+    }
+
+    private void incrementRelayTable() {
+        for(RelayRouteCost relayRouteCost : relayTable){
+            relayRouteCost.setCost(relayRouteCost.getCost() + 1);
+        }
     }
 
     public String serialize() {
