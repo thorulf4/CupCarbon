@@ -1,23 +1,44 @@
 set RT \
+set t 0
+set DT 3
 
 loop
- wait
- read tx
- 
- decipher $tx x y
- if ($y==0)
-  updateRoutingTable RT $x z
-  if ($z==true)
-   createConfig RT p
-   send $p
-  end 
- end
- if ($y==1)
-  print data
-  findNextHop RT $x k
-  send $tx $k
- end
- if ($y==2)
-  print Pulse
+    pulseTimer $t 0.01 z
+    if ($z==true)
+        updatePulseTable DT
+        removeDeadNodes DT RT
+        createPulse p
+        send !color 4
+        send $p
+    end
 
- end
+    read tx
+
+    if ($tx!=\)
+        decipher $tx x y
+        if ($y==0)
+            updateRoutingTable RT $x z
+            if ($z==true)
+                createConfig RT p
+                send !color 1
+                send $p
+            end 
+        end
+        if ($y==1)
+            print data
+            findNextHop RT $x k
+            send !color 2
+            send $tx $k
+        end
+        if ($y==2)
+            isInRT RT $x z
+            getSender $x k
+            registerPulse DT $k
+            if ($z==false)
+                createConfig RT p
+                send !color 3
+                send $p $k
+            end
+        end
+    end
+    delay 10
