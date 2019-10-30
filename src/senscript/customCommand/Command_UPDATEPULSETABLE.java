@@ -22,5 +22,6 @@ public class Command_UPDATEPULSETABLE extends Command {
         pulseTable.tickAllNeighbours();
 
         sensor.getScript().putVariable(pulseTableVariable, pulseTable.serialize());
+        return 0;
     }
 }
