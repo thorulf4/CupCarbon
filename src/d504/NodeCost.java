@@ -2,6 +2,8 @@ package d504;
 
 import d504.utils.Serialize;
 
+import java.util.Comparator;
+
 public class NodeCost implements Comparable<NodeCost>{
     private String nodeId;
     private int cost;
@@ -21,7 +23,9 @@ public class NodeCost implements Comparable<NodeCost>{
 
     @Override
     public int compareTo(NodeCost o) {
-        return cost - o.cost;
+        return Comparator.comparingInt(NodeCost::getCost)
+                .thenComparing(NodeCost::getNodeId)
+                .compare(this, o);
     }
 
     public String serialize() {

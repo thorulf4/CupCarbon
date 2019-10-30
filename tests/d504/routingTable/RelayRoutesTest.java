@@ -17,6 +17,18 @@ class RelayRoutesTest {
     }
 
     @Test
+    void test(){
+        RelayRoutes relayRoutes = new RelayRoutes("A");
+
+        relayRoutes.addRoute("1", 5);
+        relayRoutes.addRoute("2", 10);
+        relayRoutes.addRoute("3", 15);
+
+        assertEquals("1", relayRoutes.getLowestCost().getNodeId());
+        assertEquals(5, relayRoutes.getLowestCost().getCost());
+    }
+
+    @Test
     void deserialize() {
         RelayRoutes entry = RelayRoutes.deserialize("relayX&3&nodeX&3&nodeY&5&nodeZ&7");
 

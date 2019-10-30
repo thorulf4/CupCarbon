@@ -67,7 +67,7 @@ class RoutingTableTest {
     void deserialize_emptyStringReturnsEmptyRoutingTable(){
         RoutingTable routingTable = RoutingTable.deserialize("");
 
-       Set<RelayRouteCost> configPackageEntries = routingTable.getQuickestRoutesForAllRelays();
+        Set<RelayRouteCost> configPackageEntries = routingTable.getQuickestRoutesForAllRelays();
 
         assertEquals(0, configPackageEntries.size());
     }
