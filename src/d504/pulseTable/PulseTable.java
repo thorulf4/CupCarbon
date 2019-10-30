@@ -61,6 +61,13 @@ public class PulseTable {
     }
 
     public static PulseTable deserialize(String serializedPulseTable){
+        if(!serializedPulseTable.contains("&")){
+            int maxTicks = Integer.parseInt(serializedPulseTable);
+            return new PulseTable(maxTicks);
+        }
+
+
+
         int maxTicks = Integer.parseInt(Serialize.nextElement(serializedPulseTable));
         serializedPulseTable = Serialize.removeElements(serializedPulseTable, 1);
 
