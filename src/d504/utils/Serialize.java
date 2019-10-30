@@ -30,11 +30,13 @@ public final class Serialize {
         int from = 0;
         for(int i = 0; i < amount; i++){
             int index = data.indexOf(separator, from);
+
+            if(index == -1)
+                return "";
+
             from = index + 1;
         }
 
         return data.substring(from);
     }
-
-
 }
