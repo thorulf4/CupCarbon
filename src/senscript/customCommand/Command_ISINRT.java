@@ -28,7 +28,7 @@ public class Command_ISINRT extends Command {
 
         boolean isNodeInTable = routingTable.isNodeInRoutingTable(pulseMessage.senderId);
 
-        sensor.getScript().putVariable(outputShouldSendConfigVariable, isNodeInTable?"true":"false");
+        sensor.getScript().putVariable(outputShouldSendConfigVariable, Boolean.toString(isNodeInTable));
         return 0;
     }
 }
