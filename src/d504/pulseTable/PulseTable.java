@@ -1,10 +1,6 @@
 package d504.pulseTable;
 
-<<<<<<< HEAD
 import d504.utils.Serialize;
-=======
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
->>>>>>> 564eec7f0b0eae92fdd1233d1ac52649498ad7cf
 
 import java.util.*;
 
