@@ -1,6 +1,10 @@
 package d504.pulseTable;
 
+<<<<<<< HEAD
 import d504.utils.Serialize;
+=======
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+>>>>>>> 564eec7f0b0eae92fdd1233d1ac52649498ad7cf
 
 import java.util.*;
 
@@ -54,17 +58,17 @@ public class PulseTable {
         return stringBuilder.toString();
     }
 
-    public static PulseTable deserialize(String data){
-        int maxTicks = Integer.parseInt(Serialize.nextElement(data));
-        data = Serialize.removeElements(data, 1);
+    public static PulseTable deserialize(String serializedPulseTable){
+        int maxTicks = Integer.parseInt(Serialize.nextElement(serializedPulseTable));
+        serializedPulseTable = Serialize.removeElements(serializedPulseTable, 1);
 
         PulseTable pulseTable = new PulseTable(maxTicks);
 
-        while(!data.equals("")){
+        while(!serializedPulseTable.equals("")){
 
 
-            String[] elements = Serialize.nextElements(data, 2);
-            data = Serialize.removeElements(data, 2);
+            String[] elements = Serialize.nextElements(serializedPulseTable, 2);
+            serializedPulseTable = Serialize.removeElements(serializedPulseTable, 2);
 
             int ticks = Integer.parseInt(elements[1]);
 
@@ -73,6 +77,5 @@ public class PulseTable {
 
         return pulseTable;
     }
-
 
 }
