@@ -72,6 +72,12 @@ public class RoutingTable {
         return !oldRoutes.equals(newRoutes);
     }
 
+    public void removeNode(String nodeId){
+        for (RelayRoutes relayRoutes : routingTable) {
+            relayRoutes.removeRoute(nodeId);
+        }
+    }
+
     public String serialize(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(routingTable.size());
