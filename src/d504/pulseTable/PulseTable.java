@@ -39,6 +39,12 @@ public class PulseTable {
         return deadNeighbours;
     }
 
+    public void removeDeadNeighbours(){
+        List<String> deadNeighbours = getDeadNeighbours();
+        for(String key : deadNeighbours)
+            neighbourTicksLeft.remove(key);
+    }
+
     public String serialize(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(maxTicks);
