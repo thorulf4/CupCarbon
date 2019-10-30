@@ -78,4 +78,8 @@ public class RelayRoutes {
         return entry;
 
     }
+
+    public void removeRoute(String nodeId) {
+        routes.remove(nodeId);
+    }
 }
