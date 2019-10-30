@@ -1,5 +1,7 @@
 package d504.pulseTable;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.util.*;
 
 public class PulseTable {
@@ -37,5 +39,12 @@ public class PulseTable {
         return deadNeighbours;
     }
 
+    public String serialize(){
+        throw new NotImplementedException();
+    }
+
+    public static PulseTable deserialize(String serializedPulseTable){
+        throw new NotImplementedException();
+    }
 
 }
