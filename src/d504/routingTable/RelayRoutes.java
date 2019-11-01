@@ -1,8 +1,10 @@
 package d504.routingTable;
 
 import d504.NodeCost;
+import d504.exceptions.AttemptedToRemoveNonExistingNodeCost;
 import d504.utils.Serialize;
 
+import javax.xml.soap.Node;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -80,6 +82,12 @@ public class RelayRoutes {
     }
 
     public void removeRoute(String nodeId) {
-        routes.remove(nodeId);
+        Optional<NodeCost> optionalNodeCost = routes.stream().filter(nc -> nc.getNodeId().equals(nodeId)).findFirst();
+
+        if(optionalNodeCost.isPresent()){
+            routes.remove(optionalNodeCost.get());
+        }else{
+            throw new AttemptedToRemoveNonExistingNodeCost("NodeId: " + nodeId);
+        }
     }
 }
