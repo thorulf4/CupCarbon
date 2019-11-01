@@ -39,10 +39,12 @@ loop
             isInRT RT $x z
             getSender $x k
             registerPulse DT $k
-            if ($z==false)
-                createConfig RT p
-                send !color 3
-                send $p $k
+            if($RT!=\)
+                if ($z==false)
+                    createConfig RT p
+                    send !color 3
+                    send $p $k
+                end
             end
         end
     end
