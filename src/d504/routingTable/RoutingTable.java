@@ -73,8 +73,12 @@ public class RoutingTable {
     }
 
     public void removeNode(String nodeId){
-        for (RelayRoutes relayRoutes : routingTable) {
-            relayRoutes.removeRoute(nodeId);
+        for(int i = routingTable.size() - 1; i > 0 ;i--){
+            RelayRoutes currentRoutes = routingTable.get(i);
+            currentRoutes.removeRoute(nodeId);
+            if(currentRoutes.getRouteCount() == 0){
+                routingTable.remove(currentRoutes);
+            }
         }
     }
 
