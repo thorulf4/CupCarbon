@@ -19,7 +19,7 @@ public class Command_CREATEPULSE extends Command {
         String sensorId = "" + sensor.getId();
 
         PulseMessage pulseMessage = new PulseMessage(sensorId);
-        TypedPackage packet = new TypedPackage(PackageType.Pulse, pulseMessage.serialize());
+        TypedPackage packet = new TypedPackage(PackageType.Pulse, Integer.toString(sensor.getId()), pulseMessage.serialize());
         String packetData = packet.serialize();
 
         sensor.getScript().putVariable(outputPacketVariable, packetData);

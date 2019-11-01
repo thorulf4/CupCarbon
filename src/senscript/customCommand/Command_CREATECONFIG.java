@@ -30,7 +30,7 @@ public class Command_CREATECONFIG extends Command {
         Set<RelayRouteCost> relayTable = routingTable.getQuickestRoutesForAllRelays();
 
         ConfigPackage configPackage = new ConfigPackage(relayTable, String.valueOf(sensor.getId()));
-        TypedPackage typedPackage = new TypedPackage(PackageType.Config, configPackage.serialize());
+        TypedPackage typedPackage = new TypedPackage(PackageType.Config, Integer.toString(sensor.getId()),configPackage.serialize());
 
         sensor.getScript().putVariable(outputPacketVariable, typedPackage.serialize());
         return 0;

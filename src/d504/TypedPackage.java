@@ -1,28 +1,28 @@
 package d504;
 
+import d504.utils.Serialize;
+
 public class TypedPackage {
 
     public PackageType type;
+    public String nodeID;
     public String packageData;
 
-    public TypedPackage(PackageType type, String packageData){
+    public TypedPackage(PackageType type, String nodeID, String packageData){
         this.type = type;
+        this.nodeID = nodeID;
         this.packageData = packageData;
     }
 
     public String serialize(){
-        return type.ordinal() + "&" +packageData;
+        return type.ordinal() + "&" + nodeID + "&" + packageData;
     }
 
     public static TypedPackage deserialize(String data){
-        int firstSeparatorIndex = data.indexOf("&");
+        String[] message = Serialize.nextElements(data,3);
+        PackageType type = convertToType(message[0]);
 
-        String typeString = data.substring(0, firstSeparatorIndex);
-        PackageType type = convertToType(typeString);
-
-        String packageData = data.substring(firstSeparatorIndex + 1);
-
-        return new TypedPackage(type, packageData);
+        return new TypedPackage(type, message[1], message[2]);
     }
 
     private static PackageType convertToType(String typeString) {
