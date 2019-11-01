@@ -5,13 +5,13 @@ import d504.PulseMessage;
 import device.SensorNode;
 import senscript.Command;
 
-public class Command_CheckConfiguredNodes extends Command {
+public class Command_CHECKCONFIGUREDNODES extends Command {
 
     private String configuredNodesTableVariable;
     private String pulseMessageVariable;
     private String isInTableVariable;
 
-    public Command_CheckConfiguredNodes(SensorNode sensor, String configuredNodesTableVariable, String pulseMessageVariable, String isInTableVariable) {
+    public Command_CHECKCONFIGUREDNODES(SensorNode sensor, String configuredNodesTableVariable, String pulseMessageVariable, String isInTableVariable) {
         this.sensor = sensor;
         this.configuredNodesTableVariable = configuredNodesTableVariable;
         this.pulseMessageVariable = pulseMessageVariable;

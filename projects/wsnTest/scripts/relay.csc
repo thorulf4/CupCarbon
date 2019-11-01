@@ -1,5 +1,3 @@
-createRelayConfig p
-send $p
 set CT \
 
 loop
@@ -10,7 +8,8 @@ loop
     if($y==2)
         checkConfiguredNodes CT $x z
         if($z==false)
-            print pulse
+            createRelayConfig p
+            send $p
         end
     end
     if($y==1)
