@@ -6,7 +6,12 @@ loop
     pulseTimer $t 0.01 z
     if ($z==true)
         updatePulseTable DT
-        removeDeadNodes DT RT
+        removeDeadNodes DT RT shouldCreateConfig
+        if(shouldCreateConfig == true)
+            createConfig RT p
+            send !color 3
+            send $p
+        end
         createPulse p
         send !color 4
         send $p
