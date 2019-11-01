@@ -23,6 +23,7 @@ public class Command_REGISTERPULSE extends Command {
         PulseTable pulseTable = PulseTable.deserialize(serializedPulseTable);
 
         pulseTable.pulseNeighbour(neighbourId);
+        sensor.getScript().putVariable(pulseTableVariable, pulseTable.serialize());
         return 0;
     }
 }
