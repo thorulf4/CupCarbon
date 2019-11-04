@@ -9,6 +9,8 @@ loop
         checkConfiguredNodes CT $x z
         if($z==false)
             createRelayConfig p
+            print Config
+            send !color 10
             send $p
         end
     end

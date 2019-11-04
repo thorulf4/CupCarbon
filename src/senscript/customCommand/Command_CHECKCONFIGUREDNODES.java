@@ -28,6 +28,7 @@ public class Command_CHECKCONFIGUREDNODES extends Command {
             configuredNodesTable.add(pulseMessage.senderId);
         }
 
+        sensor.getScript().putVariable(configuredNodesTableVariable, configuredNodesTable.serialize());
         sensor.getScript().putVariable(isInTableVariable, Boolean.toString(isInTable));
 
         return 0;

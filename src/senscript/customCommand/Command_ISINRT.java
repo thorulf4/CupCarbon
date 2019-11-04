@@ -9,13 +9,13 @@ public class Command_ISINRT extends Command {
 
     private String routingTableVariable;
     private String pulsePacketVariable;
-    private String outputShouldSendConfigVariable;
+    private String isInRoutingTableVariable;
 
-    public Command_ISINRT(SensorNode sensorNode, String routingTableVariable, String pulsePacketVariable, String outputShouldSendConfigVariable) {
+    public Command_ISINRT(SensorNode sensorNode, String routingTableVariable, String pulsePacketVariable, String isInRoutingTableVariable) {
         this.sensor = sensorNode;
         this.routingTableVariable = routingTableVariable;
         this.pulsePacketVariable = pulsePacketVariable;
-        this.outputShouldSendConfigVariable = outputShouldSendConfigVariable;
+        this.isInRoutingTableVariable = isInRoutingTableVariable;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Command_ISINRT extends Command {
 
         boolean isNodeInTable = routingTable.isNodeInRoutingTable(pulseMessage.senderId);
 
-        sensor.getScript().putVariable(outputShouldSendConfigVariable, Boolean.toString(isNodeInTable));
+        sensor.getScript().putVariable(isInRoutingTableVariable, Boolean.toString(isNodeInTable));
         return 0;
     }
 }
