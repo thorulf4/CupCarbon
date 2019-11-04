@@ -3,7 +3,7 @@ set CT \
 loop
     wait
     read x
-    decipher $x x y
+    decipher $x x y senderNode
 
     if($y==2)
         checkConfiguredNodes CT $x z

@@ -24,7 +24,7 @@ loop
     if ($tx!=\)
         decipher $tx x y
         if ($y==0)
-            updateRoutingTable RT $x z
+            updateRoutingTable RT $x z senderNode
             if ($z==true)
                 createConfig RT p
                 print Config
