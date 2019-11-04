@@ -19,11 +19,11 @@ public class Command_CREATERELAYCONFIG extends Command {
 
     @Override
     public double execute(){
-        String id = "" + sensor.getId();
-        ConfigPackage configPackage = new ConfigPackage(String.valueOf(sensor.getId()));
+        String id = Integer.toString(sensor.getId());
+        ConfigPackage configPackage = new ConfigPackage(id);
         configPackage.add(id,1);
         String serializedConfigPackage = configPackage.serialize();
-        TypedPackage typedRelayConfig = new TypedPackage(Config, Integer.toString(sensor.getId()), serializedConfigPackage);
+        TypedPackage typedRelayConfig = new TypedPackage(Config, id, serializedConfigPackage);
         String serializedTypedConfig = typedRelayConfig.serialize();
         sensor.getScript().putVariable(output,serializedTypedConfig);
         return 0;

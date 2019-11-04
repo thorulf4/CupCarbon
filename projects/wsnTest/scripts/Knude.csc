@@ -9,10 +9,12 @@ loop
         removeDeadNodes DT RT shouldCreateConfig
         if(shouldCreateConfig == true)
             createConfig RT p
+            print Pulse_config
             send !color 3
             send $p
         end
         createPulse p
+        print Pulse
         send !color 4
         send $p
     end
@@ -20,11 +22,12 @@ loop
     read tx
 
     if ($tx!=\)
-        decipher $tx x y sender
+        decipher $tx x y senderNode
         if ($y==0)
             updateRoutingTable RT $x z
             if ($z==true)
                 createConfig RT p
+                print Config
                 send !color 1
                 send $p
             end 
@@ -42,6 +45,7 @@ loop
             if($RT!=\)
                 if ($z==false)
                     createConfig RT p
+                    print pulse_config2
                     send !color 3
                     send $p $k
                 end
