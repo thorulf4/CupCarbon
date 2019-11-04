@@ -11,6 +11,7 @@ public class Command_RESIGNDATA extends Command {
     String output;
 
     public Command_RESIGNDATA(SensorNode sensor, String input, String output){
+        this.sensor=sensor;
         this.input=input;
         this.output=output;
     }
