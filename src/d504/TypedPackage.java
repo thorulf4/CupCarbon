@@ -19,10 +19,11 @@ public class TypedPackage {
     }
 
     public static TypedPackage deserialize(String data){
-        String[] message = Serialize.nextElements(data,3);
+        String[] message = Serialize.nextElements(data,2);
+        String packageData = Serialize.removeElements(data, 2);
         PackageType type = convertToType(message[0]);
 
-        return new TypedPackage(type, message[1], message[2]);
+        return new TypedPackage(type, message[1], packageData);
     }
 
     private static PackageType convertToType(String typeString) {
