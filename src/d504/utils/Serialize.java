@@ -7,6 +7,20 @@ public final class Serialize {
         return data.substring(0, data.indexOf(separator));
     }
 
+    public static String getSeqment(String data, int count) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String[] elements = nextElements(data, count);
+
+        for(int i = 0; i<count; i++){
+            if(i != 0)
+                stringBuilder.append("&");
+
+            stringBuilder.append(elements[i]);
+        }
+
+        return stringBuilder.toString();
+    }
+
     public static String[] nextElements(String data, int count){
         String[] elements = new String[count];
 
