@@ -7,8 +7,8 @@ import senscript.Command;
 
 public class Command_RESIGNDATA extends Command {
 
-    String input;
-    String output;
+    private String input;
+    private String output;
 
     public Command_RESIGNDATA(SensorNode sensor, String input, String output){
         this.sensor=sensor;
