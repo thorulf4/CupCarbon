@@ -2,6 +2,7 @@ package senscript;
 
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -45,11 +46,22 @@ public final class SenScriptAddCommand {
 				parameters.add(inst[i]);
 			}
 
-			command  = (Command) commandClass.getConstructor(parameterTypes.toArray(new Class<?>[]{})).newInstance(parameters.toArray(new Object[]{}));
-		} catch (InstantiationException e) {}
-		  catch (InvocationTargetException e) {}
-		  catch (NoSuchMethodException e) {}
-		  catch (IllegalAccessException e) {}
+		  	Constructor<?> constructor = commandClass.getConstructor(parameterTypes.toArray(new Class<?>[]{}));
+
+
+			command = (Command) constructor.newInstance(parameters.toArray(new Object[]{}));
+		} catch (InstantiationException e) {
+			throw new RuntimeException("The Command_"+commandName.toUpperCase() + " class cannot be abstract");
+		}
+		  catch (InvocationTargetException e) {
+			throw new RuntimeException(commandName+ "'s constructor threw an exception!\n\n" + e);
+		  }
+		  catch (NoSuchMethodException e) {
+			throw new RuntimeException("Couldnt find a valid constructor for " + instStr + " that has " + (inst.length - 1) + " arguments");
+		  }
+		  catch (IllegalAccessException e) {
+			  throw new RuntimeException("The constructor for " + commandName + " is inaccessible (should be public)");
+		  }
 		  catch (ClassNotFoundException e) {}
 
 
