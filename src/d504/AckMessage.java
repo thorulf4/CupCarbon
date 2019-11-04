@@ -18,9 +18,13 @@ public class AckMessage {
         return ackSerialized.toString();
     }
 
-    public AckMessage deserialize(String message){
+    public static AckMessage deserialize(String message){
         String[] ackMessage = Serialize.nextElements(message, 2);
         return new AckMessage(ackMessage[0],ackMessage[1]);
 
+    }
+
+    public String getMessageId() {
+        return messageID;
     }
 }

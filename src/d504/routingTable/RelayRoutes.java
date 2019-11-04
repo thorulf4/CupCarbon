@@ -90,4 +90,8 @@ public class RelayRoutes {
             throw new AttemptedToRemoveNonExistingNodeCost("NodeId: " + nodeId);
         }
     }
+
+    public SortedSet<NodeCost> getRoutes() {
+        return routes;
+    }
 }

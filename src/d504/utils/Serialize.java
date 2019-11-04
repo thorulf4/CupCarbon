@@ -1,5 +1,7 @@
 package d504.utils;
 
+import java.util.List;
+
 public final class Serialize {
     public static final String separator = "&";
 
@@ -52,5 +54,18 @@ public final class Serialize {
         }
 
         return data.substring(from);
+    }
+
+    public static String serialize(List<String> elements){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(int i = 0; i < elements.size(); i++){
+            if(i != 0)
+                stringBuilder.append('&');
+
+            stringBuilder.append(elements.get(i));
+        }
+
+        return stringBuilder.toString();
     }
 }

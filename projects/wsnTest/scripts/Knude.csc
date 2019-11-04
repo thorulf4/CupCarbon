@@ -20,7 +20,7 @@ loop
     read tx
 
     if ($tx!=\)
-        decipher $tx x y
+        decipher $tx x y sender
         if ($y==0)
             updateRoutingTable RT $x z
             if ($z==true)

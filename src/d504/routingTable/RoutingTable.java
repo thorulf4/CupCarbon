@@ -133,4 +133,11 @@ public class RoutingTable {
     private static int getTableSize(String data, int firstSeparator) {
         return Integer.parseInt(data.substring(0, firstSeparator));
     }
+
+    public SortedSet<NodeCost> getSortedRouteListToRelay(String relayId) {
+        Optional<RelayRoutes> relayRoutes = getEntryForRelay(relayId);
+        if(relayRoutes.isPresent()){
+            return relayRoutes.get().getRoutes();
+        }
+    }
 }
