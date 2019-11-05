@@ -17,11 +17,11 @@ class Command_GETDATATest {
 
         Command_GETDATA getdata = new Command_GETDATA(sensor, "$serializedPacket", "output");
 
-        sensor.addTime(60); // 1minute
-
         getdata.execute();
 
         assertEquals("hello world", sensor.getVariableValue("$output"));
 
     }
+
+
 }
