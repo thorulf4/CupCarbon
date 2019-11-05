@@ -1,5 +1,6 @@
 package senscript.customCommand;
 
+<<<<<<< Updated upstream
 import d504.ConfigPackage;
 import d504.TestableSensorNode;
 import d504.routingTable.RoutingTable;
@@ -30,4 +31,7 @@ public class Command_UPDATEROUTINGTABLETest {
         assertEquals("true", sensor.getVariableValue("$output"));
     }
 
+=======
+public class Command_UPDATEROUTINGTABLETest {
+>>>>>>> Stashed changes
 }
