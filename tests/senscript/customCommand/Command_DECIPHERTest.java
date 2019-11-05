@@ -25,5 +25,24 @@ class Command_DECIPHERTest {
         PackageType type = PackageType.values()[Integer.parseInt(sensor.getVariableValue("$typeOutput"))];
         assertEquals(PackageType.Pulse, type, "Expected typeOutput to be Pulse");
     }
-    
+
+    @Test
+    void executeEmptyDataTest() {
+        TestableSensorNode sensor = new TestableSensorNode(0);
+
+        TypedPackage typedPackage = new TypedPackage(PackageType.Ack, "3", "");
+        sensor.putVariable("inputPacket", typedPackage.serialize());
+
+        Command_DECIPHER commandDecipher = new Command_DECIPHER(sensor, "$inputPacket", "dataOutput", "typeOutput", "senderOutput");
+        commandDecipher.execute();
+
+        assertEquals("3", sensor.getVariableValue("$senderOutput"), "Expected senderOuput to be 3");
+        assertEquals("", sensor.getVariableValue("$dataOutput"), "Expected dataOutput to be ''");
+
+        PackageType type = PackageType.values()[Integer.parseInt(sensor.getVariableValue("$typeOutput"))];
+        assertEquals(PackageType.Ack, type, "Expected typeOutput to be Ack");
+    }
+
+
+
 }
