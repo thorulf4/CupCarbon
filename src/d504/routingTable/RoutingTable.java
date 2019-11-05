@@ -19,14 +19,14 @@ public class RoutingTable {
         this.routingTable = routingTable;
     }
 
-    public void addEntry(String relayId, String node, int cost) {
+    public void addEntry(String relayId, String nodeId, int cost) {
         Optional<RelayRoutes> optionalRoutingTableEntry = getEntryForRelay(relayId);
 
         if(optionalRoutingTableEntry.isPresent()){
-            optionalRoutingTableEntry.get().addRoute(node, cost);
+            optionalRoutingTableEntry.get().addRoute(nodeId, cost);
         }else{
             RelayRoutes relayRoutes = new RelayRoutes(relayId);
-            relayRoutes.addRoute(node, cost);
+            relayRoutes.addRoute(nodeId, cost);
             routingTable.add(relayRoutes);
         }
     }
@@ -73,7 +73,7 @@ public class RoutingTable {
     }
 
     public void removeNode(String nodeId){
-        for(int i = routingTable.size() - 1; i > 0 ;i--){
+        for(int i = routingTable.size() - 1; i >= 0 ; i--){
             RelayRoutes currentRoutes = routingTable.get(i);
             currentRoutes.removeRoute(nodeId);
             if(currentRoutes.getRouteCount() == 0){
@@ -83,6 +83,10 @@ public class RoutingTable {
     }
 
     public String serialize(){
+        if(routingTable.isEmpty()){
+            return "";
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(routingTable.size());
         for (RelayRoutes entry: routingTable) {
@@ -107,6 +111,10 @@ public class RoutingTable {
     }
 
     public static RoutingTable deserialize(String data){
+        if(data.equals("")){
+            return new RoutingTable();
+        }
+
         int firstSeparator = data.indexOf("&");
         if(firstSeparator == -1){
             return new RoutingTable(new ArrayList<>());
