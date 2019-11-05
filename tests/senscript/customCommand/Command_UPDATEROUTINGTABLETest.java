@@ -29,5 +29,4 @@ public class Command_UPDATEROUTINGTABLETest {
         updateRt.execute();
         assertEquals("true", sensor.getVariableValue("$output"));
     }
-
 }
