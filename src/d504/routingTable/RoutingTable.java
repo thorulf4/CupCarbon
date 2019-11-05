@@ -150,4 +150,8 @@ public class RoutingTable {
 
         throw new RuntimeException("Couldnt find route list for " + relayId);
     }
+
+    public List<RelayRoutes> getRoutingTable() {
+        return routingTable;
+    }
 }

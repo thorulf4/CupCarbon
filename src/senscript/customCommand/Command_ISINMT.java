@@ -24,7 +24,7 @@ public class Command_ISINMT extends Command {
 
     @Override
     public double execute(){
-        MessageTable MT = MessageTable.deserialize("$"+mtVar);
+        MessageTable MT = MessageTable.deserialize(sensor.getVariableValue("$"+mtVar));
         isPresent = MT.isMessagePresent(message.getMessageID());
         sensor.putVariable(output, Boolean.toString(isPresent));
         return 0;

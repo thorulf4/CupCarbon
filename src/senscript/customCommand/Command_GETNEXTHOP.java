@@ -37,21 +37,21 @@ public class Command_GETNEXTHOP extends Command {
 
         SortedSet<NodeCost> routes = routingTable.getSortedRouteListToRelay(dataPackage.getTargetRelay());
 
-        String nextNode = getFirstNotInList(alreadyTried, routes);
+        String nextNode = getFirstNotInListOrUseBackup(alreadyTried, routes, messageTable.getSender(dataPackage.getMessageID()));
 
         putVariableValue(nextHopOutputVariable, nextNode);
 
         return 0;
     }
 
-    private String getFirstNotInList(List<String> alreadyTried, SortedSet<NodeCost> routes) {
+    private String getFirstNotInListOrUseBackup(List<String> alreadyTried, SortedSet<NodeCost> routes, String backupRoute) {
         for (NodeCost route : routes) {
             if(!alreadyTried.contains(route.getNodeId())){
                 return route.getNodeId();
             }
         }
 
-        throw new RuntimeException("No next hop found, (this should never happen)");
+        return backupRoute;
     }
 
     private DataPackage deserializeDataPacket() {

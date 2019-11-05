@@ -3,6 +3,7 @@ package d504.routingTable;
 import d504.ConfigPackage;
 import d504.NodeCost;
 import d504.RelayRouteCost;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,6 +62,19 @@ class RoutingTableTest {
         boolean hasChanged = routingTable.update(configPackage);
 
         assertFalse(hasChanged);
+    }
+
+    @Test
+    void removeNode(){
+        assertEquals(2, routingTable.getRoutingTable().size());
+        routingTable.removeNode("2");
+        assertEquals(1, routingTable.getRoutingTable().size());
+    }
+
+    @Test
+    void getSortedRouteListToRelay(){
+        assertEquals("2",routingTable.getSortedRouteListToRelay("A").first().getNodeId());
+        assertEquals("1",routingTable.getSortedRouteListToRelay("A").last().getNodeId());
     }
 
     @Test
