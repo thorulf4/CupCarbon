@@ -8,23 +8,26 @@ import d504.backupRouting.MessageTable;
 
 public class Command_ADDTOMT extends Command {
 
-    private String mtVar;
-    private DataPackage input;
-    private String senderID;
+    private String MTVariable;
+    private String input;
+    private String senderIdVariable;
 
-    public Command_ADDTOMT(ISensorNode sensor, String mtVar, String input, String senderID){
-        this.mtVar = mtVar;
+    public Command_ADDTOMT(ISensorNode sensor, String MTVariable, String input, String senderIdVariable){
+        this.MTVariable = MTVariable;
         this.sensor = sensor;
-        this.input = DataPackage.deserialize(input);
-        this.senderID = senderID;
+        this.input = input;
+        this.senderIdVariable = senderIdVariable;
 
     }
 
     @Override
     public double execute(){
-        MessageTable MT = MessageTable.deserialize(sensor.getVariableValue("$"+mtVar));
-        MT.addMessage(input.getMessageID(), senderID, input);
-        sensor.putVariable(mtVar, MT.serialize());
+        String senderID = sensor.getVariableValue(senderIdVariable);
+        DataPackage dataPacket = DataPackage.deserialize(sensor.getVariableValue(input));
+        MessageTable MT = MessageTable.deserialize(sensor.getVariableValue("$"+ MTVariable));
+
+        MT.addMessage(dataPacket.getMessageID(), senderID, dataPacket);
+        sensor.putVariable(MTVariable, MT.serialize());
         return 0;
 
     }
