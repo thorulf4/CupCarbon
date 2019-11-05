@@ -1,10 +1,11 @@
 package senscript.customCommand;
 
+import d504.ISensorNode;
 import d504.RelayRouteCost;
 import d504.pulseTable.PulseTable;
 import d504.routingTable.RoutingTable;
-import device.SensorNode;
-import senscript.Command;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +13,12 @@ import java.util.Set;
 
 public class Command_REMOVEDEADNODES extends Command {
 
-    private SensorNode sensor;
+    private ISensorNode sensor;
     private String pulseTableVariable;
     private String routingTableVariable;
     private String hasQuickestRoutesChangedVariable;
 
-    public Command_REMOVEDEADNODES(SensorNode sensor, String pulseTableVariable, String routingTableVariable, String hasQuickestRoutesChangedVariable) {
+    public Command_REMOVEDEADNODES(ISensorNode sensor, String pulseTableVariable, String routingTableVariable, String hasQuickestRoutesChangedVariable) {
         this.sensor = sensor;
         this.pulseTableVariable = pulseTableVariable;
         this.routingTableVariable = routingTableVariable;
@@ -36,18 +37,18 @@ public class Command_REMOVEDEADNODES extends Command {
         pulseTable.removeDeadNeighbours();
 
         boolean hasQuickestRoutesChanged = oldRoutes.equals(routingTable.getQuickestRoutesForAllRelays());
-        sensor.getScript().putVariable(hasQuickestRoutesChangedVariable, Boolean.toString(hasQuickestRoutesChanged));
+        sensor.putVariable(hasQuickestRoutesChangedVariable, Boolean.toString(hasQuickestRoutesChanged));
 
         return 0;
     }
 
     private RoutingTable getRoutingTable() {
-        String serializedRoutingTable = sensor.getScript().getVariableValue("$" + routingTableVariable);
+        String serializedRoutingTable = sensor.getVariableValue("$" + routingTableVariable);
         return RoutingTable.deserialize(serializedRoutingTable);
     }
 
     private PulseTable getPulseTable() {
-        String serializedPulseTable = sensor.getScript().getVariableValue("$" + pulseTableVariable);
+        String serializedPulseTable = sensor.getVariableValue("$" + pulseTableVariable);
         return PulseTable.deserialize(serializedPulseTable);
     }
 }

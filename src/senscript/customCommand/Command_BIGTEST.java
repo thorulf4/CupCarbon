@@ -1,13 +1,13 @@
 package senscript.customCommand;
 
-import device.SensorNode;
-import senscript.Command;
+
+import d504.ISensorNode;
 
 public class Command_BIGTEST extends Command {
 
     String word;
 
-    public Command_BIGTEST(SensorNode sensorNode, String arg1) {
+    public Command_BIGTEST(ISensorNode sensorNode, String arg1) {
         word = arg1;
     }
 

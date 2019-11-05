@@ -1,15 +1,15 @@
 package senscript.customCommand;
 
 import d504.DataPackage;
-import device.SensorNode;
-import senscript.Command;
+import d504.ISensorNode;
+
 
 public class Command_GETDATA extends Command {
 
     String input="";
     String output="";
 
-    public Command_GETDATA(SensorNode node, String input, String output){
+    public Command_GETDATA(ISensorNode node, String input, String output){
         this.sensor = node;
         this.input = input;
         this.output = output;
@@ -17,10 +17,10 @@ public class Command_GETDATA extends Command {
 
     @Override
     public double execute(){
-        String data = sensor.getScript().getVariableValue(input);
+        String data = sensor.getVariableValue(input);
         if(!data.equals("")){
         DataPackage message = DataPackage.deserialize(data);
-        sensor.getScript().putVariable(output,message.getData());
+        sensor.putVariable(output,message.getData());
         return 0;
         }
         else{

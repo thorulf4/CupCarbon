@@ -1,18 +1,19 @@
 package senscript.customCommand;
 
+import d504.ISensorNode;
 import d504.TypedPackage;
-import device.SensorNode;
-import senscript.Command;
+
+
 
 public class Command_DECIPHER extends Command {
 
     private String inputPacket;
     private String packageVariable;
-    private SensorNode sensorNode;
+    private ISensorNode sensorNode;
     private String typeVariable;
     private String senderVariable;
 
-    public  Command_DECIPHER(SensorNode sensorNode,String inputPacket, String packageVariable, String typeVariable, String senderVariable){
+    public  Command_DECIPHER(ISensorNode sensorNode,String inputPacket, String packageVariable, String typeVariable, String senderVariable){
         this.sensorNode = sensorNode;
         this.packageVariable = packageVariable;
         this.typeVariable = typeVariable;
@@ -22,12 +23,12 @@ public class Command_DECIPHER extends Command {
 
     @Override
     public double execute() {
-        String packageData =  sensorNode.getScript().getVariableValue(inputPacket);
+        String packageData =  sensorNode.getVariableValue(inputPacket);
         TypedPackage typedPackage = TypedPackage.deserialize(packageData);
 
-        sensorNode.getScript().putVariable(packageVariable, typedPackage.packageData);
-        sensorNode.getScript().putVariable(typeVariable, typedPackage.type.ordinal()+"");
-        sensorNode.getScript().putVariable(senderVariable, typedPackage.nodeID);
+        sensorNode.putVariable(packageVariable, typedPackage.packageData);
+        sensorNode.putVariable(typeVariable, typedPackage.type.ordinal()+"");
+        sensorNode.putVariable(senderVariable, typedPackage.nodeID);
 
         return 0;
     }

@@ -1,15 +1,16 @@
 package senscript.customCommand;
 
+import d504.ISensorNode;
 import d504.PackageType;
 import d504.PulseMessage;
 import d504.TypedPackage;
-import device.SensorNode;
-import senscript.Command;
+
+
 
 public class Command_CREATEPULSE extends Command {
     private String outputPacketVariable;
 
-    public Command_CREATEPULSE(SensorNode sensorNode, String outputPacketVariable) {
+    public Command_CREATEPULSE(ISensorNode sensorNode, String outputPacketVariable) {
         this.sensor = sensorNode;
         this.outputPacketVariable = outputPacketVariable;
     }
@@ -22,7 +23,7 @@ public class Command_CREATEPULSE extends Command {
         TypedPackage packet = new TypedPackage(PackageType.Pulse, Integer.toString(sensor.getId()), pulseMessage.serialize());
         String packetData = packet.serialize();
 
-        sensor.getScript().putVariable(outputPacketVariable, packetData);
+        sensor.putVariable(outputPacketVariable, packetData);
         return 0;
     }
 }

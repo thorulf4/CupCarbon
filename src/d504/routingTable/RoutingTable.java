@@ -139,5 +139,7 @@ public class RoutingTable {
         if(relayRoutes.isPresent()){
             return relayRoutes.get().getRoutes();
         }
+
+        throw new RuntimeException("Couldnt find route list for " + relayId);
     }
 }

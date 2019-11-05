@@ -1,11 +1,12 @@
 package senscript.customCommand;
 
 import d504.DataPackage;
+import d504.ISensorNode;
 import d504.NodeCost;
 import d504.backupRouting.MessageTable;
 import d504.routingTable.RoutingTable;
-import device.SensorNode;
-import senscript.Command;
+
+
 
 import java.util.List;
 import java.util.SortedSet;
@@ -17,7 +18,7 @@ public class Command_GETNEXTHOP extends Command {
     private String dataPacketVariable;
     private String nextHopOutputVariable;
 
-    public Command_GETNEXTHOP(SensorNode sensorNode, String routingTableVariable, String messageTableVariable, String dataPacketVariable, String nextHopOutputVariable) {
+    public Command_GETNEXTHOP(ISensorNode sensorNode, String routingTableVariable, String messageTableVariable, String dataPacketVariable, String nextHopOutputVariable) {
         this.sensor = sensorNode;
         this.routingTableVariable = routingTableVariable;
         this.messageTableVariable = messageTableVariable;
@@ -66,10 +67,10 @@ public class Command_GETNEXTHOP extends Command {
     }
 
     public String getVariableValue(String variable){
-        return sensor.getScript().getVariableValue(variable);
+        return sensor.getVariableValue(variable);
     }
 
     public void putVariableValue(String variable, String value){
-        sensor.getScript().putVariable(variable, value);
+        sensor.putVariable(variable, value);
     }
 }

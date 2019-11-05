@@ -1,9 +1,10 @@
 package senscript.customCommand;
 
 import d504.DataPackage;
+import d504.ISensorNode;
 import d504.routingTable.RoutingTable;
-import device.SensorNode;
-import senscript.Command;
+
+
 
 public class Command_FINDNEXTHOP extends Command {
 
@@ -11,7 +12,7 @@ public class Command_FINDNEXTHOP extends Command {
     private String outputNodeVariable;
     private String dataPacketVariable;
 
-    public Command_FINDNEXTHOP(SensorNode sensorNode, String routingTableVariable, String dataPacketVariable, String outputNodeVariable) {
+    public Command_FINDNEXTHOP(ISensorNode sensorNode, String routingTableVariable, String dataPacketVariable, String outputNodeVariable) {
         this.sensor = sensorNode;
         this.routingTableVariable = routingTableVariable;
         this.outputNodeVariable = outputNodeVariable;
@@ -20,8 +21,8 @@ public class Command_FINDNEXTHOP extends Command {
 
     @Override
     public double execute() {
-        String routingTableData = sensor.getScript().getVariableValue("$"+routingTableVariable);
-        String dataPacketData = sensor.getScript().getVariableValue(dataPacketVariable);
+        String routingTableData = sensor.getVariableValue("$"+routingTableVariable);
+        String dataPacketData = sensor.getVariableValue(dataPacketVariable);
 
         RoutingTable routingTable = RoutingTable.deserialize(routingTableData);
 
@@ -29,7 +30,7 @@ public class Command_FINDNEXTHOP extends Command {
 
         String nodeId = routingTable.getQuickestRouteForRelay(dataPackage.getTargetRelay()).getNodeId();
 
-        sensor.getScript().putVariable(outputNodeVariable, nodeId);
+        sensor.putVariable(outputNodeVariable, nodeId);
         return 0;
     }
 }

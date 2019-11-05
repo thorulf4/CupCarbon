@@ -1,18 +1,19 @@
 package senscript.customCommand;
 
 import d504.ConfigPackage;
+import d504.ISensorNode;
 import d504.routingTable.RoutingTable;
-import device.SensorNode;
-import senscript.Command;
+
+
 
 public class Command_UPDATEROUTINGTABLE extends Command {
 
-    private SensorNode sensor;
+    private ISensorNode sensor;
     private String routingTableVariable;
     private String configPackageVariable;
     private String outputBool;
 
-    public Command_UPDATEROUTINGTABLE(SensorNode sensor, String routingTableVariable, String configPackageVariable, String outputBool) {
+    public Command_UPDATEROUTINGTABLE(ISensorNode sensor, String routingTableVariable, String configPackageVariable, String outputBool) {
         this.sensor = sensor;
         this.routingTableVariable = routingTableVariable;
         this.configPackageVariable = configPackageVariable;
@@ -21,13 +22,13 @@ public class Command_UPDATEROUTINGTABLE extends Command {
 
     @Override
     public double execute() {
-        RoutingTable routingTable = RoutingTable.deserialize(sensor.getScript().getVariableValue("$" + routingTableVariable));
-        ConfigPackage configPackage = ConfigPackage.deserialize(sensor.getScript().getVariableValue(configPackageVariable));
+        RoutingTable routingTable = RoutingTable.deserialize(sensor.getVariableValue("$" + routingTableVariable));
+        ConfigPackage configPackage = ConfigPackage.deserialize(sensor.getVariableValue(configPackageVariable));
 
         boolean hasChanged = routingTable.update(configPackage);
 
-        sensor.getScript().putVariable(routingTableVariable, routingTable.serialize());
-        sensor.getScript().putVariable(outputBool, Boolean.toString(hasChanged));
+        sensor.putVariable(routingTableVariable, routingTable.serialize());
+        sensor.putVariable(outputBool, Boolean.toString(hasChanged));
 
         return 0;
     }

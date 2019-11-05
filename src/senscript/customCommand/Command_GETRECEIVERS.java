@@ -1,10 +1,10 @@
 package senscript.customCommand;
 
 import d504.AckMessage;
+import d504.ISensorNode;
 import d504.backupRouting.MessageTable;
 import d504.utils.Serialize;
-import device.SensorNode;
-import senscript.Command;
+
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class Command_GETRECEIVERS extends Command {
     private String receiversOutputVariable;
     private String hasElementsOutputVariable;
 
-    public Command_GETRECEIVERS(SensorNode sensorNode, String messageTableVariable, String ackPacketVariable, String receiversOutputVariable, String hasElementsOutputVariable) {
+    public Command_GETRECEIVERS(ISensorNode sensorNode, String messageTableVariable, String ackPacketVariable, String receiversOutputVariable, String hasElementsOutputVariable) {
         this.sensor = sensorNode;
         this.messageTableVariable = messageTableVariable;
         this.ackPacketVariable = ackPacketVariable;
@@ -41,11 +41,11 @@ public class Command_GETRECEIVERS extends Command {
     }
 
     public String getVariableValue(String variable){
-        return sensor.getScript().getVariableValue(variable);
+        return sensor.getVariableValue(variable);
     }
 
     public void putVariableValue(String variable, String value){
-        sensor.getScript().putVariable(variable, value);
+        sensor.putVariable(variable, value);
     }
 
 

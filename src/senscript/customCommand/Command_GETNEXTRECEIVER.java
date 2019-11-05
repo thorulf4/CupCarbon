@@ -1,8 +1,9 @@
 package senscript.customCommand;
 
+import d504.ISensorNode;
 import d504.utils.Serialize;
-import device.SensorNode;
-import senscript.Command;
+
+
 
 public class Command_GETNEXTRECEIVER extends Command {
 
@@ -12,7 +13,7 @@ public class Command_GETNEXTRECEIVER extends Command {
 
 
 
-    public Command_GETNEXTRECEIVER(SensorNode sensor, String receiverVar, String outputReceiver, String moreLeft){
+    public Command_GETNEXTRECEIVER(ISensorNode sensor, String receiverVar, String outputReceiver, String moreLeft){
         this.sensor = sensor;
         this.receiverListVar = receiverVar;
         this.outputReveicer = outputReceiver;
@@ -23,7 +24,7 @@ public class Command_GETNEXTRECEIVER extends Command {
 
     @Override
     public double execute(){
-        String listVar = sensor.getScript().getVariableValue("$"+receiverListVar);
+        String listVar = sensor.getVariableValue("$"+receiverListVar);
         String nextRe = Serialize.nextElement(listVar);
         String notEmpty;
         listVar = Serialize.removeElements(listVar,1);
@@ -31,9 +32,9 @@ public class Command_GETNEXTRECEIVER extends Command {
             notEmpty = Boolean.toString(false);
         else
             notEmpty = Boolean.toString(true);
-        sensor.getScript().putVariable(receiverListVar, listVar);
-        sensor.getScript().putVariable(moreleft, notEmpty);
-        sensor.getScript().putVariable(outputReveicer,nextRe);
+        sensor.putVariable(receiverListVar, listVar);
+        sensor.putVariable(moreleft, notEmpty);
+        sensor.putVariable(outputReveicer,nextRe);
         return 0;
 
     }

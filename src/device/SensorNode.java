@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
+import d504.ISensorNode;
 import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 import battery.Battery;
@@ -58,7 +59,7 @@ import utilities.UColor;
  * @version 1.0
  */
 
-public abstract class SensorNode extends DeviceWithRadio {
+public abstract class SensorNode extends DeviceWithRadio implements ISensorNode {
 	
 	protected SensorUnit sensorUnit;
 	
@@ -167,8 +168,20 @@ public abstract class SensorNode extends DeviceWithRadio {
 		withSensor = true;
 		calculateRadioSpace();
 		initBuffer();
-	}	 
-	
+	}
+
+	public void putVariable(String variableName, String value){
+		getScript().putVariable(variableName, value);
+	}
+
+	public String getVariableValue(String variableName){
+		return getScript().getVariableValue(variableName);
+	}
+
+	public double getSimulationTime(){
+		return WisenSimulation.time * getDriftTime();
+	}
+
 	public void addRadioModule(String name, String sStandard) {
 		int standard = RadioModule.getStandardByName(sStandard);		
 		addRadioModule(name, standard);

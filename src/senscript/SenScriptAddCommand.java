@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import d504.ISensorNode;
 import device.SensorNode;
 
 public final class SenScriptAddCommand {
@@ -38,7 +39,7 @@ public final class SenScriptAddCommand {
 			ArrayList<Class<?>> parameterTypes = new ArrayList<>();
 			ArrayList<Object> parameters = new ArrayList<>();
 
-			parameterTypes.add(SensorNode.class);
+			parameterTypes.add(ISensorNode.class);
 			parameters.add(sensorNode);
 
 			for (int i = 1; i < inst.length; i++) {
@@ -49,7 +50,14 @@ public final class SenScriptAddCommand {
 		  	Constructor<?> constructor = commandClass.getConstructor(parameterTypes.toArray(new Class<?>[]{}));
 
 
-			command = (Command) constructor.newInstance(parameters.toArray(new Object[]{}));
+			senscript.customCommand.Command customCommand = (senscript.customCommand.Command) constructor.newInstance(parameters.toArray(new Object[]{}));
+
+			command = new Command() {
+				@Override
+				public double execute() {
+					return customCommand.execute();
+				}
+			};
 		} catch (InstantiationException e) {
 			throw new RuntimeException("The Command_"+commandName.toUpperCase() + " class cannot be abstract");
 		}

@@ -1,9 +1,10 @@
 package senscript.customCommand;
 
 import d504.ConfiguredNodesTable;
+import d504.ISensorNode;
 import d504.PulseMessage;
-import device.SensorNode;
-import senscript.Command;
+
+
 
 public class Command_CHECKCONFIGUREDNODES extends Command {
 
@@ -11,7 +12,7 @@ public class Command_CHECKCONFIGUREDNODES extends Command {
     private String pulseMessageVariable;
     private String isInTableVariable;
 
-    public Command_CHECKCONFIGUREDNODES(SensorNode sensor, String configuredNodesTableVariable, String pulseMessageVariable, String isInTableVariable) {
+    public Command_CHECKCONFIGUREDNODES(ISensorNode sensor, String configuredNodesTableVariable, String pulseMessageVariable, String isInTableVariable) {
         this.sensor = sensor;
         this.configuredNodesTableVariable = configuredNodesTableVariable;
         this.pulseMessageVariable = pulseMessageVariable;
@@ -28,19 +29,19 @@ public class Command_CHECKCONFIGUREDNODES extends Command {
             configuredNodesTable.add(pulseMessage.senderId);
         }
 
-        sensor.getScript().putVariable(configuredNodesTableVariable, configuredNodesTable.serialize());
-        sensor.getScript().putVariable(isInTableVariable, Boolean.toString(isInTable));
+        sensor.putVariable(configuredNodesTableVariable, configuredNodesTable.serialize());
+        sensor.putVariable(isInTableVariable, Boolean.toString(isInTable));
 
         return 0;
     }
 
     private PulseMessage getPulseMessage() {
-        String serializedPulse = sensor.getScript().getVariableValue(pulseMessageVariable);
+        String serializedPulse = sensor.getVariableValue(pulseMessageVariable);
         return PulseMessage.deserialize(serializedPulse);
     }
 
     private ConfiguredNodesTable getConfiguredNodesTable() {
-        String serializedTable = sensor.getScript().getVariableValue("$" + configuredNodesTableVariable);
+        String serializedTable = sensor.getVariableValue("$" + configuredNodesTableVariable);
         return ConfiguredNodesTable.deserialize(serializedTable);
     }
 }
