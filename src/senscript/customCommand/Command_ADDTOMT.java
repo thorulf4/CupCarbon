@@ -22,7 +22,7 @@ public class Command_ADDTOMT extends Command {
 
     @Override
     public double execute(){
-        MessageTable MT = MessageTable.deserialize("$"+mtVar);
+        MessageTable MT = MessageTable.deserialize(sensor.getVariableValue("$"+mtVar));
         MT.addMessage(input.getMessageID(), senderID, input);
         sensor.putVariable(mtVar, MT.serialize());
         return 0;
