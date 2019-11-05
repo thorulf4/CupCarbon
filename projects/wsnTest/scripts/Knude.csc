@@ -31,6 +31,7 @@ loop
                 send !color 1
                 send $p
             end 
+            registerPulseForCongfig DT $k $senderNode
         end
         if ($y==1)
             print data
