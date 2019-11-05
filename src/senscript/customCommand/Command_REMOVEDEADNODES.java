@@ -38,6 +38,7 @@ public class Command_REMOVEDEADNODES extends Command {
 
         boolean hasQuickestRoutesChanged = !oldRoutes.equals(routingTable.getQuickestRoutesForAllRelays());
         sensor.putVariable(hasQuickestRoutesChangedVariable, Boolean.toString(hasQuickestRoutesChanged));
+        sensor.putVariable(routingTableVariable, routingTable.serialize());
 
         return 0;
     }
