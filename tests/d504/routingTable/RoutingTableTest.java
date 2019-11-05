@@ -3,7 +3,6 @@ package d504.routingTable;
 import d504.ConfigPackage;
 import d504.NodeCost;
 import d504.RelayRouteCost;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
