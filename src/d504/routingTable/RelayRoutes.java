@@ -84,11 +84,7 @@ public class RelayRoutes {
     public void removeRoute(String nodeId) {
         Optional<NodeCost> optionalNodeCost = routes.stream().filter(nc -> nc.getNodeId().equals(nodeId)).findFirst();
 
-        if(optionalNodeCost.isPresent()){
-            routes.remove(optionalNodeCost.get());
-        }else{
-            throw new AttemptedToRemoveNonExistingNodeCost("NodeId: " + nodeId);
-        }
+        optionalNodeCost.ifPresent(nodeCost -> routes.remove(nodeCost));
     }
 
     public SortedSet<NodeCost> getRoutes() {
