@@ -7,7 +7,7 @@ loop
     if ($z==true)
         updatePulseTable DT
         removeDeadNodes DT RT shouldCreateConfig
-        if(shouldCreateConfig == true)
+        if($shouldCreateConfig == true)
             createConfig RT p
             print Pulse_config
             send !color 3
@@ -31,6 +31,7 @@ loop
                 send !color 1
                 send $p
             end 
+            registerPulseForCongfig DT $k $senderNode
         end
         if ($y==1)
             print data

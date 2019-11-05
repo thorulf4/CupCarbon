@@ -36,8 +36,9 @@ public class Command_REMOVEDEADNODES extends Command {
         deadNodes.forEach(routingTable::removeNode);
         pulseTable.removeDeadNeighbours();
 
-        boolean hasQuickestRoutesChanged = oldRoutes.equals(routingTable.getQuickestRoutesForAllRelays());
+        boolean hasQuickestRoutesChanged = !oldRoutes.equals(routingTable.getQuickestRoutesForAllRelays());
         sensor.putVariable(hasQuickestRoutesChangedVariable, Boolean.toString(hasQuickestRoutesChanged));
+        sensor.putVariable(routingTableVariable, routingTable.serialize());
 
         return 0;
     }
