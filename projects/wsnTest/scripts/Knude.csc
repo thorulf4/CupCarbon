@@ -7,7 +7,7 @@ loop
     if ($z==true)
         updatePulseTable DT
         removeDeadNodes DT RT shouldCreateConfig
-        if(shouldCreateConfig == true)
+        if($shouldCreateConfig == true)
             createConfig RT p
             print Pulse_config
             send !color 3
