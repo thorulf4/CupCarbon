@@ -9,7 +9,7 @@ public final class Serialize {
     public static final String separator = "&";
 
     public static String nextElement(String data){
-        return data.substring(0, data.indexOf(separator));
+        return nextElements(data, 1)[0];
     }
 
     public static String getSeqment(String data, int count) {

@@ -5,9 +5,6 @@ import d504.RelayRouteCost;
 import d504.pulseTable.PulseTable;
 import d504.routingTable.RoutingTable;
 
-
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
