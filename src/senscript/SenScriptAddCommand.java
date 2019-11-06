@@ -469,7 +469,10 @@ public final class SenScriptAddCommand {
 			command.setCurrentFor(script.getCurrentFor());
 		}
 		
-		
+
+		if(command==null){
+			throw new RuntimeException(instStr + " is not a recognised command");
+		}
 	}
 	
 }
