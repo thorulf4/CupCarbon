@@ -2,19 +2,19 @@ set CT \
 
 loop
     wait
-    read x
-    decipher $x x y senderNode
+    read rawData
+    decipher $rawData data dataType senderNode
 
-    if($y==2)
-        checkConfiguredNodes CT $x z
-        if($z==false)
-            createRelayConfig p
+    if($dataType==2)
+        checkConfiguredNodes CT $data isInTable
+        if($isInTable==false)
+            createRelayConfig configPacket
             print Config
             send !color 10
-            send $p
+            send $configPacket
         end
     end
-    if($y==1)
-        getData $x d
+    if($dataType==1)
+        getData $data d
         print $d
     end
