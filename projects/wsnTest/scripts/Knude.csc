@@ -1,54 +1,54 @@
 set RT \
 set t 0
-set DT 3
+set PT 3
 
 loop
-    pulseTimer $t 0.01 z
-    if ($z==true)
-        updatePulseTable DT
-        removeDeadNodes DT RT shouldCreateConfig
+    pulseTimer $t 0.01 timeReached
+    if ($timeReached == true)
+        updatePulseTable PT
+        removeDeadNodes PT RT shouldCreateConfig
         if($shouldCreateConfig == true)
-            createConfig RT p
+            createConfig RT configPacket
             print Pulse_config
             send !color 3
-            send $p
+            send $configPacket
         end
-        createPulse p
+        createPulse pulsePacket
         print Pulse
         send !color 4
-        send $p
+        send $pulsePacket
     end
 
-    read tx
+    read rawData
 
-    if ($tx!=\)
-        decipher $tx x y senderNode
-        if ($y==0)
-            updateRoutingTable RT $x z
-            if ($z==true)
-                createConfig RT p
+    if ($rawData!=\)
+        decipher $rawData data dataType senderNode
+        if ($dataType==0)
+            updateRoutingTable RT $data shouldCreateConfig
+            if ($shouldCreateConfig==true)
+                createConfig RT configPacket
                 print Config
                 send !color 1
-                send $p
+                send $configPacket
             end 
-            registerPulseForCongfig DT $k $senderNode
+            registerPulseForCongfig PT $senderNode $RT
         end
-        if ($y==1)
+        if ($dataType==1)
             print data
-            findNextHop RT $x k
+            findNextHop RT $data node
             send !color 2
-            send $tx $k
+            send $rawData $node
         end
-        if ($y==2)
-            isInRT RT $x z
-            getSender $x k
-            registerPulse DT $k
+        if ($dataType==2)
+            isInRT RT $data isNodeInRT
+            getSender $data node
+            registerPulse PT $node
             if($RT!=\)
-                if ($z==false)
-                    createConfig RT p
+                if ($isNodeInRT==false)
+                    createConfig RT configPacket
                     print pulse_config2
                     send !color 3
-                    send $p $k
+                    send $configPacket $node
                 end
             end
         end
