@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -115,5 +116,11 @@ class RoutingTableTest {
                 .findFirst().get();
 
         assertEquals(10, route.getCost());
+    }
+
+    @Test
+    void getRelayIds(){
+        List<String> relays = routingTable.getRelayIds();
+        assertEquals(2, relays.size());
     }
 }
