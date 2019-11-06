@@ -82,6 +82,15 @@ public class RoutingTable {
         }
     }
 
+    public List<String> getRelayIds(){
+        List<String> relays = new ArrayList<>();
+        for (RelayRoutes relayRoutes : routingTable) {
+            relays.add(relayRoutes.getRelayId());
+        }
+
+        return relays;
+    }
+
     public String serialize(){
         if(routingTable.isEmpty()){
             return "";

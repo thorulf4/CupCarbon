@@ -15,8 +15,10 @@ public class Command_RESIGNDATATest {
         TestableSensorNode oldSender = new TestableSensorNode(1);
         String output = "w";
         String output1 = "ww";
+        String relayID = "relayID";
+        oldSender.putVariable(relayID,"5");
 
-        Command_CREATEDATAPACKAGE createdatapackage = new Command_CREATEDATAPACKAGE(oldSender, "ild mand", output1);
+        Command_CREATEDATAPACKAGE createdatapackage = new Command_CREATEDATAPACKAGE(oldSender, "$"+relayID, output1);
         createdatapackage.execute();
 
         TypedPackage typedpackage = TypedPackage.deserialize(oldSender.getVariableValue("$"+output1));
