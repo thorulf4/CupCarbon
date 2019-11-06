@@ -35,7 +35,8 @@ public class Command_GETRECEIVERS extends Command {
 
         if(messageTable.isMessagePresent(messageId)){
             List<String> receivers = messageTable.getReceivers(messageId);
-            receivers.add(messageTable.getSender(messageId));
+            if(Integer.parseInt(messageTable.getSender(messageId)) != sensor.getId())
+                receivers.add(messageTable.getSender(messageId));
 
             putVariableValue(receiversOutputVariable, Serialize.serialize(receivers));
             putVariableValue(hasElementsOutputVariable, Boolean.toString(receivers.size() != 0));
