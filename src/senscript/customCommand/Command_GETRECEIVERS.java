@@ -33,10 +33,18 @@ public class Command_GETRECEIVERS extends Command {
 
         String messageId = ackMessage.getMessageId();
 
-        List<String> receivers = messageTable.getReceivers(messageId);
+        if(messageTable.isMessagePresent(messageId)){
+            List<String> receivers = messageTable.getReceivers(messageId);
+            receivers.add(messageTable.getSender(messageId));
 
-        putVariableValue(receiversOutputVariable, Serialize.serialize(receivers));
-        putVariableValue(hasElementsOutputVariable, Boolean.toString(receivers.size() != 0));
+            putVariableValue(receiversOutputVariable, Serialize.serialize(receivers));
+            putVariableValue(hasElementsOutputVariable, Boolean.toString(receivers.size() != 0));
+        }else{
+            putVariableValue(receiversOutputVariable, "");
+            putVariableValue(hasElementsOutputVariable, "False");
+        }
+
+
         return 0;
     }
 

@@ -1,5 +1,8 @@
 package d504.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public final class Serialize {
@@ -67,5 +70,13 @@ public final class Serialize {
         }
 
         return stringBuilder.toString();
+    }
+
+    public static List<String> deserializeStringList(String serializedList){
+        if(serializedList.equals(""))
+            return new ArrayList<>();
+
+        String[] elements = serializedList.split("&");
+        return Arrays.asList(elements);
     }
 }
