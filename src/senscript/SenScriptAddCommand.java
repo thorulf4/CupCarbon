@@ -458,7 +458,11 @@ public final class SenScriptAddCommand {
 		if (commandName.equals("cprint")) {
 			command = new Command_CPRINT(sensorNode, inst);
 		}
-		
+
+		if(command==null && !(instStr.isEmpty() || instStr.contains("if") || instStr.contains("while") || instStr.contains("for"))){
+			throw new RuntimeException(instStr + " is not a recognised command");
+		}
+
 		//-------
 		// This part must be here (at the end). All new commands must be added before (above)
 		
@@ -468,11 +472,9 @@ public final class SenScriptAddCommand {
 			command.setCurrentWhile(script.getCurrentWhile());
 			command.setCurrentFor(script.getCurrentFor());
 		}
-		
 
-		if(command==null){
-			throw new RuntimeException(instStr + " is not a recognised command");
-		}
+
+
 	}
 	
 }
