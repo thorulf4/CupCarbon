@@ -20,6 +20,9 @@ public class Command_REGISTERPULSE extends Command {
     public double execute() {
         String neighbourId = sensor.getVariableValue(neighbourIdVariable);
 
+        if(neighbourId.equals(""))
+            throw new RuntimeException("Neighbour id cannot be empty");
+
         String serializedPulseTable = sensor.getVariableValue("$"+pulseTableVariable);
         PulseTable pulseTable = PulseTable.deserialize(serializedPulseTable);
 
