@@ -44,6 +44,9 @@ public class Command_GETRECEIVERS extends Command {
             putVariableValue(hasElementsOutputVariable, "False");
         }
 
+        messageTable.removeMessage(messageId);
+        putVariableValue(messageTableVariable, messageTable.serialize());
+
 
         return 0;
     }
