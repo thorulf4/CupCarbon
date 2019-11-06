@@ -19,6 +19,10 @@ public class Command_GETNEXTRELAY extends Command {
     public double execute() {
         String relayList = sensor.getVariableValue("$" + relayListVariable);
 
+        if(relayList.isEmpty()){
+            throw new RuntimeException("relayList is empty");
+        }
+
         String relayId = Serialize.nextElement(relayList);
         relayList = Serialize.removeElements(relayList, 1);
 

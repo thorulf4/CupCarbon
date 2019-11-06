@@ -14,7 +14,7 @@ public class Command_REGISTERPULSEFORCONFIG extends Command {
         this.sensor = sensorNode;
         this.pulseTableVariable = pulseTableVariable;
         this.neighbourIdVariable = neighbourIdVariable;
-        this.pulseTableVariable = routingTableVariable;
+        this.routingTableVariable = routingTableVariable;
     }
 
     @Override

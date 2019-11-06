@@ -1,6 +1,7 @@
 set RT \
 set t 0
 set PT 3
+set MT \
 
 loop
     pulseTimer $t 0.01 timeReached
@@ -19,6 +20,22 @@ loop
         send $pulsePacket
     end
 
+    dReadSensor isOnFire
+    if($isOnFire == 1)
+        getRelayList RT relayList
+        while($relayList != \)
+            getNextRelay relayList relay
+            createDataPackage $relay rawDataPacket
+            decipher $rawDataPacket dataPacket type senderNode
+            addToMT MT $dataPacket $senderNode
+            getNextHop RT MT $dataPacket destinationNode
+
+            print i´m_on_fire
+            send !color 2
+            send $rawDataPacket $destinationNode
+        end
+    end
+
     read rawData
 
     if ($rawData!=\)
@@ -31,13 +48,23 @@ loop
                 send !color 1
                 send $configPacket
             end 
-            registerPulseForCongfig PT $senderNode $RT
+            registerPulseForConfig PT $senderNode $RT
         end
         if ($dataType==1)
+            set destinationNode \
+            isInMT MT $data isInMT
+            if($isInMT == true)
+                getNextHop RT MT $data destinationNode
+            else
+                addToMT MT $data $senderNode
+                getNextHop RT MT $data destinationNode                
+            end
+
+            resignData $data dataPacket 
+
             print data
-            findNextHop RT $data node
-            send !color 2
-            send $rawData $node
+            send !color 2            
+            send $dataPacket $destinationNode
         end
         if ($dataType==2)
             isInRT RT $data isNodeInRT
@@ -52,5 +79,16 @@ loop
                 end
             end
         end
+        if ($dataType==3)
+            getReceivers MT $data receiverList anyRemaining
+            while($anyRemaining==true)
+                getNextReceiver receiverList receiver anyRemaining
+                resignAck $data ackPacket
+
+                print received_ack
+                send !color 7
+                send $ackPacket $receiver
+            end
+        end
     end
-    delay 10
+    delay 100

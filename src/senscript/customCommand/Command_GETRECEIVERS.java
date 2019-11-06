@@ -42,7 +42,7 @@ public class Command_GETRECEIVERS extends Command {
             putVariableValue(hasElementsOutputVariable, Boolean.toString(receivers.size() != 0));
         }else{
             putVariableValue(receiversOutputVariable, "");
-            putVariableValue(hasElementsOutputVariable, "False");
+            putVariableValue(hasElementsOutputVariable, "false");
         }
 
         messageTable.removeMessage(messageId);

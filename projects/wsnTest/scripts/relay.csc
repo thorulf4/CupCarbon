@@ -15,6 +15,12 @@ loop
         end
     end
     if($dataType==1)
+
+        createAckPackage $data ackPackage
+
         getData $data d
         print $d
+
+        send !color 7
+        send $ackPackage $senderNode
     end

@@ -42,9 +42,11 @@ class Message {
         message.dataPackage = DataPackage.deserialize(Serialize.getSeqment(serializedMessage, 3));
         serializedMessage = Serialize.removeElements(serializedMessage, 3);
 
-        String[] receivers = serializedMessage.split("&");
-        for (String receiver : receivers) {
-            message.receivers.add(receiver);
+        if(!serializedMessage.isEmpty()){
+            String[] receivers = serializedMessage.split("&");
+            for (String receiver : receivers) {
+                message.receivers.add(receiver);
+            }
         }
 
         return message;
