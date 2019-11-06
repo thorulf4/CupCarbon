@@ -1,9 +1,14 @@
 package senscript.customCommand;
 
+import d504.DataPackage;
 import d504.TestableSensorNode;
+import d504.backupRouting.MessageTable;
+import d504.utils.Serialize;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +20,17 @@ class Command_GETNEXTRECEIVERTest {
 
         TestableSensorNode testNode = new TestableSensorNode(1);
 
-        testNode.putVariable("nextReceivers", "Receiver1&");
+        MessageTable mt = new MessageTable();
+
+        DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
+
+        mt.addMessage("33", "S3", dataPackage);
+
+        mt.addReceiver("33", "S5");
+
+        List<String> receivers = mt.getReceivers("33");
+
+        testNode.putVariable("nextReceivers", Serialize.serialize(receivers));
 
         Command_GETNEXTRECEIVER getNextReceiver = new Command_GETNEXTRECEIVER(testNode, "nextReceivers", "receiver", "moreLeft");
 
@@ -29,7 +44,19 @@ class Command_GETNEXTRECEIVERTest {
     void moreReceivers(){
         TestableSensorNode testNode = new TestableSensorNode(1);
 
-        testNode.putVariable("nextReceivers", "Receiver1&Receiver2&Receiver3");
+        MessageTable mt = new MessageTable();
+
+        DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
+
+        mt.addMessage("33", "S3", dataPackage);
+
+        mt.addReceiver("33", "S5");
+
+        mt.addReceiver("33", "S7");
+
+        List<String> receivers = mt.getReceivers("33");
+
+        testNode.putVariable("nextReceivers", Serialize.serialize(receivers));
 
         Command_GETNEXTRECEIVER getNextReceiver = new Command_GETNEXTRECEIVER(testNode, "nextReceivers", "receiver", "moreLeft");
 
@@ -43,13 +70,27 @@ class Command_GETNEXTRECEIVERTest {
 
         TestableSensorNode testNode = new TestableSensorNode(1);
 
-        testNode.putVariable("nextReceivers", "Receiver1&Receiver2&Receiver3");
+        MessageTable mt = new MessageTable();
+
+        DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
+
+        mt.addMessage("33", "S3", dataPackage);
+
+        mt.addReceiver("33", "S5");
+
+        mt.addReceiver("33", "S7");
+
+        mt.addReceiver("33", "S9");
+
+        List<String> receivers = mt.getReceivers("33");
+
+        testNode.putVariable("nextReceivers", Serialize.serialize(receivers));
 
         Command_GETNEXTRECEIVER getNextReceiver = new Command_GETNEXTRECEIVER(testNode, "nextReceivers", "receiver", "moreLeft");
 
         getNextReceiver.execute();
 
-        assertEquals("Receiver2&Receiver3", testNode.getVariableValue("$nextReceivers"));
+        assertEquals("S7&S9", testNode.getVariableValue("$nextReceivers"));
     }
 
     @Test
@@ -57,13 +98,25 @@ class Command_GETNEXTRECEIVERTest {
 
         TestableSensorNode testNode = new TestableSensorNode(1);
 
-        testNode.putVariable("nextReceivers", "Receiver1&Receiver2&Receiver3");
+        MessageTable mt = new MessageTable();
+
+        DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
+
+        mt.addMessage("33", "S3", dataPackage);
+
+        mt.addReceiver("33", "S5");
+
+        mt.addReceiver("33", "S7");
+
+        List<String> receivers = mt.getReceivers("33");
+
+        testNode.putVariable("nextReceivers", Serialize.serialize(receivers));
 
         Command_GETNEXTRECEIVER getNextReceiver = new Command_GETNEXTRECEIVER(testNode, "nextReceivers", "receiver", "moreLeft");
 
         getNextReceiver.execute();
 
-        assertEquals("Receiver1", testNode.getVariableValue("$receiver"));
+        assertEquals("S5", testNode.getVariableValue("$receiver"));
     }
 
 
