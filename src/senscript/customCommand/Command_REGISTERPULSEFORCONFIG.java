@@ -23,6 +23,9 @@ public class Command_REGISTERPULSEFORCONFIG extends Command {
         RoutingTable routingTable = getRoutingTable();
         PulseTable pulseTable = getPulseTable();
 
+        if(!routingTable.isNodeInRoutingTable(neighbourId))
+            throw new RuntimeException(neighbourId + " is not in the routing table please update routing table before calling RegisterPulseForConfig");
+
         if(!isNodeRelay(neighbourId, routingTable)){
             pulseTable.pulseNeighbour(neighbourId);
             sensor.putVariable(pulseTableVariable, pulseTable.serialize());
@@ -42,7 +45,7 @@ public class Command_REGISTERPULSEFORCONFIG extends Command {
     }
 
     private RoutingTable getRoutingTable() {
-        String serialized = sensor.getVariableValue(routingTableVariable);
+        String serialized = sensor.getVariableValue("$"+routingTableVariable);
         return RoutingTable.deserialize(serialized);
     }
 }
