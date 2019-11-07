@@ -25,6 +25,8 @@ class Command_GETSENDERTest {
         getSender.execute();
 
         assertEquals("23", testableSensorNode.getVariableValue("$output"));
+
+
     }
 
 }
