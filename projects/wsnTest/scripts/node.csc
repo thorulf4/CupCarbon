@@ -2,6 +2,7 @@ set RT \
 set t 0
 set PT 3
 set MT \
+set hasIncreasedConfig false
 
 loop
     pulseTimer $t 0.01 timeReached
@@ -34,6 +35,18 @@ loop
             send !color 2
             send $rawDataPacket $destinationNode
         end
+    end
+
+    battery batteryLevel
+    if(($batteryLevel < 5000) && ($hasIncreasedConfig == false))
+        set hasIncreasedConfig true
+        updateRoutingTableLowBattery RT shouldCreateConfig
+        if ($shouldCreateConfig==true)
+            createConfig RT configPacket
+            print low_battery_config
+            send !color 1
+            send $configPacket
+        end 
     end
 
     read rawData
