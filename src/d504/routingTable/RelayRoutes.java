@@ -1,17 +1,19 @@
 package d504.routingTable;
 
 import d504.NodeCost;
-import d504.exceptions.AttemptedToRemoveNonExistingNodeCost;
+import d504.exceptions.NoRouteForRelayException;
 import d504.utils.Serialize;
 
-import javax.xml.soap.Node;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class RelayRoutes {
     private String relayId;
     private SortedSet<NodeCost> routes;
+    private int modifier;
 
     public RelayRoutes(String relayId) {
         this.relayId = relayId;
@@ -38,7 +40,15 @@ public class RelayRoutes {
     }
 
     public NodeCost getLowestCost() {
-        return routes.first();
+        Optional<NodeCost> optionalNodeCost = routes.stream()
+                .findFirst()
+                .map(this::returnWithModifier);
+
+        if(optionalNodeCost.isPresent()){
+            return optionalNodeCost.get();
+        }else{
+            throw new NoRouteForRelayException("No route for relay " + relayId);
+        }
     }
 
     public boolean hasNode(String nodeId) {
@@ -48,6 +58,8 @@ public class RelayRoutes {
     public String serialize() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(relayId);
+        stringBuilder.append('&');
+        stringBuilder.append(modifier);
         stringBuilder.append('&');
         stringBuilder.append(routes.size());
         for (NodeCost route: routes) {
@@ -65,11 +77,14 @@ public class RelayRoutes {
     public static RelayRoutes deserialize(String data) {
         String relayId = Serialize.nextElement(data);
         data = Serialize.removeElements(data, 1);
+        String modifier = Serialize.nextElement(data);
+        data = Serialize.removeElements(data, 1);
         int count = Integer.parseInt(Serialize.nextElement(data));
         data = Serialize.removeElements(data, 1);
         String[] elements = data.split("&", count * 2);
 
         RelayRoutes entry = new RelayRoutes(relayId);
+        entry.setModifier(Integer.parseInt(modifier));
 
         for(int i = 0; i < count; i++){
             NodeCost pair = NodeCost.deserialize(data);
@@ -88,6 +103,38 @@ public class RelayRoutes {
     }
 
     public SortedSet<NodeCost> getRoutes() {
-        return routes;
+        return routes.stream()
+                .map(this::returnWithModifier)
+                .collect(Collectors.toCollection(TreeSet::new));
+    }
+
+    public NodeCost returnWithModifier(NodeCost nodeCost){
+        return new NodeCost(nodeCost.getNodeId(), nodeCost.getCost() + modifier);
+    }
+
+    public int getMaxCost() {
+        Optional<NodeCost> maxNodeCost = routes.stream().max(Comparator.comparingInt(NodeCost::getCost));
+        if(maxNodeCost.isPresent()){
+            return maxNodeCost.get().getCost();
+        }else{
+            throw new NoRouteForRelayException("No Route for relay: " + relayId);
+        }
+    }
+
+    public int getMinCost() {
+        Optional<NodeCost> minNodeCost = routes.stream().min(Comparator.comparingInt(NodeCost::getCost));
+        if(minNodeCost.isPresent()){
+            return minNodeCost.get().getCost();
+        }else{
+            throw new NoRouteForRelayException("No Route for relay: " + relayId);
+        }
+    }
+
+    public int getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
     }
 }

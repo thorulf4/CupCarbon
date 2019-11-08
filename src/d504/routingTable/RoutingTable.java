@@ -142,7 +142,7 @@ public class RoutingTable {
         for(int i = 0; i < tableSize; i++){
             RelayRoutes entry = RelayRoutes.deserialize(data);
             list.add(entry);
-            data = Serialize.removeElements(data, entry.getRouteCount() * 2 + 2);
+            data = Serialize.removeElements(data, entry.getRouteCount() * 2 + 2 + 1);
         }
         return list;
     }
