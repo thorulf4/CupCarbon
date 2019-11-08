@@ -42,7 +42,7 @@ public class Command_PULSETIMER extends Command {
 
     private double getIntervalTime() {
         //Convert time to seconds
-        return Double.parseDouble(intervalInHours) * 3600;
+        return Double.parseDouble(sensor.getVariableValue(intervalInHours)) * 3600;
     }
 
 
