@@ -23,6 +23,7 @@ import java.awt.Graphics;
 import java.awt.Polygon;
 
 import device.Device;
+import device.MapObject;
 
 /**
  * @author Ahcene Bounceur
@@ -62,6 +63,10 @@ public abstract class SensorUnit {
 	public void setPosition(double longitude, double latitude) {
 		this.longitude = longitude;
 		this.latitude = latitude;
+	}
+
+	public boolean isBaseNode(){
+		return node.getType() == MapObject.BASE_STATION;
 	}
 	
 	public abstract boolean detect(Device device);
