@@ -3,6 +3,7 @@ set t 0
 set PT 3
 set MT \
 set hasIncreasedConfig false
+set shouldSendFireMessage true
 
 loop
     pulseTimer $t 0.01 timeReached
@@ -22,7 +23,8 @@ loop
     end
 
     dReadSensor isOnFire
-    if($isOnFire == 1)
+    if(($isOnFire == 1) && ($shouldSendFireMessage == true))
+        set shouldSendFireMessage false
         getRelayList RT relayList
         while($relayList != \)
             getNextRelay relayList relay
