@@ -32,7 +32,7 @@ class Command_REGISTERPULSEFORCONFIGTest {
         sensor.putVariable("sender", "2");
 
 
-        Command_REGISTERPULSEFORCONFIG command = new Command_REGISTERPULSEFORCONFIG(sensor, "pulseTable", "$sender", "routingTable");
+        Command_REGISTERPULSEFORCONFIG command = new Command_REGISTERPULSEFORCONFIG(sensor, "pulseTable", "$sender", "$routingTable");
         command.execute();
 
         PulseTable editedPulseTable = PulseTable.deserialize(sensor.getVariableValue("$pulseTable"));
@@ -46,7 +46,7 @@ class Command_REGISTERPULSEFORCONFIGTest {
     void registerPulseForConfig_RelayNode(){
         sensor.putVariable("sender", "R1");
 
-        Command_REGISTERPULSEFORCONFIG command = new Command_REGISTERPULSEFORCONFIG(sensor, "pulseTable", "$sender", "routingTable");
+        Command_REGISTERPULSEFORCONFIG command = new Command_REGISTERPULSEFORCONFIG(sensor, "pulseTable", "$sender", "$routingTable");
         command.execute();
 
         PulseTable editedPulseTable = PulseTable.deserialize(sensor.getVariableValue("$pulseTable"));
@@ -59,7 +59,7 @@ class Command_REGISTERPULSEFORCONFIGTest {
     void registerPulseForConfig_UnknownNodeId(){
         sensor.putVariable("sender", "unknownId");
 
-        Command_REGISTERPULSEFORCONFIG command = new Command_REGISTERPULSEFORCONFIG(sensor, "pulseTable", "$sender", "routingTable");
+        Command_REGISTERPULSEFORCONFIG command = new Command_REGISTERPULSEFORCONFIG(sensor, "pulseTable", "$sender", "$routingTable");
 
         assertThrows(RuntimeException.class, () -> command.execute());
     }

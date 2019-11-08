@@ -45,7 +45,7 @@ public class Command_REGISTERPULSEFORCONFIG extends Command {
     }
 
     private RoutingTable getRoutingTable() {
-        String serialized = sensor.getVariableValue("$"+routingTableVariable);
+        String serialized = sensor.getVariableValue(routingTableVariable);
         return RoutingTable.deserialize(serialized);
     }
 }
