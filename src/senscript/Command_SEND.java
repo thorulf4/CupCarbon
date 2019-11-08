@@ -126,6 +126,10 @@ public class Command_SEND extends Command {
 			int iv = v.intValue()%13;
 			sensor.setRadioLinkColor(UColor.colorTab2[iv]);
 			return 0;
+		}else{
+			if(!sensor.getSensorUnit().isBaseNode()){
+				sensor.setBatteryLevel(sensor.getBatteryLevel()-100);
+			}
 		}
 		String message = arg1;
 		message = sensor.getScript().getVariableValue(message);
