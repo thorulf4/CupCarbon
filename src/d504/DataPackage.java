@@ -2,6 +2,8 @@ package d504;
 
 import d504.utils.Serialize;
 
+import java.util.Random;
+
 public class DataPackage{
 
     private String messageID;
@@ -10,6 +12,13 @@ public class DataPackage{
 
     public DataPackage(String messageID, String targetRelay, String data){
         this.messageID = messageID;
+        this.targetRelay = targetRelay;
+        this.data = data;
+    }
+
+    public DataPackage(String targetRelay, String data) {
+        Random idGen = new Random();
+        this.messageID = String.valueOf(10000000 + idGen.nextInt(90000000));
         this.targetRelay = targetRelay;
         this.data = data;
     }
