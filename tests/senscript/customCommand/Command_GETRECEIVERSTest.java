@@ -21,7 +21,7 @@ class Command_GETRECEIVERSTest {
         messageTable.addReceiver("m1", "2");
         messageTable.addReceiver("m1", "4");
 
-        AckMessage ackMessage = new AckMessage("7", "m1");
+        AckMessage ackMessage = new AckMessage("m1");
 
         sensor.putVariable("messageTable", messageTable.serialize());
         sensor.putVariable("ackPackage", ackMessage.serialize());
@@ -41,7 +41,7 @@ class Command_GETRECEIVERSTest {
         TestableSensorNode sensor = new TestableSensorNode(1);
         MessageTable messageTable = new MessageTable();
 
-        AckMessage ackMessage = new AckMessage("5", "m13");
+        AckMessage ackMessage = new AckMessage( "m13");
 
         sensor.putVariable("messageTable", messageTable.serialize());
         sensor.putVariable("ackPackage", ackMessage.serialize());

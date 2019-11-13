@@ -21,7 +21,7 @@ public class Command_CREATEACKPACKAGE extends Command {
         String serializedDataPackage = sensor.getVariableValue(dataPackageVariable);
         DataPackage dataPackage = DataPackage.deserialize(serializedDataPackage);
         String messageID = dataPackage.getMessageID();
-        AckMessage ackMessage = new AckMessage(Integer.toString(sensor.getId()),messageID);
+        AckMessage ackMessage = new AckMessage(messageID);
         TypedPackage typedPackage = new TypedPackage(PackageType.Ack, Integer.toString(sensor.getId()), ackMessage.serialize());
         sensor.putVariable(ackPackageOutput,typedPackage.serialize());
         return 0;

@@ -4,24 +4,24 @@ import d504.utils.Serialize;
 
 public class AckMessage {
 
-    private String senderID;
     private String messageID;
 
-    public AckMessage (String senderID, String messageID){
-        this.senderID = senderID;
+    public AckMessage (String messageID){
+        if(messageID.isEmpty()){
+            throw new RuntimeException("MessageId can´t be empty");
+        }
         this.messageID = messageID;
     }
 
     public String serialize(){
-        StringBuilder ackSerialized = new StringBuilder();
-        ackSerialized.append(senderID).append("&").append(messageID);
-        return ackSerialized.toString();
+        return messageID;
     }
 
     public static AckMessage deserialize(String message){
-        String[] ackMessage = Serialize.nextElements(message, 2);
-        return new AckMessage(ackMessage[0],ackMessage[1]);
-
+        if(message.isEmpty()){
+            throw new RuntimeException("Message can't be empty");
+        }
+        return new AckMessage(message);
     }
 
     public String getMessageId() {
