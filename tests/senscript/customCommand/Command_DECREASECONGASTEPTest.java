@@ -15,7 +15,7 @@ class Command_DECREASECONGASTEPTest {
         TestableSensorNode sensor = new TestableSensorNode(1);
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "n1", new DataPackage("m1", "R1", "hello"));
+        messageTable.addMessage("m1", 3600,"n1", new DataPackage("m1", "R1", "hello"));
 
         AckMessage ackMessage = new AckMessage("m1");
 
@@ -36,7 +36,7 @@ class Command_DECREASECONGASTEPTest {
         TestableSensorNode sensor = new TestableSensorNode(1);
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "n1", new DataPackage("m1", "R1", "hello"));
+        messageTable.addMessage("m1", 3600,"n1", new DataPackage("m1", "R1", "hello"));
 
         messageTable.decreaseCongaStep("m1");
 

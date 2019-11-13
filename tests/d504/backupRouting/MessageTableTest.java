@@ -10,9 +10,9 @@ class MessageTableTest {
     @Test
     void serialize() {
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m13", "3", new DataPackage("m13","1", "hi"));
+        messageTable.addMessage("m13", 3600,"3", new DataPackage("m13","1", "hi"));
         messageTable.addReceiver("m13", "5");
-        messageTable.addMessage("a14", "2", new DataPackage("a14","1", "no"));
+        messageTable.addMessage("a14", 3600,"2", new DataPackage("a14","1", "no"));
         messageTable.addReceiver("a14", "7");
 
         assertEquals("a14&6&2&2&a14&1&no&7&m13&6&3&2&m13&1&hi&5", messageTable.serialize());

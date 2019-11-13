@@ -20,8 +20,8 @@ public class MessageTable {
         return messages.containsKey(messageId);
     }
 
-    public void addMessage(String messageId, String sender, DataPackage dataPackage){
-        Message message = new Message(sender, 2, dataPackage);
+    public void addMessage(String messageId, long expirationTime ,String sender, DataPackage dataPackage){
+        Message message = new Message(sender, expirationTime, dataPackage);
         messages.put(messageId, message);
     }
 

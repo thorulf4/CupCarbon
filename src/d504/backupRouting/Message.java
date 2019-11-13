@@ -10,12 +10,14 @@ class Message {
     public String sender;
     public List<String> receivers;
     public DataPackage dataPackage;
-    public int congaStepsLeft = 0;
+    public int congaStepsLeft;
+    public long expiryTime;
 
-    public Message(String sender, int congaStepsLeft, DataPackage dataPackage) {
-        this.congaStepsLeft = congaStepsLeft;
+    public Message(String sender, long expiryTime ,DataPackage dataPackage) {
+        this.congaStepsLeft = 2;
         this.sender = sender;
         this.dataPackage = dataPackage;
+        this.expiryTime = expiryTime;
         receivers = new ArrayList<>();
     }
 
@@ -34,6 +36,7 @@ class Message {
             builder.append("&");
             builder.append(receiver);
         }
+
 
         return builder.toString();
     }
