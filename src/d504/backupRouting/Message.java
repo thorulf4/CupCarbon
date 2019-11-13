@@ -10,8 +10,10 @@ class Message {
     public String sender;
     public List<String> receivers;
     public DataPackage dataPackage;
+    public int congaStepsLeft = 0;
 
-    public Message(String sender, DataPackage dataPackage) {
+    public Message(String sender, int congaStepsLeft, DataPackage dataPackage) {
+        this.congaStepsLeft = congaStepsLeft;
         this.sender = sender;
         this.dataPackage = dataPackage;
         receivers = new ArrayList<>();
@@ -25,6 +27,8 @@ class Message {
         StringBuilder builder = new StringBuilder();
         builder.append(sender);
         builder.append("&");
+        builder.append(congaStepsLeft);
+        builder.append("&");
         builder.append(dataPackage.serialize());
         for (String receiver : receivers) {
             builder.append("&");
@@ -37,6 +41,8 @@ class Message {
     public static Message deserialize(String serializedMessage){
         Message message = new Message();
         message.sender = Serialize.nextElement(serializedMessage);
+        serializedMessage = Serialize.removeElements(serializedMessage, 1);
+        message.congaStepsLeft = Integer.parseInt(Serialize.nextElement(serializedMessage));
         serializedMessage = Serialize.removeElements(serializedMessage, 1);
 
         message.dataPackage = DataPackage.deserialize(Serialize.getSeqment(serializedMessage, 3));

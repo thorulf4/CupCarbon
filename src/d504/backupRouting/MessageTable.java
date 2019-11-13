@@ -21,7 +21,7 @@ public class MessageTable {
     }
 
     public void addMessage(String messageId, String sender, DataPackage dataPackage){
-        Message message = new Message(sender, dataPackage);
+        Message message = new Message(sender, 2, dataPackage);
         messages.put(messageId, message);
     }
 
@@ -56,7 +56,7 @@ public class MessageTable {
             String messageId = keySet.next();
 
             // + 1 is for sender + 2 is for data + x is for receivers
-            int elementCount = 1 + 3 + messages.get(messageId).receivers.size();
+            int elementCount = 2 + 3 + messages.get(messageId).receivers.size();
             stringBuilder.append(messageId);
             stringBuilder.append("&");
             stringBuilder.append(elementCount);
@@ -85,6 +85,21 @@ public class MessageTable {
         }
 
         return messageTable;
+    }
+
+    public void decreaseCongaStep(String messageId){
+        Message message = messages.get(messageId);
+        if(message.congaStepsLeft > 0){
+            message.congaStepsLeft--;
+        }
+
+
+    }
+
+    public boolean isCongaActive(String messageId){
+        Message message = messages.get(messageId);
+
+        return message.congaStepsLeft > 0;
     }
 
 }
