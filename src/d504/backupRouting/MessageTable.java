@@ -55,8 +55,7 @@ public class MessageTable {
 
             String messageId = keySet.next();
 
-            // + 1 is for sender + 2 is for data + x is for receivers
-            int elementCount = 2 + 3 + messages.get(messageId).receivers.size();
+            int elementCount = 4 + 3 + messages.get(messageId).receivers.size();
             stringBuilder.append(messageId);
             stringBuilder.append("&");
             stringBuilder.append(elementCount);
@@ -100,6 +99,20 @@ public class MessageTable {
         Message message = messages.get(messageId);
 
         return message.congaStepsLeft > 0;
+    }
+
+    public void tickExpirationTimers(long currentTime){
+        List<String> expiredKeys = new ArrayList<>();
+
+        for (String key : messages.keySet()) {
+            Message message = messages.get(key);
+            if(message.expiryTime < currentTime)
+                expiredKeys.add(key);
+        }
+
+        for (String key : expiredKeys) {
+            messages.remove(key);
+        }
     }
 
 }

@@ -9,6 +9,7 @@ import java.util.List;
 class Message {
     public String sender;
     public List<String> receivers;
+    public double timerTimeLeft;
     public DataPackage dataPackage;
     public int congaStepsLeft;
     public long expiryTime;
@@ -29,7 +30,11 @@ class Message {
         StringBuilder builder = new StringBuilder();
         builder.append(sender);
         builder.append("&");
+        builder.append(expiryTime);
+        builder.append("&");
         builder.append(congaStepsLeft);
+        builder.append("&");
+        builder.append(timerTimeLeft);
         builder.append("&");
         builder.append(dataPackage.serialize());
         for (String receiver : receivers) {
@@ -45,7 +50,11 @@ class Message {
         Message message = new Message();
         message.sender = Serialize.nextElement(serializedMessage);
         serializedMessage = Serialize.removeElements(serializedMessage, 1);
+        message.expiryTime = Long.parseLong(Serialize.nextElement(serializedMessage));
+        serializedMessage = Serialize.removeElements(serializedMessage, 1);
         message.congaStepsLeft = Integer.parseInt(Serialize.nextElement(serializedMessage));
+        serializedMessage = Serialize.removeElements(serializedMessage, 1);
+        message.timerTimeLeft = Double.parseDouble(Serialize.nextElement(serializedMessage));
         serializedMessage = Serialize.removeElements(serializedMessage, 1);
 
         message.dataPackage = DataPackage.deserialize(Serialize.getSeqment(serializedMessage, 3));
