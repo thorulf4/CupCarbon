@@ -55,7 +55,7 @@ public class MessageTable {
 
             String messageId = keySet.next();
 
-            // + 1 is for sender + 2 is for data + x is for receivers
+            int elementCount = 3 + 3 + messages.get(messageId).receivers.size();
             int elementCount = 2 + 3 + messages.get(messageId).receivers.size();
             stringBuilder.append(messageId);
             stringBuilder.append("&");

@@ -9,6 +9,7 @@ import java.util.List;
 class Message {
     public String sender;
     public List<String> receivers;
+    public double timerTimeLeft;
     public DataPackage dataPackage;
     public int congaStepsLeft = 0;
 
@@ -29,6 +30,8 @@ class Message {
         builder.append("&");
         builder.append(congaStepsLeft);
         builder.append("&");
+        builder.append(timerTimeLeft);
+        builder.append("&");
         builder.append(dataPackage.serialize());
         for (String receiver : receivers) {
             builder.append("&");
@@ -43,6 +46,8 @@ class Message {
         message.sender = Serialize.nextElement(serializedMessage);
         serializedMessage = Serialize.removeElements(serializedMessage, 1);
         message.congaStepsLeft = Integer.parseInt(Serialize.nextElement(serializedMessage));
+        serializedMessage = Serialize.removeElements(serializedMessage, 1);
+        message.timerTimeLeft = Double.parseDouble(Serialize.nextElement(serializedMessage));
         serializedMessage = Serialize.removeElements(serializedMessage, 1);
 
         message.dataPackage = DataPackage.deserialize(Serialize.getSeqment(serializedMessage, 3));
