@@ -20,7 +20,7 @@ public class Command_CREATEACK extends Command {
         AckMessage ack = new AckMessage(data.getMessageID());
         TypedPackage typedPackage = new TypedPackage(PackageType.Ack, String.valueOf(sensor.getId()), ack.serialize());
 
-        sensor.putVariable(outputAck, ack.serialize());
+        sensor.putVariable(outputAck, typedPackage.serialize());
 
         return 0;
     }

@@ -52,7 +52,6 @@ class Command_DECREASECONGASTEPTest {
 
         boolean shouldResend = Boolean.parseBoolean(sensor.getVariableValue("$shouldResend"));
 
-
         assertFalse(shouldResend);
     }
 }

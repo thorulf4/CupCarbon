@@ -94,8 +94,6 @@ public class MessageTable {
             if(message.congaStepsLeft != 0)
                 message.setTimerTimeLeft((CONGA_STEPS + 1 - message.congaStepsLeft));
         }
-
-
     }
 
     public boolean isCongaActive(String messageId){
