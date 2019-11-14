@@ -43,7 +43,7 @@ public class Command_TICKCONGATIMER extends Command{
 
     private double getPreviousTime() {
         String timer = sensor.getVariableValue("$" + previousTimeVariable);
-        if(timer.isEmpty()){
+        if(timer == null || timer.isEmpty()){
             return 0d;
         }
         return Double.parseDouble(timer);
