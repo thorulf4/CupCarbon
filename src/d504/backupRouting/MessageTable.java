@@ -1,6 +1,7 @@
 package d504.backupRouting;
 
 import d504.DataPackage;
+import d504.exceptions.MessageNotFoundException;
 import d504.utils.Serialize;
 
 import java.util.*;
@@ -35,7 +36,16 @@ public class MessageTable {
     }
 
     public DataPackage getDataPackage(String messageId){
-        return messages.get(messageId).dataPackage;
+        Optional<DataPackage> optionalDataPackage = messages.entrySet().stream()
+                .filter(e -> e.getKey().equals(messageId))
+                .map(e -> e.getValue().dataPackage)
+                .findFirst();
+
+        if(optionalDataPackage.isPresent()){
+            return optionalDataPackage.get();
+        }else{
+            throw new MessageNotFoundException("MessageId: " + messageId + " was not found in MessageTable");
+        }
     }
 
     public List<String> getReceivers(String messageId){
