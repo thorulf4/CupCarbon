@@ -34,6 +34,8 @@ public class Command_TICKCONGATIMER extends Command{
             String serializedTimedOutMessages = Serialize.serialize(timedoutMessage);
             sensor.putVariable(timedoutMessageVariable, serializedTimedOutMessages);
             sensor.putVariable(messageTableVariable, messageTable.serialize());
+        }else{
+            sensor.putVariable(timedoutMessageVariable, "");
         }
 
         sensor.putVariable(previousTimeVariable, String.valueOf(currentTime));
