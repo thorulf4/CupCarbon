@@ -3,12 +3,12 @@ package d504.backupRouting;
 import d504.DataPackage;
 import d504.utils.Serialize;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MessageTable {
+
+    private static final int CONGA_STEPS = 2;
 
     private HashMap<String, Message> messages;
 
@@ -20,9 +20,10 @@ public class MessageTable {
         return messages.containsKey(messageId);
     }
 
-    public void addMessage(String messageId, String sender, DataPackage dataPackage){
-        Message message = new Message(sender, 2, dataPackage);
-        messages.put(messageId, message);
+    public void addMessage(String sender, DataPackage dataPackage){
+        Message message = new Message(sender, CONGA_STEPS, dataPackage);
+        message.setTimerTimeLeft(CONGA_STEPS);
+        messages.put(dataPackage.getMessageID(), message);
     }
 
     public void addReceiver(String messageId, String receiver){
@@ -56,7 +57,6 @@ public class MessageTable {
             String messageId = keySet.next();
 
             int elementCount = 3 + 3 + messages.get(messageId).receivers.size();
-            int elementCount = 2 + 3 + messages.get(messageId).receivers.size();
             stringBuilder.append(messageId);
             stringBuilder.append("&");
             stringBuilder.append(elementCount);
@@ -91,6 +91,8 @@ public class MessageTable {
         Message message = messages.get(messageId);
         if(message.congaStepsLeft > 0){
             message.congaStepsLeft--;
+            if(message.congaStepsLeft != 0)
+                message.setTimerTimeLeft((CONGA_STEPS + 1 - message.congaStepsLeft));
         }
 
 
@@ -102,4 +104,14 @@ public class MessageTable {
         return message.congaStepsLeft > 0;
     }
 
+    public void tickTimers(double timeStep) {
+        messages.forEach((id, m) -> m.tickTimer(timeStep));
+    }
+
+    public List<String> getTimedOutMessages() {
+        return messages.entrySet().stream()
+                .filter(e -> e.getValue().getTimerTimeLeft() <= 0)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
 }

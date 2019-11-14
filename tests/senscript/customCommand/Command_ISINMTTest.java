@@ -16,8 +16,8 @@ class Command_ISINMTTest {
         String output = "x";
         String mtVar = "mt";
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage(message.getMessageID(),"1",message);
-        messageTable.addMessage(message2.getMessageID(),"1",message2);
+        messageTable.addMessage("1",message);
+        messageTable.addMessage("1",message2);
         sensor.putVariable(mtVar,messageTable.serialize());
 
         Command_ISINMT isinmt = new Command_ISINMT(sensor,mtVar,message.serialize(),output);
@@ -34,8 +34,8 @@ class Command_ISINMTTest {
         String output = "x";
         String mtVar = "mt";
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage(message.getMessageID(),"1",message);
-        messageTable.addMessage(message2.getMessageID(),"1",message2);
+        messageTable.addMessage("1",message);
+        messageTable.addMessage("1",message2);
         sensor.putVariable(mtVar,messageTable.serialize());
 
         Command_ISINMT isinmt = new Command_ISINMT(sensor,mtVar,message2.serialize(),output);

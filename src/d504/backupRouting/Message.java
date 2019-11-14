@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Message {
+    private double timerTimeLeft;
+
     public String sender;
     public List<String> receivers;
-    public double timerTimeLeft;
     public DataPackage dataPackage;
     public int congaStepsLeft = 0;
 
@@ -61,5 +62,29 @@ class Message {
         }
 
         return message;
+    }
+
+    public double getTimerTimeLeft() {
+        return timerTimeLeft;
+    }
+
+    public void setTimerTimeLeft(double timerTimeLeft) {
+        if(timerTimeLeft < 0)
+            throw new RuntimeException("Timer can´t be set to a negative value. Use disableTimer instead");
+        this.timerTimeLeft = timerTimeLeft;
+    }
+
+    public void disableTimer(){
+        timerTimeLeft = -1;
+    }
+
+
+    public void tickTimer(double timeStep) {
+        if(timerTimeLeft == -1)
+            return;
+
+        timerTimeLeft -= timeStep;
+        if(timerTimeLeft < 0)
+            timerTimeLeft = 0;
     }
 }

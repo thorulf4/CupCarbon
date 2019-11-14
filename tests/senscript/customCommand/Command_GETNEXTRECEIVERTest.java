@@ -24,11 +24,11 @@ class Command_GETNEXTRECEIVERTest {
 
         DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
 
-        mt.addMessage("33", "S3", dataPackage);
+        mt.addMessage("S3", dataPackage);
 
-        mt.addReceiver("33", "S5");
+        mt.addReceiver("2", "S5");
 
-        List<String> receivers = mt.getReceivers("33");
+        List<String> receivers = mt.getReceivers("2");
 
         testNode.putVariable("nextReceivers", Serialize.serialize(receivers));
 
@@ -46,9 +46,9 @@ class Command_GETNEXTRECEIVERTest {
 
         MessageTable mt = new MessageTable();
 
-        DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
+        DataPackage dataPackage = new DataPackage("33", "A", "AlphaKilo");
 
-        mt.addMessage("33", "S3", dataPackage);
+        mt.addMessage("S3", dataPackage);
 
         mt.addReceiver("33", "S5");
 
@@ -72,9 +72,9 @@ class Command_GETNEXTRECEIVERTest {
 
         MessageTable mt = new MessageTable();
 
-        DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
+        DataPackage dataPackage = new DataPackage("33", "A", "AlphaKilo");
 
-        mt.addMessage("33", "S3", dataPackage);
+        mt.addMessage("S3", dataPackage);
 
         mt.addReceiver("33", "S5");
 
@@ -100,9 +100,9 @@ class Command_GETNEXTRECEIVERTest {
 
         MessageTable mt = new MessageTable();
 
-        DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
+        DataPackage dataPackage = new DataPackage("33", "A", "AlphaKilo");
 
-        mt.addMessage("33", "S3", dataPackage);
+        mt.addMessage( "S3", dataPackage);
 
         mt.addReceiver("33", "S5");
 

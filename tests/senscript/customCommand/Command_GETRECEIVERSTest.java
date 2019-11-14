@@ -17,7 +17,7 @@ class Command_GETRECEIVERSTest {
     void getReceiversTest1(){
         TestableSensorNode sensor = new TestableSensorNode(1);
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "3", new DataPackage("m1", "R1", "someData"));
+        messageTable.addMessage("3", new DataPackage("m1", "R1", "someData"));
         messageTable.addReceiver("m1", "2");
         messageTable.addReceiver("m1", "4");
 

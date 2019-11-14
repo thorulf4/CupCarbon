@@ -33,7 +33,7 @@ class Command_GETNEXTHOPTest {
         sensor.putVariable("dataPackage", dataPackage.serialize());
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "n1",dataPackage);
+        messageTable.addMessage("n1",dataPackage);
 
         sensor.putVariable("MT", messageTable.serialize());
 
@@ -49,7 +49,7 @@ class Command_GETNEXTHOPTest {
         sensor.putVariable("dataPackage", dataPackage.serialize());
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "n1",dataPackage);
+        messageTable.addMessage("n1",dataPackage);
         messageTable.addReceiver("m1", "n2");
 
         sensor.putVariable("MT", messageTable.serialize());
@@ -66,7 +66,7 @@ class Command_GETNEXTHOPTest {
         sensor.putVariable("dataPackage", dataPackage.serialize());
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "n2",dataPackage);
+        messageTable.addMessage("n2",dataPackage);
         messageTable.addReceiver("m1", "n3");
 
         sensor.putVariable("MT", messageTable.serialize());
@@ -83,7 +83,7 @@ class Command_GETNEXTHOPTest {
         sensor.putVariable("dataPackage", dataPackage.serialize());
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "n1",dataPackage);
+        messageTable.addMessage("n1",dataPackage);
 
         sensor.putVariable("MT", messageTable.serialize());
 
@@ -99,7 +99,7 @@ class Command_GETNEXTHOPTest {
         sensor.putVariable("dataPackage", dataPackage.serialize());
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "n1",dataPackage);
+        messageTable.addMessage("n1",dataPackage);
         messageTable.addReceiver("m1", "n3");
 
         sensor.putVariable("MT", messageTable.serialize());
@@ -117,7 +117,7 @@ class Command_GETNEXTHOPTest {
         sensor.putVariable("dataPackage", dataPackage.serialize());
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("m1", "n1",dataPackage);
+        messageTable.addMessage("n1",dataPackage);
         messageTable.addReceiver("m1", "n3");
         messageTable.addReceiver("m1", "n2");
 

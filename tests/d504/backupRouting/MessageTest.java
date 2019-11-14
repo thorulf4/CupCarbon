@@ -30,4 +30,34 @@ class MessageTest {
         assertEquals("3", message.receivers.get(0));
         assertEquals("5", message.receivers.get(1));
     }
+
+    @Test
+    void tickTimer_returnsCorrectTimerAfterTick(){
+        Message message = new Message("1", 2, new DataPackage("A", "data"));
+        message.setTimerTimeLeft(1000d);
+
+        message.tickTimer(500d);
+
+        assertEquals(500d, message.getTimerTimeLeft());
+    }
+
+    @Test
+    void tickTimer_cannotGoBelowZero(){
+        Message message = new Message("1", 2, new DataPackage("A", "data"));
+        message.setTimerTimeLeft(1000d);
+
+        message.tickTimer(1200d);
+
+        assertEquals(0d, message.getTimerTimeLeft());
+    }
+
+    @Test
+    void tickTimer_disabledTimerDoesNotTickDown(){
+        Message message = new Message("1", 2, new DataPackage("A", "data"));
+        message.disableTimer();
+
+        message.tickTimer(1200d);
+
+        assertEquals(-1, message.getTimerTimeLeft());
+    }
 }
