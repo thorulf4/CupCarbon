@@ -4,13 +4,13 @@ import d504.DataPackage;
 import d504.ISensorNode;
 import d504.backupRouting.MessageTable;
 
-public class Command_GetDataFromMessageId extends Command {
+public class Command_GETDATAFROMMESSAGEID extends Command {
 
     private String messageTableVariable;
     private String timedOutMessagesVariable;
     private String timedOutDataVariable;
 
-    public Command_GetDataFromMessageId(ISensorNode sensorNode, String messageTableVariable, String timedOutMessagesVariable, String timedOutDataVariable) {
+    public Command_GETDATAFROMMESSAGEID(ISensorNode sensorNode, String messageTableVariable, String timedOutMessagesVariable, String timedOutDataVariable) {
         this.sensor = sensorNode;
         this.messageTableVariable = messageTableVariable;
         this.timedOutMessagesVariable = timedOutMessagesVariable;

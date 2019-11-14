@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Command_GetDataFromMessageIdTest {
+class Command_GETDATAFROMMESSAGEIDTest {
 
-    private Command_GetDataFromMessageId command;
+    private Command_GETDATAFROMMESSAGEID command;
     private TestableSensorNode sensorNode;
     private String messageTableVariable;
     private String timedOutMessageVariable;
@@ -29,7 +29,7 @@ class Command_GetDataFromMessageIdTest {
     void createCommand(MessageTable messageTable, String timedOutMessage){
         sensorNode.putVariable(messageTableVariable, messageTable.serialize());
         sensorNode.putVariable(timedOutMessageVariable, timedOutMessage);
-        command = new Command_GetDataFromMessageId(sensorNode, "$"+messageTableVariable,
+        command = new Command_GETDATAFROMMESSAGEID(sensorNode, "$"+messageTableVariable,
                 "$"+timedOutMessageVariable, timedOutDataVariable);
     }
 
