@@ -101,8 +101,11 @@ public class MessageTable {
         Message message = messages.get(messageId);
         if(message.congaStepsLeft > 0){
             message.congaStepsLeft--;
-            if(message.congaStepsLeft != 0)
+            if(message.congaStepsLeft != 0){
                 message.setTimerTimeLeft((CONGA_STEPS + 1 - message.congaStepsLeft));
+            }else{
+                message.disableTimer();
+            }
         }
     }
 
