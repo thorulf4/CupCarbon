@@ -20,8 +20,8 @@ public class MessageTable {
         return messages.containsKey(messageId);
     }
 
-    public void addMessage(String sender, DataPackage dataPackage){
-        Message message = new Message(sender, CONGA_STEPS, dataPackage);
+    public void addMessage(long expirationTime, String sender, DataPackage dataPackage){
+        Message message = new Message(sender, CONGA_STEPS, expirationTime, dataPackage);
         message.setTimerTimeLeft(CONGA_STEPS);
         messages.put(dataPackage.getMessageID(), message);
     }
@@ -56,7 +56,7 @@ public class MessageTable {
 
             String messageId = keySet.next();
 
-            int elementCount = 3 + 3 + messages.get(messageId).receivers.size();
+            int elementCount = 4 + 3 + messages.get(messageId).receivers.size();
             stringBuilder.append(messageId);
             stringBuilder.append("&");
             stringBuilder.append(elementCount);
@@ -113,5 +113,19 @@ public class MessageTable {
                 .filter(e -> e.getValue().getTimerTimeLeft() <= 0)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
+    }
+
+    public void tickExpirationTimers(long currentTime){
+        List<String> expiredKeys = new ArrayList<>();
+
+        for (String key : messages.keySet()) {
+            Message message = messages.get(key);
+            if(message.expiryTime < currentTime)
+                expiredKeys.add(key);
+        }
+
+        for (String key : expiredKeys) {
+            messages.remove(key);
+        }
     }
 }

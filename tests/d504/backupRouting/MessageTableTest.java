@@ -10,19 +10,20 @@ class MessageTableTest {
     @Test
     void serialize() {
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("3", new DataPackage("m13","1", "hi"));
+
+        messageTable.addMessage(3600,"3", new DataPackage("m13","1", "hi"));
         messageTable.addReceiver("m13", "5");
-        messageTable.addMessage("2", new DataPackage("a14","1", "no"));
+        messageTable.addMessage(3600,"2", new DataPackage("a14","1", "no"));
         messageTable.addReceiver("a14", "7");
 
-        assertEquals("a14&7&2&2&2.0&a14&1&no&7&m13&7&3&2&2.0&m13&1&hi&5", messageTable.serialize());
+        assertEquals("a14&8&2&3600&2&2.0&a14&1&no&7&m13&8&3&3600&2&2.0&m13&1&hi&5", messageTable.serialize());
     }
 
     @Test
     void deserialize() {
-        MessageTable messageTable = MessageTable.deserialize("a14&7&2&2&0.0&a14&1&no&7&m13&7&3&2&0.0&m13&1&hi&5");
+        MessageTable messageTable = MessageTable.deserialize("a14&8&2&3600&2&0.0&a14&1&no&7&m13&8&3&3600&2&0.0&m13&1&hi&5");
 
-        assertEquals("a14&7&2&2&0.0&a14&1&no&7&m13&7&3&2&0.0&m13&1&hi&5",messageTable.serialize());
+        assertEquals("a14&8&2&3600&2&0.0&a14&1&no&7&m13&8&3&3600&2&0.0&m13&1&hi&5",messageTable.serialize());
         assertEquals(1, messageTable.getReceivers("m13").size());
         assertEquals(1, messageTable.getReceivers("a14").size());
 
@@ -31,8 +32,8 @@ class MessageTableTest {
     @Test
     void tickTimers_test(){
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("2", new DataPackage("A", "data"));
-        messageTable.addMessage("3", new DataPackage("B", "data"));
+        messageTable.addMessage(1000,"2", new DataPackage("A", "data"));
+        messageTable.addMessage(1000,"3", new DataPackage("B", "data"));
 
         messageTable.tickTimers(2d);
 
@@ -42,8 +43,8 @@ class MessageTableTest {
     @Test
     void tickTimers_test2(){
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("2", new DataPackage("A", "data"));
-        messageTable.addMessage("3", new DataPackage("B", "data"));
+        messageTable.addMessage(1000,"2", new DataPackage("A", "data"));
+        messageTable.addMessage(1000,"3", new DataPackage("B", "data"));
 
         messageTable.tickTimers(1d);
 

@@ -24,7 +24,7 @@ class Command_GETNEXTRECEIVERTest {
 
         DataPackage dataPackage = new DataPackage("2", "A", "AlphaKilo");
 
-        mt.addMessage("S3", dataPackage);
+        mt.addMessage(3600, "S3", dataPackage);
 
         mt.addReceiver("2", "S5");
 
@@ -48,7 +48,7 @@ class Command_GETNEXTRECEIVERTest {
 
         DataPackage dataPackage = new DataPackage("33", "A", "AlphaKilo");
 
-        mt.addMessage("S3", dataPackage);
+        mt.addMessage(3600, "S3", dataPackage);
 
         mt.addReceiver("33", "S5");
 
@@ -74,7 +74,7 @@ class Command_GETNEXTRECEIVERTest {
 
         DataPackage dataPackage = new DataPackage("33", "A", "AlphaKilo");
 
-        mt.addMessage("S3", dataPackage);
+        mt.addMessage(3600,"S3", dataPackage);
 
         mt.addReceiver("33", "S5");
 
@@ -102,7 +102,7 @@ class Command_GETNEXTRECEIVERTest {
 
         DataPackage dataPackage = new DataPackage("33", "A", "AlphaKilo");
 
-        mt.addMessage( "S3", dataPackage);
+        mt.addMessage(3600,"S3", dataPackage);
 
         mt.addReceiver("33", "S5");
 

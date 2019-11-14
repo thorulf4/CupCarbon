@@ -38,8 +38,8 @@ class Command_TICKCONGATIMERTest {
     @Test
     void returned_previous_time_is_correct(){
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("2", new DataPackage("A", "data"));
-        messageTable.addMessage("2", new DataPackage("B", "data"));
+        messageTable.addMessage(1000, "2", new DataPackage("A", "data"));
+        messageTable.addMessage(1000,"2", new DataPackage("B", "data"));
 
         createCommand(messageTable, 0d);
         sensorNode.addTime(1);
@@ -54,8 +54,8 @@ class Command_TICKCONGATIMERTest {
     @Test
     void returns_correct_amount_of_timed_out_messages(){
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("2", new DataPackage("A", "data"));
-        messageTable.addMessage("2", new DataPackage("B", "data"));
+        messageTable.addMessage(1000,"2", new DataPackage("A", "data"));
+        messageTable.addMessage(1000,"2", new DataPackage("B", "data"));
 
         createCommand(messageTable, 0d);
         sensorNode.addTime(1);
@@ -72,12 +72,12 @@ class Command_TICKCONGATIMERTest {
     @Test
     void returns_correct_amount_of_timed_out_messages2(){
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage("2", new DataPackage("A", "data"));
+        messageTable.addMessage(1000, "2", new DataPackage("A", "data"));
 
         createCommand(messageTable, 0d);
         sensorNode.addTime(1);
         command.execute();
-        messageTable.addMessage("2", new DataPackage("B", "data"));
+        messageTable.addMessage(1000,"2", new DataPackage("B", "data"));
         sensorNode.addTime(1);
         command.execute();
         sensorNode.addTime(1);

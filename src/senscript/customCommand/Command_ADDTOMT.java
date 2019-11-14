@@ -26,7 +26,10 @@ public class Command_ADDTOMT extends Command {
         DataPackage dataPacket = DataPackage.deserialize(sensor.getVariableValue(input));
         MessageTable MT = MessageTable.deserialize(sensor.getVariableValue("$"+ MTVariable));
 
-        MT.addMessage(senderID, dataPacket);
+        long lifeTimeInSeconds = 3600 * 2; // 2 hours
+        long expiryTime = lifeTimeInSeconds + (long)sensor.getSimulationTime();
+
+        MT.addMessage(expiryTime, senderID, dataPacket);
         sensor.putVariable(MTVariable, MT.serialize());
         return 0;
 
