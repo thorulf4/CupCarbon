@@ -148,4 +148,12 @@ public class MessageTable {
             messages.remove(key);
         }
     }
+
+    public void setSender(String messageID, String sender) {
+        if(messages.containsKey(messageID)){
+            messages.get(messageID).sender = sender;
+        }else{
+            throw new RuntimeException("Message id is not present in table");
+        }
+    }
 }

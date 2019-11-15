@@ -39,6 +39,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import d504.ISensorNode;
+import d504.exceptions.RuntimeErrorState;
 import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 import battery.Battery;
@@ -666,6 +667,10 @@ public abstract class SensorNode extends DeviceWithRadio implements ISensorNode 
 		if (event == 0) {																	
 			boolean cont = true;
 			while (cont) {
+				RuntimeErrorState.command = script.getCurrent();
+				RuntimeErrorState.senScript = script;
+				RuntimeErrorState.sensor = this;
+
 				script.executeCommand();
 				if (script.getEvent() == 0) {
 					script.next();

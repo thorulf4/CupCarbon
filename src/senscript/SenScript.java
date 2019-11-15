@@ -73,10 +73,6 @@ public class SenScript {
 			if (index >= commands.size()){
 				index = loopIndex;
 			}
-
-			RuntimeErrorState.command = getCurrent();
-			RuntimeErrorState.senScript = this;
-			RuntimeErrorState.sensor = sensor;
 		}		
 	}
 	
