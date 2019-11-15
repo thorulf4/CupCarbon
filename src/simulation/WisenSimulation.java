@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ConcurrentModificationException;
 
 import cupcarbon.CupCarbon;
 import d504.exceptions.RuntimeErrorState;
@@ -76,7 +77,11 @@ public class WisenSimulation implements Runnable {
 		if(ready()) {
 			try{
 				start_simulation();
-			}catch (RuntimeException e){
+			}
+			catch (ConcurrentModificationException e){
+				throw e;
+			}
+			catch (RuntimeException e){
 				System.err.println("Error on sensor node: " + RuntimeErrorState.sensor.getId());
 				System.err.println("On line: " + RuntimeErrorState.command.lineNumber);
 
