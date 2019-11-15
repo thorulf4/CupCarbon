@@ -1,5 +1,6 @@
 package senscript.customCommand;
 
+import d504.AckMessage;
 import d504.DataPackage;
 import d504.ISensorNode;
 import d504.TestableSensorNode;
@@ -15,7 +16,7 @@ class Command_GETSENDERFROMMESSAGETABLETest {
     private ISensorNode sensor;
     private Command_GETSENDERFROMMESSAGETABLE command;
     private String messageTableVariable;
-    private String messageIdVariable;
+    private String ackMessageVariable;
     private String senderIdOutputVariable;
 
     @BeforeEach
@@ -24,14 +25,14 @@ class Command_GETSENDERFROMMESSAGETABLETest {
         sensor = new TestableSensorNode(1);
 
         messageTableVariable = "messageTableVariable";
-        messageIdVariable = "messageIdVariable";
+        ackMessageVariable = "ackMessageVariable";
         senderIdOutputVariable = "senderIdOutputVariable";
     }
 
-    void createCommand(MessageTable messageTable, String messageId){
+    void createCommand(MessageTable messageTable, AckMessage ackMessage){
         sensor.putVariable(messageTableVariable, messageTable.serialize());
-        sensor.putVariable(messageIdVariable, messageId);
-        command = new Command_GETSENDERFROMMESSAGETABLE(sensor, "$" + messageIdVariable, "$" + messageTableVariable, senderIdOutputVariable);
+        sensor.putVariable(ackMessageVariable, ackMessage.serialize());
+        command = new Command_GETSENDERFROMMESSAGETABLE(sensor, "$" + ackMessageVariable, "$" + messageTableVariable, senderIdOutputVariable);
     }
 
     @Test
@@ -39,8 +40,9 @@ class Command_GETSENDERFROMMESSAGETABLETest {
         MessageTable messageTable = new MessageTable();
         DataPackage data = new DataPackage("A", "data");
         messageTable.addMessage(6000, "2", data);
+        AckMessage ackMessage = new AckMessage(data.getMessageID());
 
-        createCommand(messageTable, data.getMessageID());
+        createCommand(messageTable, ackMessage);
         command.execute();
         String returnedSenderId = sensor.getVariableValue("$" + senderIdOutputVariable);
 
@@ -57,7 +59,7 @@ class Command_GETSENDERFROMMESSAGETABLETest {
         messageTable.addMessage(6000, "3", data2);
         messageTable.addMessage(6000, "4", data3);
 
-        createCommand(messageTable, data2.getMessageID());
+        createCommand(messageTable, new AckMessage(data2.getMessageID()));
         command.execute();
         String returnedSenderId = sensor.getVariableValue("$" + senderIdOutputVariable);
 
@@ -69,7 +71,7 @@ class Command_GETSENDERFROMMESSAGETABLETest {
         MessageTable messageTable = new MessageTable();
         DataPackage data = new DataPackage("A", "data");
 
-        createCommand(messageTable, data.getMessageID());
+        createCommand(messageTable, new AckMessage(data.getMessageID()));
 
         assertThrows(MessageNotFoundException.class, () -> command.execute());
     }
