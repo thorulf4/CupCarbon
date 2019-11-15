@@ -32,7 +32,16 @@ public class MessageTable {
     }
 
     public String getSender(String messageId){
-        return messages.get(messageId).sender;
+        Optional<String> optionalSenderId = messages.entrySet().stream()
+                .filter(e -> e.getKey().equals(messageId))
+                .map(e -> e.getValue().sender)
+                .findFirst();
+
+        if(optionalSenderId.isPresent()){
+            return optionalSenderId.get();
+        }else{
+            throw new MessageNotFoundException("MessageId: " + messageId + " was not found in MessageTable");
+        }
     }
 
     public DataPackage getDataPackage(String messageId){
