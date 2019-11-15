@@ -4,6 +4,7 @@ set PT 3
 set MT \
 set hasIncreasedConfig false
 set shouldSendFireMessage true
+set lastDataSender \
 
 loop
     pulseTimer $t 0.01 timeReached
@@ -51,6 +52,17 @@ loop
         end 
     end
 
+    tickCongaTimer MT previousTime timedOutMessages
+    if($timedOutMessages != \)
+        iterate timedOutMessages timedOutMessage
+        getDataFromMessageId $MT $timedOutMessage timedOutData
+        getNextHop RT MT $timedOutData destinationNode
+        resignData $timedOutData timedOutDataPackage
+        print data_timed_out
+        send !color 2
+        send $timedOutDataPackage $destinationNode
+    end
+
     read rawData
 
     if ($rawData!=\)
@@ -60,12 +72,12 @@ loop
             if ($shouldCreateConfig==true)
                 createConfig RT configPacket
                 print Config
-		set destinationNode \
                 send !color 1
-                send $configPacket $destinationNode 
+                send $configPacket 
             end 
             registerPulseForConfig PT $senderNode $RT
         end
+        
         if ($dataType==1)
             set destinationNode \
             isInMT MT $data isInMT
@@ -77,10 +89,19 @@ loop
             end
 
             resignData $data dataPacket 
-	
-            print data
+
+            print data_and_ack
             send !color 2            
             send $dataPacket $destinationNode
+
+            delay 100
+
+            createACK $data ackPackage
+            send !color 7
+            send $ackPackage $senderNode
+            print $senderNode
+
+            set lastDataSender $senderNode
         end
         if ($dataType==2)
             isInRT RT $data isNodeInRT
@@ -96,15 +117,14 @@ loop
             end
         end
         if ($dataType==3)
-            getReceivers MT $data receiverList anyRemaining
-            while($anyRemaining==true)
-                getNextReceiver receiverList receiver anyRemaining
-                resignAck $data ackPacket
-
-                print received_ack
+            decreaseCongaStep MT $data shouldSend
+            if($shouldSend == true)
+                createACK $data ackPackage
+                print ack
                 send !color 7
-                send $ackPacket $receiver
+                send $ackPackage $lastDataSender    
             end
         end
     end
+    tickExpirationTimers MT
     delay 100
