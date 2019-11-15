@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 import cupcarbon.CupCarbon;
+import d504.exceptions.RuntimeErrorState;
 import device.MessageEventList;
 import device.Device;
 import device.DeviceList;
@@ -73,7 +74,14 @@ public class WisenSimulation implements Runnable {
 	// ------------------------------------------------------------
 	public void simulate() {
 		if(ready()) {
-			start_simulation();
+			try{
+				start_simulation();
+			}catch (RuntimeException e){
+				System.err.println("Error on sensor node: " + RuntimeErrorState.sensor.getId());
+				System.err.println("On line: " + RuntimeErrorState.command.lineNumber);
+
+				e.printStackTrace();
+			}
 		}
 		else {
 			Platform.runLater(new Runnable() {
@@ -426,8 +434,12 @@ public class WisenSimulation implements Runnable {
 			isSimulating = false;
 			updateButtons();			
 		} 
-		catch (FileNotFoundException e) {e.printStackTrace();} 
-		catch (InterruptedException e) {e.printStackTrace();}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		MapLayer.repaint();
 		long endTime = System.currentTimeMillis();
 		System.out.println();

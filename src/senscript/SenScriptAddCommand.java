@@ -20,7 +20,7 @@ public final class SenScriptAddCommand {
 		return s;
 	}
 	
-	public static void addCommand(String instStr, SensorNode sensorNode, SenScript script) {
+	public static void addCommand(String instStr, SensorNode sensorNode, SenScript script, int lineNumber) {
 		instStr = detectKeyWord(instStr);
 		String[] inst = instStr.split(" ");
 		
@@ -51,7 +51,7 @@ public final class SenScriptAddCommand {
 
 
 			senscript.customCommand.Command customCommand = (senscript.customCommand.Command) constructor.newInstance(parameters.toArray(new Object[]{}));
-
+			customCommand.lineNumber = lineNumber;
 			command = new Command() {
 				@Override
 				public double execute() {
@@ -75,7 +75,7 @@ public final class SenScriptAddCommand {
 
 		if (commandName.equals("end")) {
 			instStr = endof.pop();
-			addCommand(instStr, sensorNode, script);
+			addCommand(instStr, sensorNode, script, lineNumber);
 		}
 		
 		if (commandName.equals("simulation")) {
@@ -467,6 +467,7 @@ public final class SenScriptAddCommand {
 		// This part must be here (at the end). All new commands must be added before (above)
 		
 		if (command != null) {
+			command.lineNumber = lineNumber;
 			script.add(command);
 			command.setCurrentIf(script.getCurrentIf());
 			command.setCurrentWhile(script.getCurrentWhile());

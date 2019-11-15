@@ -34,6 +34,8 @@ public abstract class Command {
 	protected Command_IF currentIf = null;
 	protected Command_WHILE currentWhile = null;
 	protected Command_FOR currentFor = null;
+
+	public int lineNumber;
 	
 	//protected boolean writtenInUART = false ;
 	protected boolean executing = false ;
