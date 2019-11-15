@@ -28,6 +28,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import d504.exceptions.RuntimeErrorState;
 import device.SensorNode;
 import project.Project;
 
@@ -72,6 +73,10 @@ public class SenScript {
 			if (index >= commands.size()){
 				index = loopIndex;
 			}
+
+			RuntimeErrorState.command = getCurrent();
+			RuntimeErrorState.senScript = this;
+			RuntimeErrorState.sensor = sensor;
 		}		
 	}
 	

@@ -60,8 +60,9 @@ loop
             if ($shouldCreateConfig==true)
                 createConfig RT configPacket
                 print Config
+		set destinationNode \
                 send !color 1
-                send $configPacket
+                send $configPacket $destinationNode 
             end 
             registerPulseForConfig PT $senderNode $RT
         end
@@ -76,7 +77,7 @@ loop
             end
 
             resignData $data dataPacket 
-
+	
             print data
             send !color 2            
             send $dataPacket $destinationNode

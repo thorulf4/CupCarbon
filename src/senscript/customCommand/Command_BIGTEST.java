@@ -13,9 +13,9 @@ public class Command_BIGTEST extends Command {
 
     @Override
     public double execute() {
+        throw new RuntimeException("hey");
 
-
-        System.out.println("My test worked: " + word);
-        return 0;
+        //System.out.println("My test worked: " + word);
+        //return 0;
     }
 }

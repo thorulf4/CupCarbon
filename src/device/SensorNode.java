@@ -420,8 +420,13 @@ public abstract class SensorNode extends DeviceWithRadio implements ISensorNode 
 			BufferedReader br = new BufferedReader(new FileReader(projectScriptPath));
 		
 			String s = "";
-			while ((s = br.readLine()) != null) {										
-				addCommand(s);
+			for (int i = 1; (s = br.readLine()) != null; i++) {
+				try {
+					addCommand(s,i);
+				}catch (Exception e){
+					System.out.println("Error on line " + i);
+					e.printStackTrace();
+				}
 			}
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -442,8 +447,13 @@ public abstract class SensorNode extends DeviceWithRadio implements ISensorNode 
 			BufferedReader br = new BufferedReader(new FileReader(projectScriptPath));
 		
 			String s = "";
-			while ((s = br.readLine()) != null) {										
-				addCommand(s);
+			for (int i = 1; (s = br.readLine()) != null; i++) {
+				try {
+					addCommand(s,i);
+				}catch (Exception e){
+					System.out.println("Error on line " + i);
+					e.printStackTrace();
+				}
 			}
 			br.close();
 		} catch (Exception e) {e.printStackTrace();}
@@ -462,8 +472,13 @@ public abstract class SensorNode extends DeviceWithRadio implements ISensorNode 
 			BufferedReader br = new BufferedReader(new FileReader(projectScriptPath));
 		
 			String s = "";
-			while ((s = br.readLine()) != null) {										
-				addCommand(s);
+			for (int i = 1;(s = br.readLine()) != null; i++) {
+				try {
+					addCommand(s,i);
+				}catch (Exception e){
+					System.out.println("Error on line " + i);
+					e.printStackTrace();
+				}
 			}
 			br.close();
 		} catch (Exception e) {e.printStackTrace();}
@@ -592,8 +607,8 @@ public abstract class SensorNode extends DeviceWithRadio implements ISensorNode 
 		return false ;
 	}
 	
-	public void addCommand(String instStr) {
-		SenScriptAddCommand.addCommand(instStr.trim(), this, script);
+	public void addCommand(String instStr, int lineNumber) {
+		SenScriptAddCommand.addCommand(instStr.trim(), this, script, lineNumber);
 	}
 	
 	public boolean isComEdgeDrawn() {
