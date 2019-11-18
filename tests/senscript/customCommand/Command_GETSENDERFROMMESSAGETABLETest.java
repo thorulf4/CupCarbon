@@ -1,9 +1,6 @@
 package senscript.customCommand;
 
-import d504.AckMessage;
-import d504.DataPackage;
-import d504.ISensorNode;
-import d504.TestableSensorNode;
+import d504.*;
 import d504.backupRouting.MessageTable;
 import d504.exceptions.MessageNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +26,7 @@ class Command_GETSENDERFROMMESSAGETABLETest {
         senderIdOutputVariable = "senderIdOutputVariable";
     }
 
-    void createCommand(MessageTable messageTable, AckMessage ackMessage){
+    void createCommand(MessageTable messageTable, TypedPackage ackMessage){
         sensor.putVariable(messageTableVariable, messageTable.serialize());
         sensor.putVariable(ackMessageVariable, ackMessage.serialize());
         command = new Command_GETSENDERFROMMESSAGETABLE(sensor, "$" + ackMessageVariable, "$" + messageTableVariable, senderIdOutputVariable);
@@ -42,7 +39,7 @@ class Command_GETSENDERFROMMESSAGETABLETest {
         messageTable.addMessage(6000, "2", data);
         AckMessage ackMessage = new AckMessage(data.getMessageID());
 
-        createCommand(messageTable, ackMessage);
+        createCommand(messageTable, new TypedPackage(PackageType.Ack, "1", ackMessage.serialize()));
         command.execute();
         String returnedSenderId = sensor.getVariableValue("$" + senderIdOutputVariable);
 
@@ -58,8 +55,10 @@ class Command_GETSENDERFROMMESSAGETABLETest {
         messageTable.addMessage(6000, "2", data1);
         messageTable.addMessage(6000, "3", data2);
         messageTable.addMessage(6000, "4", data3);
+        AckMessage ackMessage = new AckMessage(data2.getMessageID());
 
-        createCommand(messageTable, new AckMessage(data2.getMessageID()));
+
+        createCommand(messageTable, new TypedPackage(PackageType.Ack, "1", ackMessage.serialize()));
         command.execute();
         String returnedSenderId = sensor.getVariableValue("$" + senderIdOutputVariable);
 
@@ -71,7 +70,8 @@ class Command_GETSENDERFROMMESSAGETABLETest {
         MessageTable messageTable = new MessageTable();
         DataPackage data = new DataPackage("A", "data");
 
-        createCommand(messageTable, new AckMessage(data.getMessageID()));
+        AckMessage ackMessage = new AckMessage(data.getMessageID());
+        createCommand(messageTable, new TypedPackage(PackageType.Ack, "1", ackMessage.serialize()));
 
         assertThrows(MessageNotFoundException.class, () -> command.execute());
     }

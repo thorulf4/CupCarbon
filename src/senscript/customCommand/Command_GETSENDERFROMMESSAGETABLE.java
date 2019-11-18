@@ -2,6 +2,7 @@ package senscript.customCommand;
 
 import d504.AckMessage;
 import d504.ISensorNode;
+import d504.TypedPackage;
 import d504.backupRouting.MessageTable;
 
 public class Command_GETSENDERFROMMESSAGETABLE extends Command {
@@ -29,7 +30,8 @@ public class Command_GETSENDERFROMMESSAGETABLE extends Command {
     }
 
     private String getMessageIdFromAckMessage() {
-        String serializedAck = sensor.getVariableValue(ackPackageVariable);
+        String serializedAckPackage = sensor.getVariableValue(ackPackageVariable);
+        String serializedAck = TypedPackage.deserialize(serializedAckPackage).packageData;
         AckMessage ackMessage = AckMessage.deserialize(serializedAck);
         return ackMessage.getMessageId();
     }
