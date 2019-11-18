@@ -4,7 +4,6 @@ set PT 3
 set MT \
 set hasIncreasedConfig false
 set shouldSendFireMessage true
-set lastDataSender \
 
 loop
     pulseTimer $t 0.01 timeReached
@@ -99,9 +98,6 @@ loop
             createACK $data ackPackage
             send !color 7
             send $ackPackage $senderNode
-            print $senderNode
-
-            set lastDataSender $senderNode
         end
         if ($dataType==2)
             isInRT RT $data isNodeInRT
@@ -120,6 +116,7 @@ loop
             decreaseCongaStep MT $data shouldSend
             if($shouldSend == true)
                 createACK $data ackPackage
+                getSenderFromMessageTable $ackPackage $MT lastDataSender
                 print ack
                 send !color 7
                 send $ackPackage $lastDataSender    
