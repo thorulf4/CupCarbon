@@ -50,4 +50,18 @@ class MessageTableTest {
 
         assertEquals(0, messageTable.getTimedOutMessages().size());
     }
+
+    @Test
+    void messagesWithDisabledTimerIsNotReturnedWhenGettingTimedOutMessages(){
+        MessageTable messageTable = new MessageTable();
+        DataPackage dataPackage = new DataPackage("A", "data");
+        messageTable.addMessage(1000, "2", dataPackage);
+
+        messageTable.tickTimers(2d);
+        messageTable.decreaseCongaStep(dataPackage.getMessageID());
+        messageTable.tickTimers(1d);
+        messageTable.decreaseCongaStep(dataPackage.getMessageID());
+
+        assertEquals(0, messageTable.getTimedOutMessages().size());
+    }
 }

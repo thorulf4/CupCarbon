@@ -130,9 +130,13 @@ public class MessageTable {
 
     public List<String> getTimedOutMessages() {
         return messages.entrySet().stream()
-                .filter(e -> e.getValue().getTimerTimeLeft() <= 0)
+                .filter(e -> isTimedOut(e.getValue().getTimerTimeLeft()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
+    }
+
+    private boolean isTimedOut(double timerTimeLeft) {
+        return timerTimeLeft <= 0 && timerTimeLeft != -1;
     }
 
     public void tickExpirationTimers(long currentTime){
