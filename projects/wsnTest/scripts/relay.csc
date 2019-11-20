@@ -11,7 +11,7 @@ loop
             createRelayConfig configPacket
             print Config
             send !color 10
-            send $configPacket
+            send $configPacket $senderNode
         end
     end
     if($dataType==1)

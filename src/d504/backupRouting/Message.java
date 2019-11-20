@@ -90,8 +90,10 @@ class Message {
         if(timerTimeLeft == -1)
             return;
 
-        timerTimeLeft -= timeStep;
-        if(timerTimeLeft < 0)
-            timerTimeLeft = 0;
+        if(timerTimeLeft < 0){
+            disableTimer();
+        }else{
+            timerTimeLeft -= timeStep;
+        }
     }
 }
