@@ -12,8 +12,8 @@ class MessageTest {
     @Test
     void serialize() {
         Message message = new Message("5", 2,3600, new DataPackage("a17","1", "hello world"));
-        message.receivers.add("3");
-        message.receivers.add("5");
+        message.addReceiver("3");
+        message.addReceiver("5");
 
         assertEquals("5&3600&2&0.0&a17&1&hello world&3&5", message.serialize());
     }
@@ -28,8 +28,8 @@ class MessageTest {
         assertEquals("a17", message.dataPackage.getMessageID());
         assertEquals("1", message.dataPackage.getTargetRelay());
         assertEquals("hello world", message.dataPackage.getData());
-        assertEquals("3", message.receivers.get(0));
-        assertEquals("5", message.receivers.get(1));
+        assertEquals("3", message.getReceivers().get(0));
+        assertEquals("5", message.getReceivers().get(1));
     }
 
     @Test

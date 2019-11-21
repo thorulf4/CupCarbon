@@ -33,13 +33,14 @@ public class Command_GETNEXTHOP extends Command {
         DataPackage dataPackage = deserializeDataPacket();
 
         List<String> alreadyTried = messageTable.getReceivers(dataPackage.getMessageID());
-        alreadyTried.add(messageTable.getSender(dataPackage.getMessageID()));
 
         SortedSet<NodeCost> routes = routingTable.getSortedRouteListToRelay(dataPackage.getTargetRelay());
 
         String nextNode = getFirstNotInListOrUseBackup(alreadyTried, routes, messageTable.getSender(dataPackage.getMessageID()));
+        messageTable.addReceiver(dataPackage.getMessageID(), nextNode);
 
         putVariableValue(nextHopOutputVariable, nextNode);
+        putVariableValue(messageTableVariable, messageTable.serialize());
 
         return 0;
     }

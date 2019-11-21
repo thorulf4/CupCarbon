@@ -28,7 +28,7 @@ public class MessageTable {
     }
 
     public void addReceiver(String messageId, String receiver){
-        messages.get(messageId).receivers.add(receiver);
+        messages.get(messageId).addReceiver(receiver);
     }
 
     public String getSender(String messageId){
@@ -58,7 +58,7 @@ public class MessageTable {
     }
 
     public List<String> getReceivers(String messageId){
-        return new ArrayList<>(messages.get(messageId).receivers);
+        return new ArrayList<>(messages.get(messageId).getReceivers());
     }
 
     public void removeMessage(String messageId){
@@ -75,7 +75,7 @@ public class MessageTable {
 
             String messageId = keySet.next();
 
-            int elementCount = 4 + 3 + messages.get(messageId).receivers.size();
+            int elementCount = 4 + 3 + messages.get(messageId).getReceivers().size();
             stringBuilder.append(messageId);
             stringBuilder.append("&");
             stringBuilder.append(elementCount);
