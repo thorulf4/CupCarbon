@@ -59,6 +59,6 @@ class MessageTest {
 
         message.tickTimer(1200d);
 
-        assertEquals(-1, message.getTimerTimeLeft());
+        assertEquals(Double.MIN_VALUE, message.getTimerTimeLeft());
     }
 }

@@ -13,7 +13,6 @@ class Message {
     private List<String> receivers;
 
     public String sender;
-    public List<String> receivers;
     public DataPackage dataPackage;
     public int congaStepsLeft;
     public long expiryTime;
@@ -75,8 +74,6 @@ class Message {
         if(!serializedMessage.isEmpty()){
             String[] receivers = serializedMessage.split("&");
             message.receivers.addAll(Arrays.asList(receivers));
-                message.receivers.add(receiver);
-            }
         }
 
         return message;
@@ -93,12 +90,12 @@ class Message {
     }
 
     public void disableTimer(){
-        timerTimeLeft = -1;
+        timerTimeLeft = Double.MIN_VALUE;
     }
 
 
     public void tickTimer(double timeStep) {
-        if(timerTimeLeft == -1)
+        if(timerTimeLeft == Double.MIN_VALUE)
             return;
 
         if(timerTimeLeft < 0){
