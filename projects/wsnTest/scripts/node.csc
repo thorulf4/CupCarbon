@@ -120,6 +120,16 @@ loop
                 send $ackPackage $lastDataSender    
             end
         end
+        if ($dataType==4)
+            decreaseCongaStepRelay MT $data shouldSend
+            if($shouldSend == true)
+                createACK $data ackPackage
+                getSenderFromMessageTable $ackPackage $MT lastDataSender
+                print ack_from_relay
+                send !color 7
+                send $ackPackage $lastDataSender    
+            end
+        end
     end
     tickExpirationTimers MT
     delay 100

@@ -118,10 +118,22 @@ public class MessageTable {
         }
     }
 
+    public void decreaseCongaStepForRelayAck(String messageId) {
+        Message message = messages.get(messageId);
+        message.congaStepsLeft = 0;
+        message.disableTimer();
+    }
+
     public boolean isCongaActive(String messageId){
         Message message = messages.get(messageId);
 
         return message.congaStepsLeft > 0;
+    }
+
+    public boolean isLastActiveInCongaLine(String messageId) {
+        Message message = messages.get(messageId);
+
+        return message.congaStepsLeft > 1;
     }
 
     public void tickTimers(double timeStep) {

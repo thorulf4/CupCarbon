@@ -16,7 +16,7 @@ loop
     end
     if($dataType==1)
 
-        createAckPackage $data ackPackage
+        createRelayAckPackage $data ackPackage
 
         getData $data d
         print $d

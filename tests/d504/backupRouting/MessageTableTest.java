@@ -93,4 +93,27 @@ class MessageTableTest {
 
         assertFalse(messageTable.isMessagePresent(dataPackage.getMessageID()));
     }
+
+    @Test
+    void decreaseCongaStepForRelayAck_congaShouldNotBeActive(){
+        DataPackage dataPackage = new DataPackage("A", "data");
+        MessageTable messageTable = new MessageTable();
+
+        messageTable.addMessage(1000, "2", dataPackage);
+        messageTable.decreaseCongaStepForRelayAck(dataPackage.getMessageID());
+
+        assertFalse(messageTable.isCongaActive(dataPackage.getMessageID()));
+    }
+
+    @Test
+    void decreaseCongaStepForRelayAck_timerShouldBeDisabled(){
+        DataPackage dataPackage = new DataPackage("A", "data");
+        MessageTable messageTable = new MessageTable();
+
+        messageTable.addMessage(1000, "2", dataPackage);
+        messageTable.decreaseCongaStepForRelayAck(dataPackage.getMessageID());
+        messageTable.tickTimers(999999);
+
+        assertTrue(messageTable.getTimedOutMessages().isEmpty());
+    }
 }
