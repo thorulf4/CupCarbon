@@ -3,8 +3,6 @@ package d504.backupRouting;
 import d504.DataPackage;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MessageTest {
@@ -43,13 +41,14 @@ class MessageTest {
     }
 
     @Test
-    void tickTimer_cannotGoBelowZero(){
+    void tickTimer_tickTimerWhenNegativeWillDisableTimer(){
         Message message = new Message("1", 2, 1000, new DataPackage("A", "data"));
         message.setTimerTimeLeft(1000d);
 
         message.tickTimer(1200d);
+        message.tickTimer(1200d);
 
-        assertEquals(0d, message.getTimerTimeLeft());
+        assertTrue(message.isTimerDisabled());
     }
 
     @Test
@@ -59,6 +58,6 @@ class MessageTest {
 
         message.tickTimer(1200d);
 
-        assertEquals(Double.MIN_VALUE, message.getTimerTimeLeft());
+        assertTrue(message.isTimerDisabled());
     }
 }

@@ -93,6 +93,9 @@ class Message {
         timerTimeLeft = Double.MIN_VALUE;
     }
 
+    public boolean isTimerDisabled(){
+        return timerTimeLeft == Double.MIN_VALUE;
+    }
 
     public void tickTimer(double timeStep) {
         if(timerTimeLeft == Double.MIN_VALUE)
