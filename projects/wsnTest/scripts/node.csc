@@ -52,7 +52,7 @@ loop
     end
 
     tickCongaTimer MT previousTime timedOutMessages
-    if($timedOutMessages != \)
+    while($timedOutMessages != \)
         iterate timedOutMessages timedOutMessage
         getDataFromMessageId $MT $timedOutMessage timedOutData
         getNextHop RT MT $timedOutData destinationNode
@@ -80,12 +80,10 @@ loop
         if ($dataType==1)
             set destinationNode \
             isInMT MT $data isInMT
-            if($isInMT == true)
-                getNextHop RT MT $data destinationNode
-            else
+            if($isInMT == false)                
                 addToMT MT $data $senderNode
-                getNextHop RT MT $data destinationNode                
             end
+            getNextHop RT MT $data destinationNode
 
             resignData $data dataPacket 
 
@@ -118,6 +116,16 @@ loop
                 createACK $data ackPackage
                 getSenderFromMessageTable $ackPackage $MT lastDataSender
                 print ack
+                send !color 7
+                send $ackPackage $lastDataSender    
+            end
+        end
+        if ($dataType==4)
+            decreaseCongaStepRelay MT $data shouldSend
+            if($shouldSend == true)
+                createACK $data ackPackage
+                getSenderFromMessageTable $ackPackage $MT lastDataSender
+                print ack_from_relay
                 send !color 7
                 send $ackPackage $lastDataSender    
             end

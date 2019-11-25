@@ -64,4 +64,56 @@ class MessageTableTest {
 
         assertEquals(0, messageTable.getTimedOutMessages().size());
     }
+
+    @Test
+    void isMessagePresent_messageIsInMessageTable_shouldReturnTrue(){
+        MessageTable messageTable = new MessageTable();
+        DataPackage dataPackage = new DataPackage("A", "data");
+
+        messageTable.addMessage(1000, "2", dataPackage);
+
+        assertTrue(messageTable.isMessagePresent(dataPackage.getMessageID()));
+    }
+
+    @Test
+    void isMessagePresent_messageIsNotInMessageTable_shouldReturnFalse(){
+        MessageTable messageTable = new MessageTable();
+        DataPackage dataPackage1 = new DataPackage("A", "data1");
+        DataPackage dataPackage2 = new DataPackage("A", "data2");
+
+        messageTable.addMessage(1000, "2", dataPackage1);
+
+        assertFalse(messageTable.isMessagePresent(dataPackage2.getMessageID()));
+    }
+
+    @Test
+    void isMessagePresent_messageTableIsEmpty_shouldReturnFalse(){
+        MessageTable messageTable = new MessageTable();
+        DataPackage dataPackage = new DataPackage("A", "data");
+
+        assertFalse(messageTable.isMessagePresent(dataPackage.getMessageID()));
+    }
+
+    @Test
+    void decreaseCongaStepForRelayAck_congaShouldNotBeActive(){
+        DataPackage dataPackage = new DataPackage("A", "data");
+        MessageTable messageTable = new MessageTable();
+
+        messageTable.addMessage(1000, "2", dataPackage);
+        messageTable.decreaseCongaStepForRelayAck(dataPackage.getMessageID());
+
+        assertFalse(messageTable.isCongaActive(dataPackage.getMessageID()));
+    }
+
+    @Test
+    void decreaseCongaStepForRelayAck_timerShouldBeDisabled(){
+        DataPackage dataPackage = new DataPackage("A", "data");
+        MessageTable messageTable = new MessageTable();
+
+        messageTable.addMessage(1000, "2", dataPackage);
+        messageTable.decreaseCongaStepForRelayAck(dataPackage.getMessageID());
+        messageTable.tickTimers(999999);
+
+        assertTrue(messageTable.getTimedOutMessages().isEmpty());
+    }
 }

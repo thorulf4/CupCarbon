@@ -4,18 +4,20 @@ import d504.DataPackage;
 import d504.utils.Serialize;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 class Message {
     private double timerTimeLeft;
+    private List<String> receivers;
 
     public String sender;
-    public List<String> receivers;
     public DataPackage dataPackage;
     public int congaStepsLeft;
     public long expiryTime;
 
-    public Message(String sender, int congaSteps, long expiryTime ,DataPackage dataPackage) {
+    public Message(String sender, int congaSteps, long expiryTime, DataPackage dataPackage) {
         this.congaStepsLeft = congaSteps;
         this.sender = sender;
         this.dataPackage = dataPackage;
@@ -25,6 +27,14 @@ class Message {
 
     private Message() {
         receivers = new ArrayList<>();
+    }
+
+    public void addReceiver(String nodeId){
+        receivers.add(nodeId);
+    }
+
+    public List<String> getReceivers() {
+        return Collections.unmodifiableList(receivers);
     }
 
     public String serialize(){
@@ -63,9 +73,7 @@ class Message {
 
         if(!serializedMessage.isEmpty()){
             String[] receivers = serializedMessage.split("&");
-            for (String receiver : receivers) {
-                message.receivers.add(receiver);
-            }
+            message.receivers.addAll(Arrays.asList(receivers));
         }
 
         return message;
@@ -82,16 +90,18 @@ class Message {
     }
 
     public void disableTimer(){
-        timerTimeLeft = -1;
+        timerTimeLeft = Double.MIN_VALUE;
     }
 
 
     public void tickTimer(double timeStep) {
-        if(timerTimeLeft == -1)
+        if(timerTimeLeft == Double.MIN_VALUE)
             return;
 
-        timerTimeLeft -= timeStep;
-        if(timerTimeLeft < 0)
-            timerTimeLeft = 0;
+        if(timerTimeLeft < 0){
+            disableTimer();
+        }else{
+            timerTimeLeft -= timeStep;
+        }
     }
 }

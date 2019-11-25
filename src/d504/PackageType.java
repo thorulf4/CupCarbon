@@ -4,5 +4,6 @@ public enum PackageType{
     Config,
     Data,
     Pulse,
-    Ack
+    Ack,
+    RelayAck
 }

@@ -66,7 +66,7 @@ class Command_GETNEXTHOPTest {
         sensor.putVariable("dataPackage", dataPackage.serialize());
 
         MessageTable messageTable = new MessageTable();
-        messageTable.addMessage(3600, "n2",dataPackage);
+        messageTable.addMessage(3600, "n2", dataPackage);
         messageTable.addReceiver("m1", "n3");
 
         sensor.putVariable("MT", messageTable.serialize());

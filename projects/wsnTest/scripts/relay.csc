@@ -11,12 +11,12 @@ loop
             createRelayConfig configPacket
             print Config
             send !color 10
-            send $configPacket
+            send $configPacket $senderNode
         end
     end
     if($dataType==1)
 
-        createAckPackage $data ackPackage
+        createRelayAckPackage $data ackPackage
 
         getData $data d
         print $d
