@@ -9,7 +9,7 @@ import d504.backupRouting.MessageTable;
 public class Command_ISINMT extends Command {
 
     private String mtVar;
-    private DataPackage message;
+    private String messageVar;
     private String output;
     private boolean isPresent;
 
@@ -17,7 +17,7 @@ public class Command_ISINMT extends Command {
     public Command_ISINMT(ISensorNode sensor, String mtVar, String message, String output){
         this.sensor=sensor;
         this.mtVar=mtVar;
-        this.message = DataPackage.deserialize(message);
+        this.messageVar = message;
         this.output=output;
 
     }
@@ -25,8 +25,14 @@ public class Command_ISINMT extends Command {
     @Override
     public double execute(){
         MessageTable MT = MessageTable.deserialize(sensor.getVariableValue("$"+mtVar));
+        DataPackage message = getData();
         isPresent = MT.isMessagePresent(message.getMessageID());
         sensor.putVariable(output, Boolean.toString(isPresent));
         return 0;
+    }
+
+    private DataPackage getData() {
+        String serializedMessage = sensor.getVariableValue(messageVar);
+        return DataPackage.deserialize(serializedMessage);
     }
 }
